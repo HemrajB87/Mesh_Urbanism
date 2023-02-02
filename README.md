@@ -1,7 +1,7 @@
 # Assignment A2: Mesh Generator
 
   - Alvin Qian [qiana2@mcmaster.ca]
-  - Author #2 [email@mcmaster.ca]
+  - Addison Chan #2 [chana110@mcmaster.ca]
   - Author #3 [email@mcmaster.ca]
 
 ## How to run the product
