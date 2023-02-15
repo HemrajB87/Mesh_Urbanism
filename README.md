@@ -59,12 +59,12 @@ When you develop features and enrich the product, remember that you have first t
 
 ### Definition of Done
 
--- Insert here your definition of done for your features --
+A feature is considered done if it is supported in both the generator and visualizer. In other words if we can generate and visualize what we generated.
 
 ### Product Backlog
 
 | Id | Feature title | Who? | Start | End | Status |
 |:--:|---------------|------|-------|-----|--------|
-|    |               |      |       |     |        |
+| 01 | Draw segments between vertices to visualize the squares |      |       |     |        |
 
 
