@@ -18,6 +18,7 @@ public class MeshDump {
 
     public void dump(Mesh aMesh) {
         List<Vertex> vertices = aMesh.getVerticesList();
+
         System.out.println("|Vertices| = " + vertices.size());
         for (Vertex v : vertices){
             StringBuffer line = new StringBuffer();
@@ -25,9 +26,13 @@ public class MeshDump {
             line.append(" [");
             for(Property p: v.getPropertiesList()){
                 line.append(String.format("%s -> %s, ", p.getKey(), p.getValue()));
+                line.append("dsafnsdafsdf");
             }
             line.append("]");
             System.out.println(line);
         }
+
+        System.out.println("dasfssdafdsfsdaf");
+
     }
 }

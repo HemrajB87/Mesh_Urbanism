@@ -56,6 +56,8 @@ public class MeshFactoryTest {
                                     .addAllVertices(vertices)
                                     .addAllSegments(segments)
                                 .build();
+
+        System.out.println(result);
         return result;
     }
 
