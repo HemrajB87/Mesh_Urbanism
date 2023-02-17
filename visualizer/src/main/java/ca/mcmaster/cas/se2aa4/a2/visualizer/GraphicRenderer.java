@@ -44,18 +44,18 @@ public class GraphicRenderer {
 
         //idk what the fuck is going on
         for (Segment s: aMesh.getSegmentsList()) {
-            for (int i = 0; i < vertexArrayList.size(); i++) {
-                int drawSegment1 = s.getV1Idx();
-                int drawSegment2 = s.getV2Idx();
 
-                Vertex vertex1 = vertexArrayList.get(drawSegment1);
-                Vertex vertex2 = vertexArrayList.get(drawSegment2);
+            int drawSegment1 = s.getV1Idx();
+            int drawSegment2 = s.getV2Idx();
 
-                Line2D segment = new Line2D.Double(vertex1.getX(),vertex1.getY(),vertex2.getX(),vertex2.getY());
+            Vertex vertex1 = vertexArrayList.get(drawSegment1);
+            Vertex vertex2 = vertexArrayList.get(drawSegment2);
 
-                canvas.setColor(Color.BLUE);
-                canvas.draw(segment);
-            }
+            Line2D segment = new Line2D.Double(vertex1.getX(),vertex1.getY(),vertex2.getX(),vertex2.getY());
+
+            canvas.setColor(Color.BLUE);
+            canvas.draw(segment);
+
         }
     }
 
