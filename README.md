@@ -65,6 +65,8 @@ A feature is considered done if it is supported in both the generator and visual
 
 | Id | Feature title | Who? | Start | End | Status |
 |:--:|---------------|------|-------|-----|--------|
-| 01 | Draw segments between vertices to visualize the squares |      |       |     |        |
+| 01 | Visualizes 2x2 squares in a 10x10 canvas by drawing segments in between vertices  | Addison | 02/16/2023 | 02/17/2023 | D |
+| 02 |   |  |  |  |  |
+| 03 |   |  |  |  |  |
 
 
