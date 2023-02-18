@@ -10,6 +10,7 @@ import ca.mcmaster.cas.se2aa4.a2.io.Structs.Vertex;
 import ca.mcmaster.cas.se2aa4.a2.io.Structs.Property;
 import ca.mcmaster.cas.se2aa4.a2.io.Structs.Mesh;
 import ca.mcmaster.cas.se2aa4.a2.io.Structs.Segment;
+import ca.mcmaster.cas.se2aa4.a2.io.Structs.Polygon;
 
 public class DotGen {
 
@@ -25,13 +26,15 @@ public class DotGen {
         ArrayList<Vertex> vertices = new ArrayList<>();
         ArrayList<Segment> segments= new ArrayList<>();
 
+//        Polygon.newBuilder().setSegmentIdxs(0,1)
+
         // Create all the vertices
         //Giga lost
         for(int y = 0; y < width; y += square_size) {
             for(int x = 0; x < height; x += square_size) {
 
                 //makes a 4 by 4 square with 4 vertices
-                //Note: some vertices are doubled, this is to account for the overlapping of squares in the mesh
+                //Note: need to fix the duplications of segments and vertices
                 int topLeftVertex = vertices.size();
                 Vertex topLeft = (Vertex.newBuilder().setX(x).setY(y).build());
                 vertices.add(topLeft);
@@ -65,6 +68,8 @@ public class DotGen {
             int red = bag.nextInt(255);
             int green = bag.nextInt(255);
             int blue = bag.nextInt(255);
+
+            //Could add the transparency function here
             String colorCode = red + "," + green + "," + blue;
             Property color = Property.newBuilder().setKey("rgb_color").setValue(colorCode).build();
             Vertex colored = Vertex.newBuilder(v).addProperties(color).build();
@@ -86,11 +91,6 @@ public class DotGen {
             int segmentGreen = (vertex1ColorValues[1] + vertex2ColorValues[1])/2;
             int segmentBlue = (vertex1ColorValues[2] + vertex2ColorValues[2])/2;
 
-            //Debug statements
-//            System.out.println("Red average of "+ vertex1ColorValues[0] + " " + vertex2ColorValues[0] + "= "+ segmentRed);
-//            System.out.println("Green average of "+ vertex1ColorValues[1] + " " + vertex2ColorValues[1] + "= "+ segmentGreen);
-//            System.out.println("Blue average of "+ vertex1ColorValues[2] + " " + vertex2ColorValues[2] + "= "+ segmentBlue);
-
             String colorCode = segmentRed + "," + segmentGreen + "," + segmentBlue;
             Property color = Property.newBuilder().setKey("rgb_color").setValue(colorCode).build();
             Segment colored = Segment.newBuilder(s).addProperties(color).build();
@@ -109,7 +109,6 @@ public class DotGen {
 
                 //Debug statement
                 //System.out.println(p.getValue());
-
                 val = p.getValue();
             }
         }
