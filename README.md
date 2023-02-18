@@ -26,7 +26,7 @@ To run the generator, go to the `generator` directory, and use `java -jar` to ru
 
 ```
 mosser@azrael A2 % cd generator 
-mosser@azrael generator % java -jar generator.jar sample.mesh
+mosser@azrael generator % java -jar generator.jar test1.mesh
 mosser@azrael generator % ls -lh sample.mesh
 -rw-r--r--  1 mosser  staff    29K 29 Jan 10:52 sample.mesh
 mosser@azrael generator % 
@@ -38,7 +38,7 @@ To visualize an existing mesh, go the the `visualizer` directory, and use `java 
 
 ```
 mosser@azrael A2 % cd visualizer 
-mosser@azrael visualizer % java -jar visualizer.jar ../generator/sample.mesh sample.svg
+mosser@azrael visualizer % java -jar visualizer.jar ../generator/test1.mesh test1.svg
 
 ... (lots of debug information printed to stdout) ...
 
