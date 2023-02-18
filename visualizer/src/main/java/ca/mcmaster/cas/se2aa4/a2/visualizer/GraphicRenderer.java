@@ -17,6 +17,7 @@ import java.util.List;
 public class GraphicRenderer {
 
     //thickness before was 3
+    //Thickness only affects the size of the circle created around the vertex
     private static final int THICKNESS = 1;
     public void render(Mesh aMesh, Graphics2D canvas) {
         canvas.setColor(Color.BLACK);
