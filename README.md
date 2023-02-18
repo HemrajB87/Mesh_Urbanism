@@ -66,10 +66,10 @@ A feature is considered done if it is supported in both the generator and visual
 | Id | Feature title | Who? | Start | End | Status |
 |:--:|---------------|------|-------|-----|--------|
 | 01 | Visualizes 2x2 squares in a 10x10 canvas by drawing segments in between vertices  | Addison | 02/16/2023 | 02/17/2023 | D |
-| 02 | Create of mesh of polygons   |  |  |  |  |
-| 03 | Create mesh of polygons referencing to neighbors  |  |  |  |  |
-| 04 | Create mesh of polygons refacing neighbors as well as centroid location   |  |  |  |  |
-| 05 |  Associating colors with polygons features |  |  |  |  |
-| 06 |  Associated thickness with polygon features |  |  |  |  |
-| 07 |  Rendering a mesh with determined properties  |  |  |  |  |
-| 08 |  Render a "debug" mesh with black polygons, a red centroid, and light gray neighboring sides. |  |  |  |  |
+| 02 | Create of mesh of polygons   | Hemraj |  |  |  |
+| 03 | Create mesh of polygons referencing to neighbors  | Hemraj |  |  |  |
+| 04 | Create mesh of polygons refacing neighbors as well as centroid location   | Hemraj |  |  |  |
+| 05 |  Associating colors with polygons features | Addison |  |  |  |
+| 06 |  Associated thickness with polygon features | Addison |  |  |  |
+| 07 |  Rendering a mesh with determined properties  | Alvin |  |  |  |
+| 08 |  Render a "debug" mesh with black polygons, a red centroid, and light gray neighboring sides. | Alvin |  |  |  |
