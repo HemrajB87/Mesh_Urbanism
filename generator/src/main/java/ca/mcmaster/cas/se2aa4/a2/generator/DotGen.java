@@ -69,6 +69,7 @@ public class DotGen {
             String colorCode = red + "," + green + "," + blue;
             Property color = Property.newBuilder().setKey("rgb_color").setValue(colorCode).build();
             Vertex colored = Vertex.newBuilder(v).addProperties(color).build();
+
             verticesWithColors.add(colored);
         }
 

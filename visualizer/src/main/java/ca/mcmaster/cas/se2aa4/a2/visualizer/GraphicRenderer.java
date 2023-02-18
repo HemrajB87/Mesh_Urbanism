@@ -21,8 +21,13 @@ public class GraphicRenderer {
     private static final int THICKNESS = 1;
     public void render(Mesh aMesh, Graphics2D canvas) {
         canvas.setColor(Color.BLACK);
-        Stroke stroke = new BasicStroke(0.5f);
+
+        //THIS CODE IS IMPORTANT SINCE IT CHANGES THE THICKNESS OF THE LINES
+        Stroke stroke = new BasicStroke(0.25f);
+
+        //THIS TELLS THE CANVAS THAT THE THICKNESS OF THE LINE NEEDS TO BE SET TO THE NEW VALUE WE PASS IN
         canvas.setStroke(stroke);
+
         for (Vertex v: aMesh.getVerticesList()) {
 
             System.out.println(v);
@@ -30,10 +35,9 @@ public class GraphicRenderer {
             double centre_x = v.getX() - (THICKNESS/2.0d);
             double centre_y = v.getY() - (THICKNESS/2.0d);
 
-            System.out.println("Graphic Renderer" + centre_x + "," + centre_y);
-
             Color old = canvas.getColor();
             canvas.setColor(extractColor(v.getPropertiesList()));
+
             Ellipse2D point = new Ellipse2D.Double(centre_x, centre_y, THICKNESS, THICKNESS);
             canvas.fill(point);
             canvas.setColor(old);
@@ -42,18 +46,32 @@ public class GraphicRenderer {
 
         ArrayList<Vertex> vertexArrayList = new ArrayList<>(aMesh.getVerticesList());
 
-        //idk what the fuck is going on
+        //Loops through all the segments to give them colors and draw them
         for (Segment s: aMesh.getSegmentsList()) {
 
+            //Gets the first vertex from the current segment
             int drawSegment1 = s.getV1Idx();
+
+            //Gets the second vertex from the current segment
             int drawSegment2 = s.getV2Idx();
 
+            //Gets the color of the first and second vertices, to find the average color between both of them
             Vertex vertex1 = vertexArrayList.get(drawSegment1);
+            Color vertex1Color = extractColor(vertex1.getPropertiesList());
             Vertex vertex2 = vertexArrayList.get(drawSegment2);
+            Color vertex2Color = extractColor(vertex2.getPropertiesList());
 
+            //takes each rgb value from both vertices and finds the average of them
+            int averageRed = (vertex1Color.getRed() + vertex2Color.getRed())/2;
+            int averageGreen = (vertex1Color.getGreen() + vertex2Color.getGreen())/2;
+            int averageBlue = (vertex1Color.getBlue() + vertex2Color.getBlue())/2;
+            Color segmentColor = new Color(averageRed,averageGreen,averageBlue);
+            System.out.println(segmentColor);
+
+            //creates a Line2D object that draws a line from the first vertex to the second vertex based on their coordinates
             Line2D segment = new Line2D.Double(vertex1.getX(),vertex1.getY(),vertex2.getX(),vertex2.getY());
 
-            canvas.setColor(Color.BLUE);
+            canvas.setColor(segmentColor);
             canvas.draw(segment);
 
         }
