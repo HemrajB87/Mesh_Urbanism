@@ -82,7 +82,7 @@ public class GraphicRenderer {
         }
 
         if (val == null)
-            return new Color(0,0,0,255);
+            return new Color(0, 0, 0,255);
         String[] raw = val.split(",");
         int red = Integer.parseInt(raw[0]);
         int green = Integer.parseInt(raw[1]);
