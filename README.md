@@ -69,7 +69,7 @@ A feature is considered done if it is supported in both the generator and visual
 | 02 | Create of mesh of polygons   | Hemraj |  |  |  |
 | 03 | Create mesh of polygons referencing to neighbors  | Hemraj |  |  |  |
 | 04 | Create mesh of polygons refacing neighbors as well as centroid location   | Hemraj |  |  |  |
-| 05 |  Associating colors with polygons features | Addison |  |  |  |
-| 06 |  Associated thickness with polygon features | Addison |  |  |  |
+| 05 |  Adding a transparency property to the vertices, segments and polygons | Addison | 02/18/2023 | 02/19/2023 | D |
+| 06 |  Adding a thickness property to the vertices, segments and polygons | Addison | 02/19/2023 |  |  |
 | 07 |  Rendering a mesh with determined properties  | Alvin |  |  |  |
 | 08 |  Render a "debug" mesh with black polygons, a red centroid, and light gray neighboring sides. | Alvin |  |  |  |
