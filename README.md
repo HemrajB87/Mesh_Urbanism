@@ -67,8 +67,8 @@ A feature is considered done if it is supported in both the generator and visual
 |:--:|---------------|------|-------|-----|--------|
 | 01 | Visualizes 2x2 squares in a 10x10 canvas by drawing segments in between vertices  | Addison | 02/16/2023 | 02/17/2023 | D |
 | 02 | Create of mesh of polygons   | Hemraj |  |  |  |
-| 03 | Create mesh of polygons referencing to neighbors  | Hemraj |  |  |  |
-| 04 | Create mesh of polygons refacing neighbors as well as centroid location   | Hemraj |  |  |  |
+| 03 | Create mesh of polygons that have their centroid vertex displayed | Hemraj |  |  |  |
+| 04 | Create mesh of polygons with centroids that make a reference to neighbouring polygons   | Hemraj |  |  |  |
 | 05 |  Adding a transparency property to the vertices, segments and polygons | Addison | 02/18/2023 | 02/19/2023 | D |
 | 06 |  Adding a thickness property to the vertices, segments and polygons | Addison | 02/19/2023 |  |  |
 | 07 |  Rendering a mesh with determined properties  | Alvin |  |  |  |
