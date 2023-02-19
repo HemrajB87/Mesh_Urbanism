@@ -1,11 +1,8 @@
 package ca.mcmaster.cas.se2aa4.a2.generator;
 
-import java.awt.*;
-import java.io.IOException;
 import java.util.*;
 import java.util.List;
 
-import ca.mcmaster.cas.se2aa4.a2.io.Structs;
 import ca.mcmaster.cas.se2aa4.a2.io.Structs.Vertex;
 import ca.mcmaster.cas.se2aa4.a2.io.Structs.Property;
 import ca.mcmaster.cas.se2aa4.a2.io.Structs.Mesh;
@@ -25,8 +22,8 @@ public class DotGen {
 
         ArrayList<Vertex> vertices = new ArrayList<>();
         ArrayList<Segment> segments= new ArrayList<>();
+        ArrayList<Polygon> addPolygons = new ArrayList<>();
 
-//        Polygon.newBuilder().setSegmentIdxs(0,1)
 
         // Create all the vertices
         //Giga lost
@@ -53,9 +50,21 @@ public class DotGen {
 
                 //this connects the vertices together by a line to actually make a square
                 segments.add(Segment.newBuilder().setV1Idx(topLeftVertex).setV2Idx(topRightVertex).build());
-                segments.add(Segment.newBuilder().setV1Idx(topLeftVertex).setV2Idx(bottomLeftVertex).build());
                 segments.add(Segment.newBuilder().setV1Idx(topRightVertex).setV2Idx(bottomRightVertex).build());
-                segments.add(Segment.newBuilder().setV1Idx(bottomLeftVertex).setV2Idx(bottomRightVertex).build());
+                segments.add(Segment.newBuilder().setV1Idx(bottomRightVertex).setV2Idx(bottomLeftVertex).build());
+                segments.add(Segment.newBuilder().setV1Idx(bottomLeftVertex).setV2Idx(topLeftVertex).build());
+
+
+
+                Polygon test = Polygon.newBuilder().addSegmentIdxs(segments.size()-4)
+                                                   .addSegmentIdxs(segments.size()-3)
+                                                   .addSegmentIdxs(segments.size()-2)
+                                                   .addSegmentIdxs(segments.size()-1)
+                        .setCentroidIdx(segments.size()-1).build();
+
+
+                addPolygons.add(test);
+
             }
         }
 
@@ -68,14 +77,18 @@ public class DotGen {
             int red = bag.nextInt(255);
             int green = bag.nextInt(255);
             int blue = bag.nextInt(255);
+            int transparency = bag.nextInt(255);
 
             //Could add the transparency function here
-            String colorCode = red + "," + green + "," + blue;
+            String colorCode = red + "," + green + "," + blue + "," + transparency;
             Property color = Property.newBuilder().setKey("rgb_color").setValue(colorCode).build();
             Vertex colored = Vertex.newBuilder(v).addProperties(color).build();
 
+            System.out.println(colored.getPropertiesList());
+
             verticesWithColors.add(colored);
         }
+
 
         ArrayList<Segment> segmentsWithColors = new ArrayList<>();
         for(Segment s: segments) {
@@ -90,8 +103,11 @@ public class DotGen {
             int segmentRed = (vertex1ColorValues[0] + vertex2ColorValues[0])/2;
             int segmentGreen = (vertex1ColorValues[1] + vertex2ColorValues[1])/2;
             int segmentBlue = (vertex1ColorValues[2] + vertex2ColorValues[2])/2;
+            int segmentTransparency = (vertex1ColorValues[3] + vertex2ColorValues[3])/2;
 
-            String colorCode = segmentRed + "," + segmentGreen + "," + segmentBlue;
+            String colorCode = segmentRed + "," + segmentGreen + "," + segmentBlue + "," + segmentTransparency;
+
+
             Property color = Property.newBuilder().setKey("rgb_color").setValue(colorCode).build();
             Segment colored = Segment.newBuilder(s).addProperties(color).build();
 
@@ -102,27 +118,26 @@ public class DotGen {
         return Mesh.newBuilder().addAllVertices(verticesWithColors).addAllSegments(segmentsWithColors).build();
     }
 
+    //edited this to include the opacity/transparency of the vertices and segments
     private int[] extractColor(List<Property> properties) {
         String val = null;
         for(Property p: properties) {
             if (p.getKey().equals("rgb_color")) {
-
-                //Debug statement
-                //System.out.println(p.getValue());
                 val = p.getValue();
             }
         }
 
         if(val == null){
-            return new int[]{0,0,0};
+            return new int[]{0,0,0,255};
         }
 
         String[] temp = val.split(",");
         int red = Integer.parseInt(temp[0]);
         int green = Integer.parseInt(temp[1]);
         int blue = Integer.parseInt(temp[2]);
+        int transparency = Integer.parseInt(temp[3]);
 
-        return new int[]{red, green, blue};
+        return new int[]{red, green, blue, transparency};
     }
 
 }
