@@ -4,6 +4,7 @@ import ca.mcmaster.cas.se2aa4.a2.io.Structs.Mesh;
 import ca.mcmaster.cas.se2aa4.a2.io.Structs.Vertex;
 import ca.mcmaster.cas.se2aa4.a2.io.Structs.Property;
 import ca.mcmaster.cas.se2aa4.a2.io.Structs.Segment;
+import ca.mcmaster.cas.se2aa4.a2.io.Structs.Polygon;
 
 import java.awt.Graphics2D;
 import java.awt.Stroke;
@@ -18,12 +19,12 @@ public class GraphicRenderer {
 
     //thickness before was 3
     //Thickness only affects the size of the circle created around the vertex
-    private static final int THICKNESS = 1;
+    private static final int THICKNESS = 3;
     public void render(Mesh aMesh, Graphics2D canvas) {
         canvas.setColor(Color.BLACK);
 
         //THIS CODE IS IMPORTANT SINCE IT CHANGES THE THICKNESS OF THE LINES
-        Stroke stroke = new BasicStroke(0.25f);
+        Stroke stroke = new BasicStroke(0.5f);
 
         //THIS TELLS THE CANVAS THAT THE THICKNESS OF THE LINE NEEDS TO BE SET TO THE NEW VALUE WE PASS IN
         canvas.setStroke(stroke);
@@ -66,6 +67,30 @@ public class GraphicRenderer {
             canvas.draw(segment);
 
         }
+
+
+
+        ArrayList<Segment> SegmentArrayList = new ArrayList<>(aMesh.getSegmentsList());
+
+        for (Polygon p : aMesh.getPolygonsList()){
+            int numVertices = p.getSegmentIdxsCount();
+            int[] xPoints = new int[numVertices];
+            int[] yPoints = new int[numVertices];
+
+            for (int i = 0; i < numVertices; i++) {
+                Segment seg = SegmentArrayList.get(p.getSegmentIdxs(i));
+                Vertex v = vertexArrayList.get(seg.getV1Idx());
+                xPoints[i] = (int) v.getX();
+                yPoints[i] = (int) v.getY();
+            }
+            canvas.setColor(extractColor(p.getPropertiesList()));
+            // Draw the polygon outline as a series of lines
+            for (int i = 0; i < numVertices; i++) {
+                int j = (i + 1) % numVertices;
+                canvas.draw(new Line2D.Double(xPoints[i], yPoints[i], xPoints[j], yPoints[j]));
+            }
+        }
+
     }
 
     //Changed this so that it accounts for the transparency/opacity of the segment or the vertices

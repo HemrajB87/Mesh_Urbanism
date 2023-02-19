@@ -12,9 +12,9 @@ import ca.mcmaster.cas.se2aa4.a2.io.Structs.Polygon;
 public class DotGen {
 
     //chagen these back to 500,500,20
-    private final int width = 10;
-    private final int height = 10;
-    private final int square_size = 2;
+    private final int width = 500;
+    private final int height = 500;
+    private final int square_size = 20;
 
     public Mesh generate() {
 
@@ -23,10 +23,10 @@ public class DotGen {
         ArrayList<Vertex> vertices = new ArrayList<>();
         ArrayList<Segment> segments= new ArrayList<>();
         ArrayList<Polygon> addPolygons = new ArrayList<>();
+        ArrayList<Vertex> centroids = new ArrayList<>();
 
 
         // Create all the vertices
-        //Giga lost
         for(int y = 0; y < width; y += square_size) {
             for(int x = 0; x < height; x += square_size) {
 
@@ -56,13 +56,26 @@ public class DotGen {
 
 
 
+                double newX= bottomLeft.getX();
+                double newY= bottomLeft.getY();
+
+                double newXx= topRight.getX();
+                double newYy= topRight.getY();
+
+                double centralPointX=((newX+newXx)/2);
+                double centralPointY=((newY+newYy)/2);
+
+                int Central = centroids.size();
+                Vertex CentralP = (Vertex.newBuilder().setX(centralPointX).setY(centralPointY).build());
+                centroids.add(CentralP);
+
+
                 Polygon test = Polygon.newBuilder().addSegmentIdxs(segments.size()-4)
-                                                   .addSegmentIdxs(segments.size()-3)
-                                                   .addSegmentIdxs(segments.size()-2)
-                                                   .addSegmentIdxs(segments.size()-1)
-                        .setCentroidIdx(segments.size()-1).build();
-
-
+                        .addSegmentIdxs(segments.size()-3)
+                        .addSegmentIdxs(segments.size()-2)
+                        .addSegmentIdxs(segments.size()-1)
+                        .setCentroidIdx(centroids.size()).
+                        build();
                 addPolygons.add(test);
 
             }
@@ -89,6 +102,12 @@ public class DotGen {
             verticesWithColors.add(colored);
         }
 
+        ArrayList<Polygon> polygonsWithColors = new ArrayList<>();
+        for(Polygon p: addPolygons) {
+            Property color = Property.newBuilder().setKey("rgb_color").setValue("0,0,255,255").build();
+            Polygon bluePolygon = Polygon.newBuilder(p).addProperties(color).build();
+            polygonsWithColors.add(bluePolygon);
+        }
 
         ArrayList<Segment> segmentsWithColors = new ArrayList<>();
         for(Segment s: segments) {
@@ -115,7 +134,7 @@ public class DotGen {
 
         }
 
-        return Mesh.newBuilder().addAllVertices(verticesWithColors).addAllSegments(segmentsWithColors).build();
+        return Mesh.newBuilder().addAllVertices(verticesWithColors).addAllSegments(segmentsWithColors).addAllPolygons(polygonsWithColors).build();
     }
 
     //edited this to include the opacity/transparency of the vertices and segments
