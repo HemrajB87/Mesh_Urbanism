@@ -68,6 +68,7 @@ public class GraphicRenderer {
         }
     }
 
+    //Changed this so that it accounts for the transparency/opacity of the segment or the vertices
     private Color extractColor(List<Property> properties) {
         String val = null;
         for(Property p: properties) {
@@ -81,12 +82,13 @@ public class GraphicRenderer {
         }
 
         if (val == null)
-            return Color.BLACK;
+            return new Color(0,0,0,255);
         String[] raw = val.split(",");
         int red = Integer.parseInt(raw[0]);
         int green = Integer.parseInt(raw[1]);
         int blue = Integer.parseInt(raw[2]);
-        return new Color(red, green, blue);
+        int transparency = Integer.parseInt(raw[3]);
+        return new Color(red, green, blue, transparency);
     }
 
 }
