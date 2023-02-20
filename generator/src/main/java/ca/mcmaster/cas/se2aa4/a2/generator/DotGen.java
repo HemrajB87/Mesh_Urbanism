@@ -2,7 +2,10 @@ package ca.mcmaster.cas.se2aa4.a2.generator;
 
 import java.util.*;
 import java.util.List;
-
+//import java.awt.*;
+//import java.io.IOException;
+//
+//import ca.mcmaster.cas.se2aa4.a2.io.Structs;
 import ca.mcmaster.cas.se2aa4.a2.io.Structs.Vertex;
 import ca.mcmaster.cas.se2aa4.a2.io.Structs.Property;
 import ca.mcmaster.cas.se2aa4.a2.io.Structs.Mesh;
@@ -48,6 +51,9 @@ public class DotGen {
                 Vertex bottomRight = (Vertex.newBuilder().setX((double) x+square_size).setY((double) y+square_size).build());
                 vertices.add(bottomRight);
 
+//                int centroidVertex = vertices.size();
+//                Vertex centre = Vertex.newBuilder().setX((x+()))
+
                 //this connects the vertices together by a line to actually make a square
                 segments.add(Segment.newBuilder().setV1Idx(topLeftVertex).setV2Idx(topRightVertex).build());
                 segments.add(Segment.newBuilder().setV1Idx(topRightVertex).setV2Idx(bottomRightVertex).build());
@@ -68,6 +74,16 @@ public class DotGen {
             }
         }
 
+        for(Polygon p: addPolygons){
+            System.out.println("Polygon" + p + "has points:");
+            for(Integer i: p.getSegmentIdxsList()){
+                System.out.println(vertices.get(segments.get(i).getV1Idx()).getX());
+                System.out.println(vertices.get(segments.get(i).getV1Idx()).getY());
+                System.out.println(vertices.get(segments.get(i).getV2Idx()).getX());
+                System.out.println(vertices.get(segments.get(i).getV2Idx()).getY());
+            }
+        }
+
         // Distribute colors randomly. Vertices are immutable, need to enrich them
         //Before used a HashSet
         ArrayList<Vertex> verticesWithColors = new ArrayList<>();
@@ -79,7 +95,7 @@ public class DotGen {
             int blue = bag.nextInt(255);
             int transparency = bag.nextInt(255);
 
-            //Could add the transparency function here
+            //Transparency is added in the colorCode
             String colorCode = red + "," + green + "," + blue + "," + transparency;
             Property color = Property.newBuilder().setKey("rgb_color").setValue(colorCode).build();
             Vertex colored = Vertex.newBuilder(v).addProperties(color).build();
