@@ -13,6 +13,19 @@ public class Main {
         // Extracting command line parameters
         String input = args[0];
         String output = args[1];
+        String debug = args[2];
+        boolean debugMode = false;
+
+        //check for debug mode
+        if(debug == null){
+            System.out.println("DEBUG mode OFF");
+        }
+        else{
+            debugMode = true;
+            System.out.println("DEBUG mode ON");
+        }
+
+
         // Getting width and height for the canvas
         Structs.Mesh aMesh = new MeshFactory().read(input);
         double max_x = Double.MIN_VALUE;
@@ -26,12 +39,15 @@ public class Main {
         Graphics2D canvas = SVGCanvas.build((int) Math.ceil(max_x), (int) Math.ceil(max_y));
 
         GraphicRenderer renderer = new GraphicRenderer();
-        // Painting the mesh on the canvas
-        renderer.render(aMesh, canvas);
+
+        // Painting the mesh on the canvas. Added debug mode parameter to switch it on or off
+        renderer.render(aMesh, canvas, debugMode);
         // Storing the result in an SVG file
         SVGCanvas.write(canvas, output);
         // Dump the mesh to stdout
         MeshDump dumper = new MeshDump();
         dumper.dump(aMesh);
+
+
     }
 }

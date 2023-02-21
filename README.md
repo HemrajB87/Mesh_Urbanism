@@ -40,6 +40,8 @@ To visualize an existing mesh, go the the `visualizer` directory, and use `java 
 mosser@azrael A2 % cd visualizer 
 mosser@azrael visualizer % java -jar visualizer.jar ../generator/test1.mesh test1.svg
 
+To run the visualizer in Debug mode add -X: java -jar visualizer.jar ../generator/test1.mesh test1.svg -X
+
 ... (lots of debug information printed to stdout) ...
 
 mosser@azrael visualizer % ls -lh sample.svg
@@ -71,5 +73,5 @@ A feature is considered done if it is supported in both the generator and visual
 | 04 | Create mesh of polygons with centroids that make a reference to neighbouring polygons   | Hemraj |  |  |  |
 | 05 |  Adding a transparency property to the vertices, segments and polygons | Addison | 02/18/2023 | 02/19/2023 | D |
 | 06 |  Adding a thickness property to the vertices, segments and polygons | Addison | 02/19/2023 |  |  |
-| 07 |  Rendering a mesh with determined properties  | Alvin |  |  |  |
-| 08 |  Render a "debug" mesh with black polygons, a red centroid, and light gray neighboring sides. | Alvin |  |  |  |
+| 07 |  Rendering a mesh with determined properties  | Alvin | 02/21/2023 |  | P |
+| 08 |  Render a "debug" mesh with black polygons, a red centroid, and light gray neighboring sides. | Alvin | 02/19/2023 | 02/20/2023 | D |

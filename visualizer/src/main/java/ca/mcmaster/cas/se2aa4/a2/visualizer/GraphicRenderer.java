@@ -20,7 +20,7 @@ public class GraphicRenderer {
     //thickness before was 3
     //Thickness only affects the size of the circle created around the vertex
     private static final int THICKNESS = 3;
-    public void render(Mesh aMesh, Graphics2D canvas) {
+    public void render(Mesh aMesh, Graphics2D canvas, boolean debugMode) {
         canvas.setColor(Color.BLACK);
 
         //THIS CODE IS IMPORTANT SINCE IT CHANGES THE THICKNESS OF THE LINES
@@ -35,7 +35,13 @@ public class GraphicRenderer {
             double centre_y = v.getY() - (THICKNESS/2.0d);
 
             Color old = canvas.getColor();
-            canvas.setColor(extractColor(v.getPropertiesList()));
+
+            //debug mode
+            if(debugMode){
+                canvas.setColor(new Color(0, 0, 0, 255));
+            } else {
+                canvas.setColor(extractColor(v.getPropertiesList()));
+            }
 
             Ellipse2D point = new Ellipse2D.Double(centre_x, centre_y, THICKNESS, THICKNESS);
             canvas.fill(point);
@@ -58,8 +64,13 @@ public class GraphicRenderer {
             Vertex vertex1 = vertexArrayList.get(vertex1Position);
             Vertex vertex2 = vertexArrayList.get(vertex2Position);
 
-            //Sets the color by extracting it from the current segments property list
-            canvas.setColor(extractColor(s.getPropertiesList()));
+            //debug mode
+            if(debugMode){
+                canvas.setColor(new Color(96, 96, 96, 255));
+            } else {
+                //Sets the color by extracting it from the current segments property list
+                canvas.setColor(extractColor(s.getPropertiesList()));
+            }
 
             //creates a Line2D object that draws a line from the first vertex to the second vertex based on their coordinates
             Line2D segment = new Line2D.Double(vertex1.getX(),vertex1.getY(),vertex2.getX(),vertex2.getY());
@@ -83,7 +94,15 @@ public class GraphicRenderer {
                 xPoints[i] = (int) v.getX();
                 yPoints[i] = (int) v.getY();
             }
-            canvas.setColor(extractColor(p.getPropertiesList()));
+
+            //Debug Mode
+            if(debugMode){
+                canvas.setColor(new Color(96, 96, 96, 255));
+            } else {
+                canvas.setColor(extractColor(p.getPropertiesList()));
+            }
+
+
             // Draw the polygon outline as a series of lines
             for (int i = 0; i < numVertices; i++) {
                 int j = (i + 1) % numVertices;
