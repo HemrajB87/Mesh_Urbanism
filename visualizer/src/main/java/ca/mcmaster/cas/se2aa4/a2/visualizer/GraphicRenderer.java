@@ -12,6 +12,7 @@ import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.geom.Ellipse2D;
 import java.awt.geom.Line2D;
+import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -19,18 +20,24 @@ public class GraphicRenderer {
 
     //thickness before was 3
     //Thickness only affects the size of the circle created around the vertex
-    private static final int THICKNESS = 3;
+    private static int THICKNESS = 3;
+
     public void render(Mesh aMesh, Graphics2D canvas) {
+
+        ArrayList<Vertex> vertexArrayList = new ArrayList<>(aMesh.getVerticesList());
+        ArrayList<Segment> segmentArrayList = new ArrayList<>(aMesh.getSegmentsList());
+
         canvas.setColor(Color.BLACK);
 
         //THIS CODE IS IMPORTANT SINCE IT CHANGES THE THICKNESS OF THE LINES
-        Stroke stroke = new BasicStroke(0.5f);
+        Stroke stroke = new BasicStroke(0.25f);
 
         //THIS TELLS THE CANVAS THAT THE THICKNESS OF THE LINE NEEDS TO BE SET TO THE NEW VALUE WE PASS IN
         canvas.setStroke(stroke);
 
         for (Vertex v: aMesh.getVerticesList()) {
 
+            THICKNESS = (int) extractThickness(v.getPropertiesList());
             double centre_x = v.getX() - (THICKNESS/2.0d);
             double centre_y = v.getY() - (THICKNESS/2.0d);
 
@@ -40,10 +47,7 @@ public class GraphicRenderer {
             Ellipse2D point = new Ellipse2D.Double(centre_x, centre_y, THICKNESS, THICKNESS);
             canvas.fill(point);
             canvas.setColor(old);
-
         }
-
-        ArrayList<Vertex> vertexArrayList = new ArrayList<>(aMesh.getVerticesList());
 
         //Loops through all the segments to give them colors and draw them
         for (Segment s: aMesh.getSegmentsList()) {
@@ -58,6 +62,10 @@ public class GraphicRenderer {
             Vertex vertex1 = vertexArrayList.get(vertex1Position);
             Vertex vertex2 = vertexArrayList.get(vertex2Position);
 
+            //Stroke gets updated in the for loop by getting the property in the segment
+            Stroke stroke1 = new BasicStroke(extractThickness(s.getPropertiesList()));
+            canvas.setStroke(stroke1);
+
             //Sets the color by extracting it from the current segments property list
             canvas.setColor(extractColor(s.getPropertiesList()));
 
@@ -68,28 +76,26 @@ public class GraphicRenderer {
 
         }
 
-
-
-        ArrayList<Segment> SegmentArrayList = new ArrayList<>(aMesh.getSegmentsList());
-
         for (Polygon p : aMesh.getPolygonsList()){
-            int numVertices = p.getSegmentIdxsCount();
-            int[] xPoints = new int[numVertices];
-            int[] yPoints = new int[numVertices];
+            double rectangleX = vertexArrayList.get(segmentArrayList.get(p.getSegmentIdxs(0)).getV1Idx()).getX();
+            double rectangleY = vertexArrayList.get(segmentArrayList.get(p.getSegmentIdxs(0)).getV1Idx()).getY();
 
-            for (int i = 0; i < numVertices; i++) {
-                Segment seg = SegmentArrayList.get(p.getSegmentIdxs(i));
-                Vertex v = vertexArrayList.get(seg.getV1Idx());
-                xPoints[i] = (int) v.getX();
-                yPoints[i] = (int) v.getY();
-            }
+
+
+            Stroke stroke2 = new BasicStroke(extractThickness(p.getPropertiesList()));
+            canvas.setStroke(stroke2);
             canvas.setColor(extractColor(p.getPropertiesList()));
-            // Draw the polygon outline as a series of lines
-            for (int i = 0; i < numVertices; i++) {
-                int j = (i + 1) % numVertices;
-                canvas.draw(new Line2D.Double(xPoints[i], yPoints[i], xPoints[j], yPoints[j]));
-            }
+
+            //the rectangle is drawn starting form the passed in x and y coordinate, and the size of it is 20x20
+            //note: right now the size of the rectangle is hard coded
+            canvas.draw(new Rectangle2D.Double(rectangleX, rectangleY,20,20));
         }
+
+
+        //this is how to draw a rectangle with the top left corner starting at 1,1
+//        canvas.setColor(Color.BLUE);
+//        canvas.setStroke(new BasicStroke(1.0f));
+//        canvas.draw(new Rectangle2D.Double(1,1,2,2));
 
     }
 
@@ -98,10 +104,6 @@ public class GraphicRenderer {
         String val = null;
         for(Property p: properties) {
             if (p.getKey().equals("rgb_color")) {
-
-                //Debugging
-                //System.out.println(p.getValue());
-
                 val = p.getValue();
             }
         }
@@ -114,6 +116,19 @@ public class GraphicRenderer {
         int blue = Integer.parseInt(raw[2]);
         int transparency = Integer.parseInt(raw[3]);
         return new Color(red, green, blue, transparency);
+    }
+
+    private float extractThickness(List<Property> properties) {
+        String val = null;
+        for(Property p: properties) {
+            if (p.getKey().equals("thickness")) {
+                val = p.getValue();
+            }
+        }
+        if (val == null)
+            return 1.0f;
+
+        return Float.parseFloat(val);
     }
 
 }

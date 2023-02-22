@@ -19,88 +19,89 @@ public class DotGen {
     private final int height = 500;
     private final int square_size = 20;
 
+    private ArrayList<Vertex> vertices = new ArrayList<>();
+    private ArrayList<Segment> segments = new ArrayList<>();
+
+    private ArrayList<Polygon> polygons = new ArrayList<>();
+
+    //createVertex creates a vertex at the x and y coordinates given
+    private Vertex createVertex(double x, double y){
+        Vertex vertex = Vertex.newBuilder().setX(x).setY(y).build();
+
+        //checks if the created vertex is not in the private vertices list, if it is not then it adds it to the vertices list
+        if(!vertices.contains(vertex)){
+            vertices.add(vertex);
+        }
+        return vertex;
+    }
+
+    //createSegment creates a segment joining the two vertices given
+    //Note: it draws from the first vertex passed in to the second one
+    private Segment createSegment(int vertex1Idx, int vertex2Idx){
+        Segment segment = Segment.newBuilder().setV1Idx(vertex1Idx).setV2Idx(vertex2Idx).build();
+
+        //checks if the created segment is not in the private vertices list, if it is not then it adds it to the segment list
+        if(!segments.contains(segment)){
+            segments.add(segment);
+        }
+        return segment;
+    }
+
     public Mesh generate() {
 
-        //before we used a HashSet
-
-        ArrayList<Vertex> vertices = new ArrayList<>();
-        ArrayList<Segment> segments= new ArrayList<>();
         ArrayList<Polygon> addPolygons = new ArrayList<>();
         ArrayList<Vertex> centroids = new ArrayList<>();
-
 
         // Create all the vertices
         for(int y = 0; y < width; y += square_size) {
             for(int x = 0; x < height; x += square_size) {
 
-                //makes a 4 by 4 square with 4 vertices
-                //Note: need to fix the duplications of segments and vertices
-                int topLeftVertex = vertices.size();
-                Vertex topLeft = (Vertex.newBuilder().setX(x).setY(y).build());
-                vertices.add(topLeft);
+                Vertex topLeft = createVertex((double)x, (double) y);
+                Vertex topRight = createVertex((double) x+square_size, (double) y);
+                Vertex bottomLeft = createVertex((double)x, (double) y+square_size);
+                Vertex bottomRight = createVertex((double)x+square_size, (double) y+square_size);
+                Vertex centroid = createVertex(((double)x+x+square_size)/2, ((double)y+y+square_size)/2);
 
-                int topRightVertex = vertices.size();
-                Vertex topRight = (Vertex.newBuilder().setX((double) x+square_size).setY(y).build());
-                vertices.add(topRight);
+                //this finds the index of the created vertices in the vertices list, this helps in creating line segments
+                int topLeftVertexPosition = vertices.indexOf(topLeft);
+                int topRightVertexPosition = vertices.indexOf(topRight);
+                int bottomLeftVertexPosition = vertices.indexOf(bottomLeft);
+                int bottomRightVertexPosition = vertices.indexOf(bottomRight);
 
-                int bottomLeftVertex = vertices.size();
-                Vertex bottomLeft = (Vertex.newBuilder().setX(x).setY((double) y+square_size).build());
-                vertices.add(bottomLeft);
+                //note the centroid is a vertex created in the middle of the polygon
+                int centroidPosition = vertices.indexOf(centroid);
 
-                int bottomRightVertex = vertices.size();
-                Vertex bottomRight = (Vertex.newBuilder().setX((double) x+square_size).setY((double) y+square_size).build());
-                vertices.add(bottomRight);
+                //draws the top line of the square by joining the top left vertex to the top right one
+                Segment topLineSegment = createSegment(topLeftVertexPosition, topRightVertexPosition);
 
-//                int centroidVertex = vertices.size();
-//                Vertex centre = Vertex.newBuilder().setX((x+()))
+                //draws the right line of the square by joining the top right vertex to the bottom right one
+                Segment rightLineSegment = createSegment(topRightVertexPosition, bottomRightVertexPosition);
 
-                //this connects the vertices together by a line to actually make a square
-                segments.add(Segment.newBuilder().setV1Idx(topLeftVertex).setV2Idx(topRightVertex).build());
-                segments.add(Segment.newBuilder().setV1Idx(topRightVertex).setV2Idx(bottomRightVertex).build());
-                segments.add(Segment.newBuilder().setV1Idx(bottomRightVertex).setV2Idx(bottomLeftVertex).build());
-                segments.add(Segment.newBuilder().setV1Idx(bottomLeftVertex).setV2Idx(topLeftVertex).build());
+                //draws the bottom line of the square by joining the bottom left vertex to the bottom right one
+                Segment bottomLineSegment = createSegment(bottomLeftVertexPosition, bottomRightVertexPosition);
 
-
-
-                double newX= bottomLeft.getX();
-                double newY= bottomLeft.getY();
-
-                double newXx= topRight.getX();
-                double newYy= topRight.getY();
-
-                double centralPointX=((newX+newXx)/2);
-                double centralPointY=((newY+newYy)/2);
-
-                int Central = centroids.size();
-                Vertex CentralP = (Vertex.newBuilder().setX(centralPointX).setY(centralPointY).build());
-                centroids.add(CentralP);
+                //draws the left line of the square by joining the top left vertex to the bottom left one
+                Segment leftLineSegment = createSegment(topLeftVertexPosition, bottomLeftVertexPosition);
 
 
-                Polygon test = Polygon.newBuilder().addSegmentIdxs(segments.size()-4)
-                        .addSegmentIdxs(segments.size()-3)
-                        .addSegmentIdxs(segments.size()-2)
-                        .addSegmentIdxs(segments.size()-1)
-                        .setCentroidIdx(centroids.size()).
+                int topLinePosition = segments.indexOf(topLineSegment);
+                int rightLinePosition = segments.indexOf(rightLineSegment);
+                int bottomLinePosition = segments.indexOf(bottomLineSegment);
+                int leftLinePosition = segments.indexOf(leftLineSegment);
+
+
+                Polygon polygonCreated = Polygon.newBuilder().addSegmentIdxs(topLinePosition)
+                        .addSegmentIdxs(rightLinePosition)
+                        .addSegmentIdxs(bottomLinePosition)
+                        .addSegmentIdxs(leftLinePosition)
+                        .setCentroidIdx(centroidPosition).
                         build();
-                addPolygons.add(test);
+                polygons.add(polygonCreated);
 
             }
         }
 
-        for(Polygon p: addPolygons){
-            System.out.println("Polygon" + p + "has points:");
-            for(Integer i: p.getSegmentIdxsList()){
-                System.out.println(vertices.get(segments.get(i).getV1Idx()).getX());
-                System.out.println(vertices.get(segments.get(i).getV1Idx()).getY());
-                System.out.println(vertices.get(segments.get(i).getV2Idx()).getX());
-                System.out.println(vertices.get(segments.get(i).getV2Idx()).getY());
-            }
-        }
-
-        // Distribute colors randomly. Vertices are immutable, need to enrich them
-        //Before used a HashSet
         ArrayList<Vertex> verticesWithColors = new ArrayList<>();
-
         Random bag = new Random();
         for(Vertex v: vertices){
             int red = bag.nextInt(255);
@@ -108,25 +109,22 @@ public class DotGen {
             int blue = bag.nextInt(255);
             int transparency = bag.nextInt(255);
 
+            //stores a thickness property that alters the size of the circle created at the vertex's coordinate
+            float thickness = bag.nextFloat(5) + 1;
+
             //Transparency is added in the colorCode
             String colorCode = red + "," + green + "," + blue + "," + transparency;
             Property color = Property.newBuilder().setKey("rgb_color").setValue(colorCode).build();
-            Vertex colored = Vertex.newBuilder(v).addProperties(color).build();
+            Property vertexThickness = Property.newBuilder().setKey("thickness").setValue(String.valueOf(thickness)).build();
 
-            System.out.println(colored.getPropertiesList());
+            Vertex colored = Vertex.newBuilder(v).addProperties(color).addProperties(vertexThickness).build();
 
             verticesWithColors.add(colored);
         }
 
-        ArrayList<Polygon> polygonsWithColors = new ArrayList<>();
-        for(Polygon p: addPolygons) {
-            Property color = Property.newBuilder().setKey("rgb_color").setValue("0,0,255,255").build();
-            Polygon bluePolygon = Polygon.newBuilder(p).addProperties(color).build();
-            polygonsWithColors.add(bluePolygon);
-        }
-
         ArrayList<Segment> segmentsWithColors = new ArrayList<>();
         for(Segment s: segments) {
+
             Vertex vertex1 = verticesWithColors.get(s.getV1Idx());
             Vertex vertex2 = verticesWithColors.get(s.getV2Idx());
             List<Property> vertex1Properties = vertex1.getPropertiesList();
@@ -141,14 +139,34 @@ public class DotGen {
             int segmentTransparency = (vertex1ColorValues[3] + vertex2ColorValues[3])/2;
 
             String colorCode = segmentRed + "," + segmentGreen + "," + segmentBlue + "," + segmentTransparency;
-
-
             Property color = Property.newBuilder().setKey("rgb_color").setValue(colorCode).build();
-            Segment colored = Segment.newBuilder(s).addProperties(color).build();
+
+            float thickness = bag.nextFloat(3) + 1;
+            Property segmentThickness = Property.newBuilder().setKey("thickness").setValue(String.valueOf(thickness)).build();
+            Segment colored = Segment.newBuilder(s).addProperties(color).addProperties(segmentThickness).build();
 
             segmentsWithColors.add(colored);
 
         }
+
+        ArrayList<Polygon> polygonsWithColors = new ArrayList<>();
+        for(Polygon p: polygons) {
+            int red = bag.nextInt(255);
+            int green = bag.nextInt(255);
+            int blue = bag.nextInt(255);
+            int polygonTransparency = bag.nextInt(255);
+            String colorCode = red + "," + green + "," + blue + "," + polygonTransparency;
+            Property color = Property.newBuilder().setKey("rgb_color").setValue(colorCode).build();
+
+            int thickness = bag.nextInt(3) + 1;
+            Property polygonThickness = Property.newBuilder().setKey("thickness").setValue(String.valueOf(thickness)).build();
+            Polygon colored = Polygon.newBuilder(p).addProperties(color).addProperties(polygonThickness).build();
+            polygonsWithColors.add(colored);
+        }
+
+        System.out.println(verticesWithColors);
+        System.out.println(vertices);
+        System.out.println(segmentsWithColors.size());
 
         return Mesh.newBuilder().addAllVertices(verticesWithColors).addAllSegments(segmentsWithColors).addAllPolygons(polygonsWithColors).build();
     }
@@ -174,5 +192,4 @@ public class DotGen {
 
         return new int[]{red, green, blue, transparency};
     }
-
 }
