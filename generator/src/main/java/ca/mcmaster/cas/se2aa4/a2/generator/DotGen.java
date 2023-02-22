@@ -15,9 +15,9 @@ import ca.mcmaster.cas.se2aa4.a2.io.Structs.Polygon;
 public class DotGen {
 
     //chagen these back to 500,500,20
-    private final int width = 500;
-    private final int height = 500;
-    private final int square_size = 20;
+    private final int width = 10;
+    private final int height = 10;
+    private final int square_size = 2;
 
     private ArrayList<Vertex> vertices = new ArrayList<>();
     private ArrayList<Segment> segments = new ArrayList<>();
@@ -48,9 +48,6 @@ public class DotGen {
     }
 
     public Mesh generate() {
-
-        ArrayList<Polygon> addPolygons = new ArrayList<>();
-        ArrayList<Vertex> centroids = new ArrayList<>();
 
         // Create all the vertices
         for(int y = 0; y < width; y += square_size) {
@@ -99,6 +96,10 @@ public class DotGen {
                 polygons.add(polygonCreated);
 
             }
+        }
+
+        for(Polygon p: polygons){
+            System.out.println(p.getSegmentIdxsList());
         }
 
         ArrayList<Vertex> verticesWithColors = new ArrayList<>();

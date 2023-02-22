@@ -88,10 +88,13 @@ public class GraphicRenderer {
 
             //the rectangle is drawn starting form the passed in x and y coordinate, and the size of it is 20x20
             //note: right now the size of the rectangle is hard coded
-            canvas.draw(new Rectangle2D.Double(rectangleX, rectangleY,20,20));
+            canvas.draw(new Rectangle2D.Double(rectangleX, rectangleY,2,2));
         }
 
 
+        canvas.setColor(Color.BLUE);
+        canvas.setStroke(new BasicStroke(1.0f));
+        canvas.draw(new Line2D.Float(0.12f,1.23f, 4.52f,6.99f));
         //this is how to draw a rectangle with the top left corner starting at 1,1
 //        canvas.setColor(Color.BLUE);
 //        canvas.setStroke(new BasicStroke(1.0f));
