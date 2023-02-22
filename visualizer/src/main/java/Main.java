@@ -15,16 +15,10 @@ public class Main {
         String output = args[1];
         boolean debugMode = false;
 
-        //check for debug mode idk y this code doesnt work. Right now it only checks if any command line argument is typed, not only -X
-//        if(args.length == 2){
-//            System.out.println("DEBUG mode OFF");
-//        } else if(args.length == 3 && args[2] == "-X") {
-//            System.out.println("DEBUG mode ON");
-//            debugMode = true;
-//        }
+        //check for debug mode. Anything other than -X will run in Default mode
         if(args.length == 2){
             System.out.println("DEBUG mode OFF");
-        } else {
+        } else if(args.length == 3 && args[2].equals("-X")) {
             System.out.println("DEBUG mode ON");
             debugMode = true;
         }
