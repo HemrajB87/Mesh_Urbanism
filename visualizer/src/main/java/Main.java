@@ -13,18 +13,21 @@ public class Main {
         // Extracting command line parameters
         String input = args[0];
         String output = args[1];
-        String debug = args[2];
         boolean debugMode = false;
 
-        //check for debug mode
-        if(debug == null){
+        //check for debug mode idk y this code doesnt work. Right now it only checks if any command line argument is typed, not only -X
+//        if(args.length == 2){
+//            System.out.println("DEBUG mode OFF");
+//        } else if(args.length == 3 && args[2] == "-X") {
+//            System.out.println("DEBUG mode ON");
+//            debugMode = true;
+//        }
+        if(args.length == 2){
             System.out.println("DEBUG mode OFF");
-        }
-        else{
-            debugMode = true;
+        } else {
             System.out.println("DEBUG mode ON");
+            debugMode = true;
         }
-
 
         // Getting width and height for the canvas
         Structs.Mesh aMesh = new MeshFactory().read(input);
