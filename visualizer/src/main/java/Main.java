@@ -21,6 +21,8 @@ public class Main {
         } else if(args.length == 3 && args[2].equals("-X")) {
             System.out.println("DEBUG mode ON");
             debugMode = true;
+        } else{
+            System.out.println("DEBUG mode OFF");
         }
 
         // Getting width and height for the canvas
