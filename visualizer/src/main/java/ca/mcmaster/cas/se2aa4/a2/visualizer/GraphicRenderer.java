@@ -47,8 +47,13 @@ public class GraphicRenderer {
             //debug mode
             if(debugMode){
                 canvas.setColor(new Color(0, 0, 0, 255));
+                THICKNESS = 3; // Setting point thickness to fixed value for ease of viewing when testing
+                centre_x = v.getX() - (THICKNESS/2.0d);
+                centre_y = v.getY() - (THICKNESS/2.0d);
+
             } else {
                 canvas.setColor(extractColor(v.getPropertiesList()));
+
             }
 
             Ellipse2D point = new Ellipse2D.Double(centre_x, centre_y, THICKNESS, THICKNESS);
@@ -102,9 +107,9 @@ public class GraphicRenderer {
             //Debug Mode
             if(debugMode){
                 //draw the centroid in red for debug mode, can change thickness var to what you want
-                THICKNESS = 1;
+                THICKNESS = 3;
                 canvas.setColor(new Color(255, 0, 0, 255));
-                Ellipse2D centroid = new Ellipse2D.Double(centroidX - (THICKNESS/2.0), centroidY - (THICKNESS/2.0), THICKNESS, THICKNESS);
+                Ellipse2D centroid = new Ellipse2D.Double(centroidX - (THICKNESS/2.0d), centroidY - (THICKNESS/2.0d), THICKNESS, THICKNESS);
                 canvas.fill(centroid);
 
                 //polygon
