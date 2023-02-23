@@ -74,5 +74,5 @@ A feature is considered done if it is supported in both the generator and visual
 | 05 |  Adding a transparency property to the vertices, segments and polygons | Addison | 02/18/2023 | 02/19/2023 | D |
 | 06 |  Adding a thickness property to the vertices, segments and polygons | Addison | 02/19/2023 | 02/21/2023 | D |
 | 07 |  Rendering a mesh with determined properties  | Alvin | 02/21/2023 | 02/21/2023 | D |
-| 08 |  Render a "debug" mesh with black polygons, a red centroid, and light gray neighboring sides. | Alvin | 02/19/2023 | 02/20/2023 | D |
+| 08 |  Render a "debug" mesh with black polygons, a red centroid, and light gray neighboring sides. | Alvin | 02/19/2023 | 02/22/2023 | D |
 | 09 | Create a minimal mesh of vertices, segments, polygons (no duplicates of anything when creating the mesh) | Addison | 02/20/2023 | 02/22/2023 | D |
