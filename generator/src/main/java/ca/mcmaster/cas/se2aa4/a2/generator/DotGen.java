@@ -100,9 +100,41 @@ public class DotGen {
             }
         }
 
-        //Prints out the segments that make up a polygon
+        ArrayList<Polygon> polygonsWithNeighbors = new ArrayList<>();
+
+        //loops through the polygons list once
         for(Polygon p: polygons){
-            System.out.println(p.getSegmentIdxsList());
+
+            //creates an integer list that stores all the indexes of the neighbouring polygons
+            ArrayList<Integer> polygonsNeighborPositionList = new ArrayList<>();
+
+            //loops through polygons again in order to check if any polygons in the list are neighbors to the current polygon p
+            for(Polygon j: polygons){
+
+                //this ensures that polygon j != polygon p because if they were equal then it would be comparing to identical polygons, which is useless
+                if(j!=p){
+
+                    //sets a temporary integer list that stores the segments of polygon j
+                    ArrayList<Integer> temp = new ArrayList<>(j.getSegmentIdxsList());
+
+                    //determines if there are any segments that are shared between polygon p and polygon j
+                    temp.retainAll(p.getSegmentIdxsList());
+
+                    //if there is then the temp size should not be 0
+                    if(temp.size() != 0){
+
+                        //if a shared segment is identified then the polygons would be neighbors, so we add the index of the neighboring polygon to the polygonsNeighborPositionList
+                        int neighbouringPolygonPosition = polygons.indexOf(j);
+                        polygonsNeighborPositionList.add(neighbouringPolygonPosition);
+                    }
+                }
+            }
+
+            //once we are done finding all the neighbors of p we modify our existing polygon to include the neighbors it references
+            Polygon newPolygon = Polygon.newBuilder(p).addAllNeighborIdxs(polygonsNeighborPositionList).build();
+
+            //adds the new polygons with neighbors into a new list
+            polygonsWithNeighbors.add(newPolygon);
         }
 
         ArrayList<Vertex> verticesWithColors = new ArrayList<>();
@@ -154,7 +186,7 @@ public class DotGen {
         }
 
         ArrayList<Polygon> polygonsWithColors = new ArrayList<>();
-        for(Polygon p: polygons) {
+        for(Polygon p: polygonsWithNeighbors) {
             int red = bag.nextInt(255);
             int green = bag.nextInt(255);
             int blue = bag.nextInt(255);
@@ -168,9 +200,9 @@ public class DotGen {
             polygonsWithColors.add(colored);
         }
 
-        System.out.println(verticesWithColors);
-        System.out.println(vertices);
+        System.out.println(verticesWithColors.size());
         System.out.println(segmentsWithColors.size());
+        System.out.println(polygonsWithColors);
 
         return Mesh.newBuilder().addAllVertices(verticesWithColors).addAllSegments(segmentsWithColors).addAllPolygons(polygonsWithColors).build();
     }
