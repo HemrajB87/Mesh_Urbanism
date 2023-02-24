@@ -129,7 +129,6 @@ public class GraphicRenderer {
             //the rectangle is drawn starting form the passed in x and y coordinate, and the size of it is 20x20
             //note: right now the size of the rectangle is hard coded
             canvas.draw(new Rectangle2D.Double(rectangleX, rectangleY,20,20));
-
         }
     }
 

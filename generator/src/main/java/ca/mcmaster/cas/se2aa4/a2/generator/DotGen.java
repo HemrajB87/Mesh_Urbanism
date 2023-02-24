@@ -2,6 +2,7 @@ package ca.mcmaster.cas.se2aa4.a2.generator;
 
 import java.util.*;
 import java.util.List;
+import java.util.Random;
 //import java.awt.*;
 //import java.io.IOException;
 //
@@ -35,6 +36,22 @@ public class DotGen {
         return vertex;
     }
 
+    //createVertex creates a vertex at the x and y coordinates given with a RANDOM offset value
+    private Vertex createRandomVertex(double x, double y){
+        Random rand = new Random();
+        //creates a random bound from 5 to 20. CAN BE CHANGED TO WHATEVER
+        double randomPointIncrementX = rand.nextDouble(15) + 5;
+        double randomPointIncrementY = rand.nextDouble(15) + 5;
+
+        Vertex vertex = Vertex.newBuilder().setX(x+randomPointIncrementX).setY(y+randomPointIncrementY).build();
+
+        //checks if the created vertex is not in the private vertices list, if it is not then it adds it to the vertices list
+        if(!vertices.contains(vertex)){
+            vertices.add(vertex);
+        }
+        return vertex;
+    }
+
     //createSegment creates a segment joining the two vertices given
     //Note: it draws from the first vertex passed in to the second one
     private Segment createSegment(int vertex1Idx, int vertex2Idx){
@@ -48,11 +65,10 @@ public class DotGen {
     }
 
     public Mesh generate() {
-
         // Create all the vertices
         for(int y = 0; y < width; y += square_size) {
             for(int x = 0; x < height; x += square_size) {
-
+                //Can Change the vertex creation to random mode by using createRandomVertex method instead, aswell as on the centroid but we prob will have to use a library for that.
                 Vertex topLeft = createVertex((double)x, (double) y);
                 Vertex topRight = createVertex((double) x+square_size, (double) y);
                 Vertex bottomLeft = createVertex((double)x, (double) y+square_size);
