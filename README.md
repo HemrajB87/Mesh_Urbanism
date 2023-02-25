@@ -78,8 +78,8 @@ A feature is considered done if it is supported in both the generator and visual
 | 07 |  Rendering a mesh with determined properties  | Alvin | 02/21/2023 | 02/21/2023 | D |
 | 08 |  Render a "debug" mesh with black polygons, a red centroid, and light gray neighboring sides. | Alvin | 02/19/2023 | 02/22/2023 | D |
 | 09 | Create a minimal mesh of vertices, segments, polygons (no duplicates of anything when creating the mesh) | Addison | 02/20/2023 | 02/22/2023 | D |
-| 10 | Generating random vertices in DotGen class | Hemraj/Addison/Alvin | 02/23/2023 |  |  |
-| 11 | Creating Voronoi diagrams using generated points | Addison | 02/23/2023 |  |  |
+| 10 | Generating random vertices in DotGen class | Hemraj/Addison/Alvin | 02/23/2023 | 02/24/2023 | D |
+| 11 | Creating Voronoi diagrams using generated points | Addison | 02/23/2023 | 02/25/2023 | D |
 | 12 | Apply Lloyd relaxation, centroids | Hemraj |  |  | D |
 | 13 | Apply Lloyd relaxation, creating smooth points for diagrams  | Hemraj | |  |  |
 | 14 | Apply Lloyd relaxation a random amount of times | Hemraj |  |  |  |
