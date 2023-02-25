@@ -3,6 +3,7 @@ package ca.mcmaster.cas.se2aa4.a2.generator;
 import java.util.*;
 import java.util.List;
 import java.util.Random;
+
 //import java.awt.*;
 //import java.io.IOException;
 //
@@ -13,7 +14,7 @@ import ca.mcmaster.cas.se2aa4.a2.io.Structs.Mesh;
 import ca.mcmaster.cas.se2aa4.a2.io.Structs.Segment;
 import ca.mcmaster.cas.se2aa4.a2.io.Structs.Polygon;
 
-public class DotGen {
+public class DotGen{
 
     //chagen these back to 500,500,20
     private final int width = 500;
@@ -22,8 +23,22 @@ public class DotGen {
 
     private ArrayList<Vertex> vertices = new ArrayList<>();
     private ArrayList<Segment> segments = new ArrayList<>();
-
     private ArrayList<Polygon> polygons = new ArrayList<>();
+
+    public static String meshType = "";
+    public static int numPolygons = 0;
+    public static int relaxationLevel = 0;
+
+    //set the vars from Main class command line
+    public void setVar(String a, int b, int c){
+        meshType = a;
+        numPolygons = b;
+        relaxationLevel = c;
+        //testing
+//        System.out.println(meshType);
+//        System.out.println(numPolygons);
+//        System.out.println(relaxationLevel);
+    }
 
     //createVertex creates a vertex at the x and y coordinates given
     private Vertex createVertex(double x, double y){
