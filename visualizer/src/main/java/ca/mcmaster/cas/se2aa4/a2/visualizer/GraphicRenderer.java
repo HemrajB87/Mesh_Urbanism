@@ -95,41 +95,42 @@ public class GraphicRenderer {
 
         }
 
-        for (Polygon p : aMesh.getPolygonsList()){
-            //gets the x and y values of the topLeftVertex of the rectangle/square
-            double rectangleX = vertexArrayList.get(segmentArrayList.get(p.getSegmentIdxs(0)).getV1Idx()).getX();
-            double rectangleY = vertexArrayList.get(segmentArrayList.get(p.getSegmentIdxs(0)).getV1Idx()).getY();
-
-            //get x and y coord of the centroid
-            double centroidX = vertexArrayList.get(p.getCentroidIdx()).getX();
-            double centroidY = vertexArrayList.get(p.getCentroidIdx()).getY();
-
-            //Debug Mode
-            if(debugMode){
-                //draw the centroid in red for debug mode, can change thickness var to what you want
-                THICKNESS = 3;
-                canvas.setColor(new Color(255, 0, 0, 255));
-                Ellipse2D centroid = new Ellipse2D.Double(centroidX - (THICKNESS/2.0d), centroidY - (THICKNESS/2.0d), THICKNESS, THICKNESS);
-                canvas.fill(centroid);
-
-                //polygon
-                canvas.setColor(new Color(96, 96, 96, 255));
-                Stroke polygonStroke = new BasicStroke(0.5f);
-                canvas.setStroke(polygonStroke);
-
-            } else {
-                //sets the color of the segments when drawing the polygon
-                canvas.setColor(extractColor(p.getPropertiesList()));
-
-                //sets the thickness of the segments when drawing the polygon
-                Stroke polygonStroke = new BasicStroke(extractThickness(p.getPropertiesList()));
-                canvas.setStroke(polygonStroke);
-            }
-
-            //the rectangle is drawn starting form the passed in x and y coordinate, and the size of it is 20x20
-            //note: right now the size of the rectangle is hard coded
-            canvas.draw(new Rectangle2D.Double(rectangleX, rectangleY,20,20));
-        }
+        //HAD TO COMMENT THIS OUT BECAUSE THIS IS ONLY CATERED TO RENDERING A RECTANGLE AND CAUSED ISSUES FOR THE VORONOI DIAGRAM
+//        for (Polygon p : aMesh.getPolygonsList()){
+//            //gets the x and y values of the topLeftVertex of the rectangle/square
+//            double rectangleX = vertexArrayList.get(segmentArrayList.get(p.getSegmentIdxs(0)).getV1Idx()).getX();
+//            double rectangleY = vertexArrayList.get(segmentArrayList.get(p.getSegmentIdxs(0)).getV1Idx()).getY();
+//
+//            //get x and y coord of the centroid
+//            double centroidX = vertexArrayList.get(p.getCentroidIdx()).getX();
+//            double centroidY = vertexArrayList.get(p.getCentroidIdx()).getY();
+//
+//            //Debug Mode
+//            if(debugMode){
+//                //draw the centroid in red for debug mode, can change thickness var to what you want
+//                THICKNESS = 3;
+//                canvas.setColor(new Color(255, 0, 0, 255));
+//                Ellipse2D centroid = new Ellipse2D.Double(centroidX - (THICKNESS/2.0d), centroidY - (THICKNESS/2.0d), THICKNESS, THICKNESS);
+//                canvas.fill(centroid);
+//
+//                //polygon
+//                canvas.setColor(new Color(96, 96, 96, 255));
+//                Stroke polygonStroke = new BasicStroke(0.5f);
+//                canvas.setStroke(polygonStroke);
+//
+//            } else {
+//                //sets the color of the segments when drawing the polygon
+//                canvas.setColor(extractColor(p.getPropertiesList()));
+//
+//                //sets the thickness of the segments when drawing the polygon
+//                Stroke polygonStroke = new BasicStroke(extractThickness(p.getPropertiesList()));
+//                canvas.setStroke(polygonStroke);
+//            }
+//
+//            //the rectangle is drawn starting form the passed in x and y coordinate, and the size of it is 20x20
+//            //note: right now the size of the rectangle is hard coded
+//            canvas.draw(new Rectangle2D.Double(rectangleX, rectangleY,20,20));
+//        }
     }
 
     //Changed this so that it accounts for the transparency/opacity of the segment or the vertices

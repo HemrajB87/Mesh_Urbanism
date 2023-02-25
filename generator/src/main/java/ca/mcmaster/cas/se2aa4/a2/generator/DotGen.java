@@ -13,9 +13,11 @@ import ca.mcmaster.cas.se2aa4.a2.io.Structs.Property;
 import ca.mcmaster.cas.se2aa4.a2.io.Structs.Mesh;
 import ca.mcmaster.cas.se2aa4.a2.io.Structs.Segment;
 import ca.mcmaster.cas.se2aa4.a2.io.Structs.Polygon;
+import org.locationtech.jts.geom.*;
+import org.locationtech.jts.triangulate.VoronoiDiagramBuilder;
+
 
 public class DotGen{
-
     //chagen these back to 500,500,20
     private final int width = 500;
     private final int height = 500;
@@ -81,16 +83,16 @@ public class DotGen{
 
     public Mesh generate() {
         // Create all the vertices
-        for(int y = 0; y < width; y += square_size) {
-            for(int x = 0; x < height; x += square_size) {
+        for (int y = 0; y < width; y += square_size) {
+            for (int x = 0; x < height; x += square_size) {
                 //Can Change the vertex creation to random mode by using createRandomVertex method instead, aswell as on the centroid but we prob will have to use a library for that.
-                Vertex topLeft = createVertex((double)x, (double) y);
-                Vertex topRight = createVertex((double) x+square_size, (double) y);
-                Vertex bottomLeft = createVertex((double)x, (double) y+square_size);
-                Vertex bottomRight = createVertex((double)x+square_size, (double) y+square_size);
+                Vertex topLeft = createVertex((double) x, (double) y);
+                Vertex topRight = createVertex((double) x + square_size, (double) y);
+                Vertex bottomLeft = createVertex((double) x, (double) y + square_size);
+                Vertex bottomRight = createVertex((double) x + square_size, (double) y + square_size);
 
                 //centroid is calculated by finding the average of the x and y coordinates of the top left vertex and bottom right vertex
-                Vertex centroid = createVertex(((double)x+x+square_size)/2, ((double)y+y+square_size)/2);
+                Vertex centroid = createVertex(((double) x + x + square_size) / 2, ((double) y + y + square_size) / 2);
 
                 //this finds the index of the created vertices in the vertices list, this helps in creating line segments
                 int topLeftVertexPosition = vertices.indexOf(topLeft);
@@ -134,16 +136,16 @@ public class DotGen{
         ArrayList<Polygon> polygonsWithNeighbors = new ArrayList<>();
 
         //loops through the polygons list once
-        for(Polygon p: polygons){
+        for (Polygon p : polygons) {
 
             //creates an integer list that stores all the indexes of the neighbouring polygons
             ArrayList<Integer> polygonsNeighborPositionList = new ArrayList<>();
 
             //loops through polygons again in order to check if any polygons in the list are neighbors to the current polygon p
-            for(Polygon j: polygons){
+            for (Polygon j : polygons) {
 
                 //this ensures that polygon j != polygon p because if they were equal then it would be comparing to identical polygons, which is useless
-                if(j!=p){
+                if (j != p) {
 
                     //sets a temporary integer list that stores the segments of polygon j
                     ArrayList<Integer> temp = new ArrayList<>(j.getSegmentIdxsList());
@@ -152,7 +154,7 @@ public class DotGen{
                     temp.retainAll(p.getSegmentIdxsList());
 
                     //if there is then the temp size should not be 0
-                    if(temp.size() != 0){
+                    if (temp.size() != 0) {
 
                         //if a shared segment is identified then the polygons would be neighbors, so we add the index of the neighboring polygon to the polygonsNeighborPositionList
                         int neighbouringPolygonPosition = polygons.indexOf(j);
@@ -167,6 +169,18 @@ public class DotGen{
             //adds the new polygons with neighbors into a new list
             polygonsWithNeighbors.add(newPolygon);
         }
+
+        //voronoiTesting
+        //clearing out all the elements in the lists since we add irregular shapes in them in the new createVoronoi() method
+        System.out.println("Goes in test");
+        vertices.clear();
+        segments.clear();
+        polygons.clear();
+        System.out.println(vertices);
+        System.out.println(segments);
+        System.out.println(polygons);
+        createVoronoi();
+        System.out.println("Goes out of test");
 
         ArrayList<Vertex> verticesWithColors = new ArrayList<>();
         Random bag = new Random();
@@ -259,4 +273,92 @@ public class DotGen{
 
         return new int[]{red, green, blue, transparency};
     }
+
+
+
+
+    //GENERATES VORONOI DIAGRAM
+    private void createVoronoi() {
+// Create a precision model with 2 decimal places
+        PrecisionModel precisionModel = new PrecisionModel(10);
+
+        // Create a geometry factory with the precision model
+        GeometryFactory geometryFactory = new GeometryFactory(precisionModel);
+        Random rand = new Random();
+
+        int numPoints = 50;
+        int canvasWidth = 500;
+        int canvasHeight = 500;
+
+        //could probably combine this for loop with the one below it (just did this to be sure there were no issues)
+        List<Point> points = new ArrayList<>();
+        for (int i = 0; i < numPoints; i++) {
+            double x = rand.nextDouble() * canvasWidth;
+            double y = rand.nextDouble() * canvasHeight;
+            Point p = geometryFactory.createPoint(new Coordinate(x, y));
+            points.add(p);
+        }
+        System.out.println(points);
+
+        // Create a list of coordinates from the list of points
+        List<Coordinate> coordinates = new ArrayList<>();
+        for (Point p : points) {
+            coordinates.add(p.getCoordinate());
+        }
+
+// Compute the Voronoi diagram
+        VoronoiDiagramBuilder voronoiDiagramBuilder = new VoronoiDiagramBuilder();
+        voronoiDiagramBuilder.setSites(coordinates);
+        Geometry voronoiDiagram = voronoiDiagramBuilder.getDiagram(geometryFactory);
+
+        Envelope envelope = new Envelope(0, canvasWidth, 0, canvasHeight);
+        Geometry canvas = geometryFactory.toGeometry(envelope);
+
+        //crops the voronoi Diagram to be contained inside the canvas, since during the initial generation its points can be located outside the boundaries
+        Geometry croppedDiagram = voronoiDiagram.intersection(canvas);
+
+        for (int i = 0; i < croppedDiagram.getNumGeometries(); i++) {
+
+            //we are specifying that we want to use the Polygon class from JTS and not from the Structs.java class
+            org.locationtech.jts.geom.Polygon polygon = (org.locationtech.jts.geom.Polygon) croppedDiagram.getGeometryN(i);
+
+            //gets coordinates of the current polygon
+            Coordinate[] polygonCoordinates = polygon.getCoordinates();
+
+            // Compute the segments for the polygon
+            ArrayList<Integer> currentPolygonSegments = new ArrayList<>();
+            for (int j = 0; j < polygonCoordinates.length - 1; j++) {
+                Coordinate p1 = polygonCoordinates[j];
+                Coordinate p2 = polygonCoordinates[j + 1];
+
+                Vertex vertex1 = createVertex(p1.x,p1.y);
+                Vertex vertex2 = createVertex(p2.x,p2.y);
+
+                int vertex1Position = vertices.indexOf(vertex1);
+                int vertex2Position = vertices.indexOf(vertex2);
+
+                Segment line = createSegment(vertex1Position,vertex2Position);
+
+                int segmentPosition = segments.indexOf(line);
+                currentPolygonSegments.add(segmentPosition);
+            }
+
+            //gets the centroid of the current polygon created by the voronoiDiagramBuilder
+            Point centroidPoint = polygon.getCentroid();
+
+            //converts the Point object to a Vertex Object, so we can use it in our Polygon.newBuilder()
+            Vertex centroid = createVertex(centroidPoint.getX(),centroidPoint.getY());
+
+            int centroidPosition = vertices.indexOf(centroid);
+
+            Polygon createdPolygon = Polygon.newBuilder().addAllSegmentIdxs(currentPolygonSegments).setCentroidIdx(centroidPosition).build();
+            polygons.add(createdPolygon);
+
+            // Do something with the centroid and segments for this polygon
+            System.out.println("Polygon " + i + " centroid coordinates: " + vertices.get(createdPolygon.getCentroidIdx()).getX() + ", " + vertices.get(createdPolygon.getCentroidIdx()).getY());
+            System.out.println("Polygon " + i + " segments: " + createdPolygon.getSegmentIdxsList());
+        }
+    }
+
+
 }
