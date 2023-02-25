@@ -26,8 +26,18 @@ To run the generator, go to the `generator` directory, and use `java -jar` to ru
 
 ```
 cd generator 
+
+To Run generator in Default mode:
 java -jar generator.jar test1.mesh
 
+To open HELP mode to display what arguments can be entered, add -h:
+java -jar generator.jar test1.mesh -h
+
+To run generator in Custom User Configuration mode (replace square bracket values with user values):
+java -jar generator.jar test1.mesh [grid/irregular] [#_polygons] [relaxation_level]
+
+Example: 
+java -jar generator.jar test1.mesh grid 200 100
 ```
 
 ### Visualizer
@@ -86,4 +96,4 @@ A feature is considered done if it is supported in both the generator and visual
 | 15 | Crop mesh diagram to expected size | Alvin |  |  |  |
 | 16 | Compute neighboring polygons using Delaunay’s triangulation | |  |  |  |
 | 17 | Reordering segments using Convex Hull  |  |  |  |  |
-| 18 | User controlled mesh generation using CLI | Alvin |  |  |  |
+| 18 | User controlled mesh generation using CLI | Alvin | 02/23/2023 | 02/25/2023 | D |
