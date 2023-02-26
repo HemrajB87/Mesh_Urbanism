@@ -48,6 +48,7 @@ public class DotGen{
 
         //checks if the created vertex is not in the private vertices list, if it is not then it adds it to the vertices list
         if(!vertices.contains(vertex)){
+            System.out.println("passed createVertex() check: " + vertex);
             vertices.add(vertex);
         }
         return vertex;
@@ -230,6 +231,7 @@ public class DotGen{
 
         }
 
+        //note there is an issue with this for the voronoi diagram where it creates a lot more polygons than expected
         ArrayList<Polygon> polygonsWithColors = new ArrayList<>();
         for(Polygon p: polygonsWithNeighbors) {
             int red = bag.nextInt(255);
@@ -247,7 +249,7 @@ public class DotGen{
 
         System.out.println(verticesWithColors.size());
         System.out.println(segmentsWithColors.size());
-        System.out.println(polygonsWithColors);
+        System.out.println(polygonsWithColors.size());
 
         return Mesh.newBuilder().addAllVertices(verticesWithColors).addAllSegments(segmentsWithColors).addAllPolygons(polygonsWithColors).build();
     }
@@ -286,50 +288,88 @@ public class DotGen{
         GeometryFactory geometryFactory = new GeometryFactory(precisionModel);
         Random rand = new Random();
 
-        int numPoints = 50;
+        int numPoints = 200;
         int canvasWidth = 500;
         int canvasHeight = 500;
 
-        //could probably combine this for loop with the one below it (just did this to be sure there were no issues)
-        List<Point> points = new ArrayList<>();
+        List<Coordinate> coordinates = new ArrayList<>();
         for (int i = 0; i < numPoints; i++) {
             double x = rand.nextDouble() * canvasWidth;
             double y = rand.nextDouble() * canvasHeight;
-            Point p = geometryFactory.createPoint(new Coordinate(x, y));
-            points.add(p);
-        }
-        System.out.println(points);
-
-        // Create a list of coordinates from the list of points
-        List<Coordinate> coordinates = new ArrayList<>();
-        for (Point p : points) {
-            coordinates.add(p.getCoordinate());
+            Coordinate c = new Coordinate(x,y);
+            coordinates.add(c);
         }
 
-// Compute the Voronoi diagram
-        VoronoiDiagramBuilder voronoiDiagramBuilder = new VoronoiDiagramBuilder();
-        voronoiDiagramBuilder.setSites(coordinates);
-        Geometry voronoiDiagram = voronoiDiagramBuilder.getDiagram(geometryFactory);
+        //THIS IS THE ADDED CODE FOR RELAXATION....
+        // Loop through a fixed number of iterations, could make this an arbitrary number
+        int numIterations = 15;
+        for (int iteration = 0; iteration < numIterations; iteration++) {
 
+            // We are going to constantly make a new voronoi diagram to make the mesh less pointy and more smooth
+            VoronoiDiagramBuilder tempVoronoi = new VoronoiDiagramBuilder();
+            tempVoronoi.setSites(coordinates);
+
+            Geometry tempVoronoiDiagram = tempVoronoi.getDiagram(geometryFactory);
+
+            Envelope tempEnvelope = new Envelope(0, canvasWidth, 0, canvasHeight);
+            Geometry tempCanvas = geometryFactory.toGeometry(tempEnvelope);
+
+            // Crop the Voronoi diagram to be contained inside the canvas, since during the initial generation its points can be located outside the boundaries
+            Geometry tempCroppedDiagram = tempVoronoiDiagram.intersection(tempCanvas);
+
+            // Updates the points to be the centroids of the polygons in the Voronoi diagram
+            List<Coordinate> newPoints = new ArrayList<>();
+            for (int i = 0; i < tempCroppedDiagram.getNumGeometries(); i++) {
+
+                // Get the current polygon
+                org.locationtech.jts.geom.Polygon polygon = (org.locationtech.jts.geom.Polygon) tempCroppedDiagram.getGeometryN(i);
+
+                // Get the centroid of the current polygon
+                Point centroidPoint = polygon.getCentroid();
+
+                // Convert the Point object to a Coordinate and add it to the new list of points
+                Coordinate centroidCoordinate = centroidPoint.getCoordinate();
+
+                //add the centroid to the newPoints array list
+                newPoints.add(centroidCoordinate);
+            }
+
+            //sets the coordinates arraylist to the newPoints arraylist, so we can repeatedly apply lloyd's relaxation on new a set of coordinates
+            coordinates = newPoints;
+
+        }
+        //END OF RELAXATION
+
+
+        // Compute the FINAL Voronoi diagram
+        VoronoiDiagramBuilder updatedVoronoi = new VoronoiDiagramBuilder();
+
+        //coordinates should be the final version of the voronoi diagram we want to display
+        updatedVoronoi.setSites(coordinates);
+
+        Geometry updatedVoronoiDiagram = updatedVoronoi.getDiagram(geometryFactory);
+
+        //Sets a boundary that forces the points to be contained in
         Envelope envelope = new Envelope(0, canvasWidth, 0, canvasHeight);
         Geometry canvas = geometryFactory.toGeometry(envelope);
 
         //crops the voronoi Diagram to be contained inside the canvas, since during the initial generation its points can be located outside the boundaries
-        Geometry croppedDiagram = voronoiDiagram.intersection(canvas);
+        Geometry updatedCroppedDiagram = updatedVoronoiDiagram.intersection(canvas);
 
-        for (int i = 0; i < croppedDiagram.getNumGeometries(); i++) {
+        //this is used to convert the JTS objects back to the Structs objects so we can use them in the Mesh.newBuilder().build call
+        for (int i = 0; i < updatedCroppedDiagram.getNumGeometries(); i++) {
 
             //we are specifying that we want to use the Polygon class from JTS and not from the Structs.java class
-            org.locationtech.jts.geom.Polygon polygon = (org.locationtech.jts.geom.Polygon) croppedDiagram.getGeometryN(i);
+            org.locationtech.jts.geom.Polygon polygon = (org.locationtech.jts.geom.Polygon) updatedCroppedDiagram.getGeometryN(i);
 
             //gets coordinates of the current polygon
-            Coordinate[] polygonCoordinates = polygon.getCoordinates();
+            Coordinate[] updatedPolygonCoordinates = polygon.getCoordinates();
 
-            // Compute the segments for the polygon
+            // Compute the vertices and segments for the current polygon
             ArrayList<Integer> currentPolygonSegments = new ArrayList<>();
-            for (int j = 0; j < polygonCoordinates.length - 1; j++) {
-                Coordinate p1 = polygonCoordinates[j];
-                Coordinate p2 = polygonCoordinates[j + 1];
+            for (int j = 0; j < updatedPolygonCoordinates.length - 1; j++) {
+                Coordinate p1 = updatedPolygonCoordinates[j];
+                Coordinate p2 = updatedPolygonCoordinates[j + 1];
 
                 Vertex vertex1 = createVertex(p1.x,p1.y);
                 Vertex vertex2 = createVertex(p2.x,p2.y);
@@ -358,6 +398,10 @@ public class DotGen{
             System.out.println("Polygon " + i + " centroid coordinates: " + vertices.get(createdPolygon.getCentroidIdx()).getX() + ", " + vertices.get(createdPolygon.getCentroidIdx()).getY());
             System.out.println("Polygon " + i + " segments: " + createdPolygon.getSegmentIdxsList());
         }
+
+        System.out.println(vertices.get(polygons.get(0).getCentroidIdx()));
+
+
     }
 
 
