@@ -1,0 +1,56 @@
+@startuml
+
+hide empty members
+skinparam linetype polyline
+
+title "Generator Sub-Project Diagram"
+
+class Main {}
+note right of Main: In this data structure, types will also be\n denoted with Structs.* due to custom types.
+class DotGen{
++ setVar() : void
++createSegment() : Structs.Segment
++createVertex() : Structs.Vertex
++createRandomValues() : Structs.Vertex
++generate() : Mesh
+    + getVertexProperties() Structs.Vertex
+    + getSegmentProperties() :  Structs.Segment
+    + getPolygonProperties() : Structs.Polygon
+}
+class GridMesh {
+# width: int
+# height : int
+# square_size : int
+    + createGridPolygons() : void
+    + findNeighboringPolygons() : void
+    + getVertices() : Structs.Vertex
+    + getSegments() : Structs.Segment
+    + getPolygonsWithNeighbors() : Structs.Polygon
+}
+
+class IrregularMesh {
+# width: int
+# height : int
+# numPolygon : int
+# relaxationLevel: int
+    + createVoronoi() : void
+    + getVertices() : Structs.Vertex
+    + getSegments() : Structs.Segment
+    + getPolygons() : Structs.Polygon
+}
+
+class Attributes {
+    + setVertexProperties() : void
+    + setSegmentProperties() : void
+    + setPolygonProperties() : void
+}
+
+
+
+
+Main *--> "0..n\n{ordered}" DotGen
+DotGen *--> "0..n\n{ordered}" GridMesh
+DotGen *--> "0..n\n{ordered}" IrregularMesh
+DotGen *--> "0..n\n{ordered}" Attributes
+
+@enduml

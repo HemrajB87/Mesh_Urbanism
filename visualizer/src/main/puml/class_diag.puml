@@ -1,0 +1,36 @@
+@startuml
+
+hide empty members
+skinparam linetype polyline
+
+title "Visualizer Sub-Project Diagram"
+
+class Main {}
+note right of Main: In this data structure, types will also be\n denoted with Structs.* due to custom types.
+
+class GraphicRenderer{
+# val : String
++ render() : void
++ extractColor() : Color
++ extractThickness() : float
+}
+class MeshDump {
++ dump() : void
+}
+
+class SVGCanvas {
+    build() : int
+    write() : void
+}
+
+
+
+
+
+
+Main *--> "0..n\n{ordered}" GraphicRenderer
+Main *--> "0..n\n{ordered}" MeshDump
+Main *--> "0..n\n{ordered}" SVGCanvas
+
+
+@enduml
