@@ -67,7 +67,6 @@ public class Main {
             System.out.println("Please follow input specifications");
         }
 
-
         DotGen generator = new DotGen();
         generator.setVar(meshType, numPolygons, relaxationLevel);
         Mesh myMesh = generator.generate();

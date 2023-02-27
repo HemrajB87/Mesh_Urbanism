@@ -24,19 +24,15 @@ public class DotGen{
     private ArrayList<Segment> segmentsMeshList = new ArrayList<>();
     private ArrayList<Polygon> polygonsMeshList = new ArrayList<>();
 
-    public static String meshType = "";
-    public static int numPolygons = 0;
-    public static int relaxationLevel = 0;
+    private static String meshType = "";
+    private static int numPolygons = 0;
+    private static int relaxationLevel = 0;
 
     //set the vars from Main class command line
-    public void setVar(String a, int b, int c){
-        meshType = a;
-        numPolygons = b;
-        relaxationLevel = c;
-        //testing
-//        System.out.println(meshType);
-//        System.out.println(numPolygons);
-//        System.out.println(relaxationLevel);
+    public void setVar(String meshtype, int numpolygons, int relaxationlevel){
+        meshType = meshtype;
+        numPolygons = numpolygons;
+        relaxationLevel = relaxationlevel;
     }
 
     //createVertex creates a vertex at the x and y coordinates given and then adds them to the Vertex list passed in
@@ -79,13 +75,9 @@ public class DotGen{
     }
 
     public Mesh generate() {
-
-        Random random = new Random();
-        int choice = random.nextInt(2);
-
         //right now it just randomly chooses which mesh to create
 
-        if(choice == 0){
+        if(meshType.equals("grid")){
             //makes a new GridMesh object that handles the creation of the polygons in a regular mesh
             GridMesh regularMesh = new GridMesh(width, height, square_size);
 
@@ -102,7 +94,7 @@ public class DotGen{
             polygonsMeshList = regularMesh.getPolygonsWithNeighbors();
 
 
-        } else if (choice == 1) {
+        } else if (meshType.equals("irregular")) {
 
             //creates a new IrregularMesh object that handles the creation of the polygons in the irregular mesh
             IrregularMesh voronoiDiagram = new IrregularMesh(width, height, 200, 15);
