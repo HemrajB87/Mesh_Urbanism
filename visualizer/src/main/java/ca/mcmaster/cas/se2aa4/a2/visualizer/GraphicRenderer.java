@@ -27,6 +27,7 @@ public class GraphicRenderer {
 
         ArrayList<Vertex> vertexArrayList = new ArrayList<>(aMesh.getVerticesList());
         ArrayList<Segment> segmentArrayList = new ArrayList<>(aMesh.getSegmentsList());
+        ArrayList<Polygon> polygonArrayList = new ArrayList<>(aMesh.getPolygonsList());
 
         canvas.setColor(Color.BLACK);
 
@@ -36,101 +37,115 @@ public class GraphicRenderer {
         //THIS TELLS THE CANVAS THAT THE THICKNESS OF THE LINE NEEDS TO BE SET TO THE NEW VALUE WE PASS IN
         canvas.setStroke(stroke);
 
-        for (Vertex v: aMesh.getVerticesList()) {
-
-            THICKNESS = (int) extractThickness(v.getPropertiesList());
-            double centre_x = v.getX() - (THICKNESS/2.0d);
-            double centre_y = v.getY() - (THICKNESS/2.0d);
-
-            Color old = canvas.getColor();
-
-            //debug mode
-            if(debugMode){
-                canvas.setColor(new Color(0, 0, 0, 255));
-                THICKNESS = 3; // Setting point thickness to fixed value for ease of viewing when testing
-                centre_x = v.getX() - (THICKNESS/2.0d);
-                centre_y = v.getY() - (THICKNESS/2.0d);
-
-            } else {
-                canvas.setColor(extractColor(v.getPropertiesList()));
-
-            }
-
-            Ellipse2D point = new Ellipse2D.Double(centre_x, centre_y, THICKNESS, THICKNESS);
-            canvas.fill(point);
-            canvas.setColor(old);
-        }
-
-        //Loops through all the segments to give them colors and draw them
-        for (Segment s: aMesh.getSegmentsList()) {
-
-            //Gets the first vertex from the current segment
-            int vertex1Position = s.getV1Idx();
-
-            //Gets the second vertex from the current segment
-            int vertex2Position = s.getV2Idx();
-
-            //determines the vertices vertex1 and vertex2 from the value of vertex1Position and vertex2Position
-            Vertex vertex1 = vertexArrayList.get(vertex1Position);
-            Vertex vertex2 = vertexArrayList.get(vertex2Position);
-
-            //debug mode
-            if(debugMode){
-                canvas.setColor(new Color(96, 96, 96, 255));
-                Stroke segmentStroke = new BasicStroke(0.5f);
-                canvas.setStroke(segmentStroke);
-
-            } else {
-                //Sets the color by extracting it from the current segments property list
-                canvas.setColor(extractColor(s.getPropertiesList()));
-
-                //Sets the thickness of the segments by extracting it from the property list
-                Stroke segmentStroke = new BasicStroke(extractThickness(s.getPropertiesList()));
-                canvas.setStroke(segmentStroke);
-            }
-
-            //creates a Line2D object that draws a line from the first vertex to the second vertex based on their coordinates
-            Line2D segment = new Line2D.Double(vertex1.getX(),vertex1.getY(),vertex2.getX(),vertex2.getY());
-            canvas.draw(segment);
-
-        }
-
-        //HAD TO COMMENT THIS OUT BECAUSE THIS IS ONLY CATERED TO RENDERING A RECTANGLE AND CAUSED ISSUES FOR THE VORONOI DIAGRAM
-//        for (Polygon p : aMesh.getPolygonsList()){
-//            //gets the x and y values of the topLeftVertex of the rectangle/square
-//            double rectangleX = vertexArrayList.get(segmentArrayList.get(p.getSegmentIdxs(0)).getV1Idx()).getX();
-//            double rectangleY = vertexArrayList.get(segmentArrayList.get(p.getSegmentIdxs(0)).getV1Idx()).getY();
+//        for (Vertex v: aMesh.getVerticesList()) {
 //
-//            //get x and y coord of the centroid
-//            double centroidX = vertexArrayList.get(p.getCentroidIdx()).getX();
-//            double centroidY = vertexArrayList.get(p.getCentroidIdx()).getY();
+//            THICKNESS = (int) extractThickness(v.getPropertiesList());
+//            double centre_x = v.getX() - (THICKNESS/2.0d);
+//            double centre_y = v.getY() - (THICKNESS/2.0d);
 //
-//            //Debug Mode
+//            Color old = canvas.getColor();
+//
+//            //debug mode
 //            if(debugMode){
-//                //draw the centroid in red for debug mode, can change thickness var to what you want
-//                THICKNESS = 3;
-//                canvas.setColor(new Color(255, 0, 0, 255));
-//                Ellipse2D centroid = new Ellipse2D.Double(centroidX - (THICKNESS/2.0d), centroidY - (THICKNESS/2.0d), THICKNESS, THICKNESS);
-//                canvas.fill(centroid);
-//
-//                //polygon
-//                canvas.setColor(new Color(96, 96, 96, 255));
-//                Stroke polygonStroke = new BasicStroke(0.5f);
-//                canvas.setStroke(polygonStroke);
+//                canvas.setColor(new Color(0, 0, 0, 255));
+//                THICKNESS = 3; // Setting point thickness to fixed value for ease of viewing when testing
+//                centre_x = v.getX() - (THICKNESS/2.0d);
+//                centre_y = v.getY() - (THICKNESS/2.0d);
 //
 //            } else {
-//                //sets the color of the segments when drawing the polygon
-//                canvas.setColor(extractColor(p.getPropertiesList()));
+//                canvas.setColor(extractColor(v.getPropertiesList()));
 //
-//                //sets the thickness of the segments when drawing the polygon
-//                Stroke polygonStroke = new BasicStroke(extractThickness(p.getPropertiesList()));
-//                canvas.setStroke(polygonStroke);
 //            }
 //
-//            //the rectangle is drawn starting form the passed in x and y coordinate, and the size of it is 20x20
-//            //note: right now the size of the rectangle is hard coded
-//            canvas.draw(new Rectangle2D.Double(rectangleX, rectangleY,20,20));
+//            Ellipse2D point = new Ellipse2D.Double(centre_x, centre_y, THICKNESS, THICKNESS);
+//            canvas.fill(point);
+//            canvas.setColor(old);
 //        }
+//
+//        //Loops through all the segments to give them colors and draw them
+//        for (Segment s: aMesh.getSegmentsList()) {
+//
+//            //Gets the first vertex from the current segment
+//            int vertex1Position = s.getV1Idx();
+//
+//            //Gets the second vertex from the current segment
+//            int vertex2Position = s.getV2Idx();
+//
+//            //determines the vertices vertex1 and vertex2 from the value of vertex1Position and vertex2Position
+//            Vertex vertex1 = vertexArrayList.get(vertex1Position);
+//            Vertex vertex2 = vertexArrayList.get(vertex2Position);
+//
+//            //debug mode
+//            if(debugMode){
+//                canvas.setColor(new Color(96, 96, 96, 255));
+//                Stroke segmentStroke = new BasicStroke(0.5f);
+//                canvas.setStroke(segmentStroke);
+//
+//            } else {
+//                //Sets the color by extracting it from the current segments property list
+//                canvas.setColor(extractColor(s.getPropertiesList()));
+//
+//                //Sets the thickness of the segments by extracting it from the property list
+//                Stroke segmentStroke = new BasicStroke(extractThickness(s.getPropertiesList()));
+//                canvas.setStroke(segmentStroke);
+//            }
+//
+//            //creates a Line2D object that draws a line from the first vertex to the second vertex based on their coordinates
+//            Line2D segment = new Line2D.Double(vertex1.getX(),vertex1.getY(),vertex2.getX(),vertex2.getY());
+//            canvas.draw(segment);
+//
+//        }
+
+
+        //HAD TO COMMENT THIS OUT BECAUSE THIS IS ONLY CATERED TO RENDERING A RECTANGLE AND CAUSED ISSUES FOR THE VORONOI DIAGRAM
+        for (Polygon p : aMesh.getPolygonsList()){
+            // get number of segments in polygon
+            int count = p.getSegmentIdxsCount();
+
+            //get x and y coord of the centroid
+            double centroidX = vertexArrayList.get(p.getCentroidIdx()).getX();
+            double centroidY = vertexArrayList.get(p.getCentroidIdx()).getY();
+
+            //Debug Mode
+            if(debugMode){
+                //draw the centroid in red for debug mode, can change thickness var to what you want
+                THICKNESS = 3;
+                canvas.setColor(new Color(255, 0, 0, 255));
+                Ellipse2D centroid = new Ellipse2D.Double(centroidX - (THICKNESS/2.0d), centroidY - (THICKNESS/2.0d), THICKNESS, THICKNESS);
+                canvas.fill(centroid);
+
+                //polygon
+                canvas.setColor(new Color(96, 96, 96, 255));
+                Stroke polygonStroke = new BasicStroke(0.5f);
+                canvas.setStroke(polygonStroke);
+
+            } else {
+                //sets the color of the segments when drawing the polygon
+                canvas.setColor(extractColor(p.getPropertiesList()));
+
+                //sets the thickness of the segments when drawing the polygon
+                Stroke polygonStroke = new BasicStroke(extractThickness(p.getPropertiesList()));
+                canvas.setStroke(polygonStroke);
+            }
+            // iterating through each segment
+            for(int i =0; i<count;i++) {
+                // get segment index, in order to get coords
+                int segmentIndices = p.getSegmentIdxs(i);
+
+                // Get the vertex indices for the two endpoints of the segment
+                int v1Index = segmentArrayList.get(segmentIndices).getV1Idx();
+                int v2Index = segmentArrayList.get(segmentIndices).getV2Idx();
+
+                // Get the X and Y coordinates for the two endpoints of the segment
+                double x1 = vertexArrayList.get(v1Index).getX();
+                double y1 = vertexArrayList.get(v1Index).getY();
+                double x2 = vertexArrayList.get(v2Index).getX();
+                double y2 = vertexArrayList.get(v2Index).getY();
+
+                // Draw the segment
+                canvas.drawLine((int)x1, (int)y1, (int)x2, (int)y2);
+            }
+        }
     }
 
     //Changed this so that it accounts for the transparency/opacity of the segment or the vertices
