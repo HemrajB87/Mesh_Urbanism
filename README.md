@@ -93,7 +93,7 @@ A feature is considered done if it is supported in both the generator and visual
 | 12 | Apply Lloyd relaxation, centroids | Hemraj | 02/25/2023 | 02/23/2023 | D |
 | 13 | Apply Lloyd relaxation, creating smooth points for diagrams  | Hemraj | 02/25/2023 | 02/25/2023 | D |
 | 14 | Apply Lloyd relaxation a random amount of times | Hemraj | 02/23/2023 | 02/25/2023 | D |
-| 15 | Crop mesh diagram to expected size | Addison | 02/23/2023 | 02/23/2023 | D |
+| 15 | Crop mesh diagram to expected size | Addison | 02/23/2023 | 02/25/2023 | D |
 | 16 | Compute neighboring polygons using Delaunay’s triangulation | |  |  |  |
 | 17 | Reordering segments using Convex Hull  |  |  |  |  |
 | 18 | User controlled mesh generation using CLI | Alvin | 02/23/2023 | 02/25/2023 | D |
