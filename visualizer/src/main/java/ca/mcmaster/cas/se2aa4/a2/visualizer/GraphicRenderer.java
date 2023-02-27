@@ -114,8 +114,22 @@ public class GraphicRenderer {
                 Ellipse2D centroid = new Ellipse2D.Double(centroidX - (THICKNESS/2.0d), centroidY - (THICKNESS/2.0d), THICKNESS, THICKNESS);
                 canvas.fill(centroid);
 
+                //neighboring polygons relationships drawn
+                int count1 = p.getNeighborIdxsCount();
+                // iterating through neighboring index count
+                for(int i =0; i<count1;i++){
+                    int p1 = p.getNeighborIdxs(i); // getting neighboring index
+                    int cIndex = polygonArrayList.get(p1).getCentroidIdx(); // get centroid of neighboring polygon
+                    double centroid2X = vertexArrayList.get(cIndex).getX();
+                    double centroid2Y = vertexArrayList.get(cIndex).getY();
+                    canvas.setColor(new Color(108, 108, 108, 255)); //set line color to grey
+                    //draw line between centroids of the two polygons
+                    canvas.draw(new Line2D.Double(centroidX, centroidY, centroid2X, centroid2Y));
+                }
+
+
                 //polygon
-                canvas.setColor(new Color(96, 96, 96, 255));
+                canvas.setColor(new Color(0, 0, 0, 255));
                 Stroke polygonStroke = new BasicStroke(0.5f);
                 canvas.setStroke(polygonStroke);
 
