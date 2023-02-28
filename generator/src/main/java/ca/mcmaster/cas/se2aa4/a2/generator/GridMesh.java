@@ -128,7 +128,6 @@ public class GridMesh {
 
     public ArrayList<Vertex> getVertices(){ return vertices; }
     public ArrayList<Segment> getSegments(){ return segments; }
-    public ArrayList<Polygon> getPolygons(){ return polygons; }
     public ArrayList<Polygon> getPolygonsWithNeighbors(){ return polygonsWithNeighbors; }
 
 }

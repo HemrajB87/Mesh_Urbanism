@@ -47,21 +47,5 @@ public class MeshDump {
             System.out.println(line);
         }
 
-        //Prints the top line of a polygon
-//        List<Polygon> polygons = aMesh.getPolygonsList();
-//
-//        for (Polygon p : polygons){
-//            System.out.println("Polygon with the centroid " + vertices.get(p.getCentroidIdx()).getX() + "," + vertices.get(p.getCentroidIdx()).getY() + " has:");
-//
-//            StringBuffer line = new StringBuffer();
-//            line.append(String.format("1 Line between (%.2f,%.2f) and (%.2f,%.2f)",vertices.get(segments.get(p.getSegmentIdxs(0)).getV1Idx()).getX(),vertices.get(segments.get(p.getSegmentIdxs(0)).getV1Idx()).getY(),vertices.get(segments.get(p.getSegmentIdxs(0)).getV2Idx()).getX(), vertices.get(segments.get(p.getSegmentIdxs(0)).getV2Idx()).getY()));
-//            line.append(" [");
-//            for(Property prop: p.getPropertiesList()){
-//                line.append(String.format("%s -> %s, ", prop.getKey(), prop.getValue()));
-//            }
-//            line.append("]");
-//            System.out.println(line);
-//        }
-
     }
 }
