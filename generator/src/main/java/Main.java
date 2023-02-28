@@ -43,6 +43,12 @@ public class Main {
                 break test;
             }
 
+            if (c1.getArgList().size() > 4) {
+                System.out.println("Error: Too many arguments. Please follow input specifications");
+                printHelp(options);
+                return;
+            }
+
             //check if all required parameters exist for Custom Configuration Mode
             String gridType = "";
             int numPoly = 0;
