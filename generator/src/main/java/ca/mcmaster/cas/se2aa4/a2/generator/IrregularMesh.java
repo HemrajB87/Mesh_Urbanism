@@ -3,11 +3,13 @@ package ca.mcmaster.cas.se2aa4.a2.generator;
 import ca.mcmaster.cas.se2aa4.a2.io.Structs;
 import ca.mcmaster.cas.se2aa4.a2.io.Structs.*;
 import org.locationtech.jts.algorithm.Centroid;
+import org.locationtech.jts.algorithm.ConvexHull;
 import org.locationtech.jts.geom.*;
 import org.locationtech.jts.triangulate.DelaunayTriangulationBuilder;
 import org.locationtech.jts.triangulate.VoronoiDiagramBuilder;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
 
@@ -122,11 +124,30 @@ public class IrregularMesh {
             //gets coordinates of the current polygon
             Coordinate[] updatedPolygonCoordinates = polygon.getCoordinates();
 
+
+            //Convex Hull
+            ConvexHull hull = new ConvexHull(updatedPolygonCoordinates, geometryFactory);
+            Geometry hullGeom = hull.getConvexHull();
+
+            Coordinate[] hullCoords = hullGeom.getCoordinates();
+            Coordinate[] reorderedCoords = new Coordinate[hullCoords.length];
+            for (int z = 0; z < hullCoords.length; z++) {
+                Coordinate hullCoord = hullCoords[z];
+                // Find the corresponding vertex in the input polygon
+                for (int k = 0; k < updatedPolygonCoordinates.length; k++) {
+                    if (hullCoord.equals(updatedPolygonCoordinates[k])) {
+                        reorderedCoords[z] = updatedPolygonCoordinates[k];
+                        break;
+                    }
+                }
+            }
+
+
             // Compute the vertices and segments for the current polygon
             ArrayList<Integer> currentPolygonSegments = new ArrayList<>();
-            for (int j = 0; j < updatedPolygonCoordinates.length - 1; j++) {
-                Coordinate p1 = updatedPolygonCoordinates[j];
-                Coordinate p2 = updatedPolygonCoordinates[j + 1];
+            for (int j = 0; j < reorderedCoords.length - 1; j++) {
+                Coordinate p1 = reorderedCoords[j];
+                Coordinate p2 = reorderedCoords[j + 1];
 
                 Vertex vertex1 = createVertex(p1.x,p1.y,vertices);
                 Vertex vertex2 = createVertex(p2.x,p2.y,vertices);
@@ -152,7 +173,6 @@ public class IrregularMesh {
 
             Structs.Polygon createdPolygon = Structs.Polygon.newBuilder().addAllSegmentIdxs(currentPolygonSegments).setCentroidIdx(centroidPosition).build();
             polygons.add(createdPolygon);
-
         }
 
         findNeighbors(centroidList,updatedCroppedDiagram);

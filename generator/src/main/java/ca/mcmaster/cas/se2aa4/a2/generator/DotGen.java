@@ -58,22 +58,6 @@ public class DotGen{
         return segment;
     }
 
-    //createVertex creates a vertex at the x and y coordinates given with a RANDOM offset value
-    private Vertex createRandomVertex(double x, double y, ArrayList<Vertex> vertices) {
-        Random rand = new Random();
-        //creates a random bound from 5 to 20. CAN BE CHANGED TO WHATEVER
-        double randomPointIncrementX = rand.nextDouble(15) + 5;
-        double randomPointIncrementY = rand.nextDouble(15) + 5;
-
-        Vertex vertex = Vertex.newBuilder().setX(x + randomPointIncrementX).setY(y + randomPointIncrementY).build();
-
-        //checks if the created vertex is not in the private vertices list, if it is not then it adds it to the vertices list
-        if (!vertices.contains(vertex)) {
-            vertices.add(vertex);
-        }
-        return vertex;
-    }
-
     public Mesh generate() {
         //right now it just randomly chooses which mesh to create
 
