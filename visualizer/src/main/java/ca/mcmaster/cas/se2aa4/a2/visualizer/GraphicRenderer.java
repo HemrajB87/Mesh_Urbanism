@@ -37,67 +37,7 @@ public class GraphicRenderer {
         //THIS TELLS THE CANVAS THAT THE THICKNESS OF THE LINE NEEDS TO BE SET TO THE NEW VALUE WE PASS IN
         canvas.setStroke(stroke);
 
-//        for (Vertex v: aMesh.getVerticesList()) {
-//
-//            THICKNESS = (int) extractThickness(v.getPropertiesList());
-//            double centre_x = v.getX() - (THICKNESS/2.0d);
-//            double centre_y = v.getY() - (THICKNESS/2.0d);
-//
-//            Color old = canvas.getColor();
-//
-//            //debug mode
-//            if(debugMode){
-//                canvas.setColor(new Color(0, 0, 0, 255));
-//                THICKNESS = 3; // Setting point thickness to fixed value for ease of viewing when testing
-//                centre_x = v.getX() - (THICKNESS/2.0d);
-//                centre_y = v.getY() - (THICKNESS/2.0d);
-//
-//            } else {
-//                canvas.setColor(extractColor(v.getPropertiesList()));
-//
-//            }
-//
-//            Ellipse2D point = new Ellipse2D.Double(centre_x, centre_y, THICKNESS, THICKNESS);
-//            canvas.fill(point);
-//            canvas.setColor(old);
-//        }
-//
-//        //Loops through all the segments to give them colors and draw them
-//        for (Segment s: aMesh.getSegmentsList()) {
-//
-//            //Gets the first vertex from the current segment
-//            int vertex1Position = s.getV1Idx();
-//
-//            //Gets the second vertex from the current segment
-//            int vertex2Position = s.getV2Idx();
-//
-//            //determines the vertices vertex1 and vertex2 from the value of vertex1Position and vertex2Position
-//            Vertex vertex1 = vertexArrayList.get(vertex1Position);
-//            Vertex vertex2 = vertexArrayList.get(vertex2Position);
-//
-//            //debug mode
-//            if(debugMode){
-//                canvas.setColor(new Color(96, 96, 96, 255));
-//                Stroke segmentStroke = new BasicStroke(0.5f);
-//                canvas.setStroke(segmentStroke);
-//
-//            } else {
-//                //Sets the color by extracting it from the current segments property list
-//                canvas.setColor(extractColor(s.getPropertiesList()));
-//
-//                //Sets the thickness of the segments by extracting it from the property list
-//                Stroke segmentStroke = new BasicStroke(extractThickness(s.getPropertiesList()));
-//                canvas.setStroke(segmentStroke);
-//            }
-//
-//            //creates a Line2D object that draws a line from the first vertex to the second vertex based on their coordinates
-//            Line2D segment = new Line2D.Double(vertex1.getX(),vertex1.getY(),vertex2.getX(),vertex2.getY());
-//            canvas.draw(segment);
-//
-//        }
 
-
-        //HAD TO COMMENT THIS OUT BECAUSE THIS IS ONLY CATERED TO RENDERING A RECTANGLE AND CAUSED ISSUES FOR THE VORONOI DIAGRAM
         for (Polygon p : aMesh.getPolygonsList()){
             // get number of segments in polygon
             int count = p.getSegmentIdxsCount();
