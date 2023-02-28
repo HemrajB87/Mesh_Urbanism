@@ -15,7 +15,7 @@ This product is handled by Maven, as a multi-module project. We assume here that
 To install the different tooling on your computer, simply run:
 
 ```
-mosser@azrael A2 % mvn install
+mvn install
 ```
 
 After installation, you'll find an application named `generator.jar` in the `generator` directory, and a file named `visualizer.jar` in the `visualizer` one. 
