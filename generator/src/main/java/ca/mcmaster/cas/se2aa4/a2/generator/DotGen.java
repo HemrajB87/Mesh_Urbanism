@@ -97,7 +97,7 @@ public class DotGen{
         } else if (meshType.equals("irregular")) {
 
             //creates a new IrregularMesh object that handles the creation of the polygons in the irregular mesh
-            IrregularMesh voronoiDiagram = new IrregularMesh(width, height, 200, 15);
+            IrregularMesh voronoiDiagram = new IrregularMesh(width, height, numPolygons, relaxationLevel);
 
             //calls the method that handles the generation of the voronoi diagram
             voronoiDiagram.createVoronoi();
@@ -105,7 +105,7 @@ public class DotGen{
             //gets the vertices, segments and polygons list created from the voronoi diagram creation
             verticesMeshList = voronoiDiagram.getVertices();
             segmentsMeshList = voronoiDiagram.getSegments();
-            polygonsMeshList = voronoiDiagram.getPolygons();
+            polygonsMeshList = voronoiDiagram.getPolygonsWithNeighbors();
         }
 
         //creates a new attribute class that sets the color and thickness of the vertices, segments and polygons
