@@ -46,6 +46,7 @@ public class GraphicRenderer {
             double centroidX = vertexArrayList.get(p.getCentroidIdx()).getX();
             double centroidY = vertexArrayList.get(p.getCentroidIdx()).getY();
 
+
             //Debug Mode
             if(debugMode){
                 //draw the centroid in red for debug mode, can change thickness var to what you want
