@@ -1,7 +1,7 @@
 # Assignment A2: Mesh Generator
 
   - Alvin Qian [qiana2@mcmaster.ca]
-  - Addison Chan #2 [chana110@mcmaster.ca]
+  - Addison Chan [chana110@mcmaster.ca]
   - Hemraj Bhatt [bhatth14@mcmaster.ca]
 
 ## How to run the product
@@ -15,7 +15,7 @@ This product is handled by Maven, as a multi-module project. We assume here that
 To install the different tooling on your computer, simply run:
 
 ```
-mosser@azrael A2 % mvn install
+mvn install
 ```
 
 After installation, you'll find an application named `generator.jar` in the `generator` directory, and a file named `visualizer.jar` in the `visualizer` one. 
@@ -94,6 +94,6 @@ A feature is considered done if it is supported in both the generator and visual
 | 13 | Apply Lloyd relaxation, creating smooth points for diagrams  | Hemraj/Addison | 02/25/2023 | 02/25/2023 | D |
 | 14 | Apply Lloyd relaxation a random amount of times | Hemraj/Addison | 02/23/2023 | 02/25/2023 | D |
 | 15 | Crop mesh diagram to expected size | Addison | 02/23/2023 | 02/25/2023 | D |
-| 16 | Compute neighboring polygons using Delaunay’s triangulation | |  |  |  |
-| 17 | Reordering segments using Convex Hull  |  |  |  |  |
+| 16 | Compute neighboring polygons using Delaunay’s triangulation | Hemraj | 02/25/2023 | 02/27/2023 | D |
+| 17 | Reordering segments using Convex Hull  | Alvin | 02/26/2023 | 02/27/2023 | D |
 | 18 | User controlled mesh generation using CLI | Alvin | 02/23/2023 | 02/25/2023 | D |
