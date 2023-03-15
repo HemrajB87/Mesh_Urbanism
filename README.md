@@ -97,3 +97,11 @@ A feature is considered done if it is supported in both the generator and visual
 | 16 | Compute neighboring polygons using Delaunay’s triangulation | Hemraj | 02/25/2023 | 02/27/2023 | D |
 | 17 | Reordering segments using Convex Hull  | Alvin | 02/26/2023 | 02/27/2023 | D |
 | 18 | User controlled mesh generation using CLI | Alvin | 02/23/2023 | 02/25/2023 | D |
+
+### Island Generation Backlog
+| Id | Feature title | Who? | Start | End | Status |
+|:--:|---------------|------|-------|-----|--------|
+| 01 | Generate a circle island in the middle of the canvas that has land tiles and ocean tiles  | Addison | 03/14/2023 | 03/15/2023 | D |
+| 02 | Island has an inner and outer circle to differentiate between ocean and lagoon tiles | Addison | 03/15/2023 |  | S |
+
+
