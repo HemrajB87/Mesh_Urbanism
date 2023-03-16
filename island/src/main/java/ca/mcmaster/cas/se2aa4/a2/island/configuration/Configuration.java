@@ -5,6 +5,7 @@ public class Configuration {
 
     public static final String OUTPUT = "o";
     public static final String INPUT = "i";
+    public static final String MODE = "mode";
 
 
     private CommandLine cli;
@@ -27,11 +28,15 @@ public class Configuration {
     public String output() {
         return this.cli.getOptionValue(OUTPUT, "output.mesh");
     }
+    public String mode() {
+        return this.cli.getOptionValue(MODE);
+    }
 
     private Options options() {
         Options options = new Options();
         options.addOption(new Option(INPUT, true, "Input file (MESH)"));
         options.addOption(new Option(OUTPUT, true, "Output file (MESH)"));
+        options.addOption(new Option(MODE, true, "Type of island to be created"));
         return options;
     }
 
