@@ -6,7 +6,7 @@ import java.util.Random;
 
 import static java.lang.Double.*;
 
-public class Circle {
+public class Circle implements Boundary {
 
     private double circleCenterX;
     private double circleCenterY;
@@ -16,13 +16,17 @@ public class Circle {
     private double radius;
 
 
-    public Circle(double circleCenterX, double circleCenterY){
+    public Circle(double circleCenterX, double circleCenterY, double radius){
         this.circleCenterX = circleCenterX;
         this.circleCenterY = circleCenterY;
-        this.radius = circleCenterX/2 + (circleCenterX - circleCenterX/2) * random.nextDouble();
+
+        //for now we are going to make the radius half the value of the
+        this.radius = radius;
     }
 
-    public boolean inCircle(Structs.Vertex centroid){
+    //overrides the Boundary interface, so that in the future we can determine if centroids are in the given shape
+    @Override
+    public boolean inShape(Structs.Vertex centroid){
 
         //gets the x and y coordinates of the centroid
         double centroidX = centroid.getX();
@@ -34,7 +38,6 @@ public class Circle {
 
         //calculates the distance in between the centroid and the circle center (currently hard coded to have a value of 20)
         double distance = centroidPoint.distance(circleCenter);
-
 
         //compare the value of the radius with the distance
         int comparison = compare(distance,radius);

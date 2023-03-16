@@ -1,25 +1,27 @@
 import ca.mcmaster.cas.se2aa4.a2.io.MeshFactory;
 import ca.mcmaster.cas.se2aa4.a2.io.Structs;
+import ca.mcmaster.cas.se2aa4.a2.island.islandTypes.Lagoon;
 import ca.mcmaster.cas.se2aa4.a2.island.shape.Circle;
 import ca.mcmaster.cas.se2aa4.a2.island.configuration.Configuration;
 import ca.mcmaster.cas.se2aa4.a2.island.shape.MeshCenter;
-import ca.mcmaster.cas.se2aa4.a2.island.tiles.TileColor;
 
 public class Main {
     public static void main(String[] args) throws Exception {
         Configuration config = new Configuration(args);
         Structs.Mesh aMesh = new MeshFactory().read(config.input());
 
-        MeshCenter creationPoint = new MeshCenter(aMesh);
-        creationPoint.FindCenter();
+        MeshCenter islandCenter = new MeshCenter(aMesh);
+        islandCenter.FindCenter();
 
-        Circle landBound = new Circle(creationPoint.center_x, creationPoint.center_y);
+        //currently we are hard coding the radius of the bounding circles, in the future we might have to change that
+        Circle innerBound = new Circle(islandCenter.center_x, islandCenter.center_y,islandCenter.center_x/4);
+        Circle outerBound = new Circle(islandCenter.center_x,islandCenter.center_y,islandCenter.center_x/2);
 
-        TileColor islandTiles = new TileColor(aMesh,landBound);
+        Lagoon lagoon = new Lagoon(innerBound,outerBound,aMesh);
 
-        Structs.Mesh updatedMesh = islandTiles.assignColor();
+        Structs.Mesh island = lagoon.createIsland();
 
-        new MeshFactory().write(updatedMesh, config.output());
+        new MeshFactory().write(island, config.output());
 
     }
 }
