@@ -102,6 +102,6 @@ A feature is considered done if it is supported in both the generator and visual
 | Id | Feature title | Who? | Start | End | Status |
 |:--:|---------------|------|-------|-----|--------|
 | 19 | Generate a circle island in the middle of the canvas that has land tiles and ocean tiles  | Addison | 03/14/2023 | 03/15/2023 | D |
-| 20 | Island has an inner and outer circle to differentiate between ocean and lagoon tiles | Addison | 03/15/2023 |  | S |
+| 20 | Island has an inner and outer circle to differentiate between ocean and lagoon tiles | Addison | 03/15/2023 | 03/16/2023 | D |
 
 
