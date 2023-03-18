@@ -6,6 +6,7 @@ public class Configuration {
     public static final String OUTPUT = "o";
     public static final String INPUT = "i";
     public static final String MODE = "mode";
+    public static final String SHAPE = "shape";
 
 
     private CommandLine cli;
@@ -31,12 +32,16 @@ public class Configuration {
     public String mode() {
         return this.cli.getOptionValue(MODE);
     }
+    public String shape() {
+        return this.cli.getOptionValue(SHAPE);
+    }
 
     private Options options() {
         Options options = new Options();
         options.addOption(new Option(INPUT, true, "Input file (MESH)"));
         options.addOption(new Option(OUTPUT, true, "Output file (MESH)"));
         options.addOption(new Option(MODE, true, "Type of island to be created"));
+        options.addOption(new Option(SHAPE, true, "Island's shape"));
         return options;
     }
 
