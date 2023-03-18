@@ -23,34 +23,23 @@ After installation, you'll find an application named `generator.jar` in the `gen
 ### Generator
 
 To run the generator, go to the `generator` directory, and use `java -jar` to run the product. The product takes one single argument (so far), the name of the file where the generated mesh will be stored as binary.
-
+Here are some ways to use the generator:
+The user can find the meaning of all the parameters by executing the command: java -jar generator/generator.jar -help
 ```
-cd generator 
-
-To Run generator in Default mode:
-java -jar generator.jar test1.mesh
-
-To open HELP mode to display what arguments can be entered, add -h:
-java -jar generator.jar test1.mesh -h
-
-To run generator in Custom User Configuration mode (replace square bracket values with user values):
-java -jar generator.jar test1.mesh [grid/irregular] [#_polygons] [relaxation_level]
-
-Example: 
-java -jar generator.jar test1.mesh grid 200 100
+java -jar generator/generator.jar -k grid -h 1080 -w 1920 -p 1000 -s 20 -o img/grid.mesh
+java -jar generator/generator.jar -k grid -h 1080 -w 1920 -p 1000 -s 20 -o img/irregular.mesh
 ```
 
 ### Visualizer
 
 To visualize an existing mesh, go the the `visualizer` directory, and use `java -jar` to run the product. The product take two arguments (so far): the file containing the mesh, and the name of the file to store the visualization (as an SVG image).
+Here are some ways to use the visualizer (the parameter -x allows the user to see the mesh in debug mode):
 
 ```
-cd visualizer 
-java -jar visualizer.jar ../generator/test1.mesh test1.svg
-
-To run the visualizer in Debug mode add -X: java -jar visualizer.jar ../generator/test1.mesh test1.svg -X
-
-... (lots of debug information printed to stdout) ...
+java -jar visualizer/visualizer.jar -i img/grid.mesh -o img/grid.svg          
+java -jar visualizer/visualizer.jar -i img/grid.mesh -o img/grid_debug.svg -x
+java -jar visualizer/visualizer.jar -i img/irregular.mesh -o img/irregular.svg   
+java -jar visualizer/visualizer.jar -i img/irregular.mesh -o img/irregular_debug.svg -x
 
 ```
 To viualize the SVG file:
@@ -68,6 +57,13 @@ To demonstrate "Part 2" user can run the project as instructed. If user includes
 the mesh will be generated in which the polygons(and associated segments and vertices) are displayed in black, centroids in red, and neighbourhood
 relationships in light grey. If the "-X" is not present then the colors and thickness will be randomized. 
 
+##Island
+To change the mesh we have generator from the generator subproject we can execute the island sub project.
+Here are some ways to use island:
+
+java -jar island/island.jar -i img/test.mesh -o img/island1.mesh -mode lagoon -shape circle
+java -jar island/island.jar -i img/test.mesh -o img/island1.mesh -mode lagoon -shape star
+java -jar island/island.jar -i img/test.mesh -o img/island1.mesh -mode lagoon -shape triangle
 
 ## Backlog
 
@@ -104,4 +100,5 @@ A feature is considered done if it is supported in both the generator and visual
 | 19 | Generate a circle island in the middle of the canvas that has land tiles and ocean tiles  | Addison | 03/14/2023 | 03/15/2023 | D |
 | 20 | Island has an inner and outer circle to differentiate between ocean and lagoon tiles | Addison | 03/15/2023 | 03/16/2023 | D |
 | 21 | Island generates beach tiles when a land tile is next to a lagoon or ocean tile | Addison | 03/16/2023 | 03/16/2023 | D |
+| 22 | User can pass in a -shape argument to change the shape of the island | Addison | 03/17/2023 | 03/18/2023 | D |
 
