@@ -57,7 +57,7 @@ To demonstrate "Part 2" user can run the project as instructed. If user includes
 the mesh will be generated in which the polygons(and associated segments and vertices) are displayed in black, centroids in red, and neighbourhood
 relationships in light grey. If the "-X" is not present then the colors and thickness will be randomized. 
 
-##Island
+### Island
 To change the mesh we have generator from the generator subproject we can execute the island sub project.
 Here are some ways to use island:
 
