@@ -62,11 +62,13 @@ To change the mesh we have generator from the generator subproject we can execut
 Here are some ways to use island:
 
 ```
-java -jar island/island.jar -i img/test.mesh -o img/island1.mesh -mode lagoon -shape circle
-java -jar island/island.jar -i img/test.mesh -o img/island1.mesh -mode lagoon -shape star
-java -jar island/island.jar -i img/test.mesh -o img/island1.mesh -mode lagoon -shape triangle
+java -jar island/island.jar -i img/input.mesh -o img/output.mesh -mode lagoon -shape circle
+java -jar island/island.jar -i img/input.mesh -o img/output.mesh -mode lagoon -shape star
+java -jar island/island.jar -i img/input.mesh -o img/output.mesh -mode lagoon -shape triangle
 
 ```
+Note: the input.mesh passed in -i is just a place holder here when the user runs the code the parameter they should put as -i is the name of the output file created from the use of generator. For example, if generator creates a file called "test.mesh", then the parameter -i would be "img/test.mesh".
+
 ## Backlog
 
 ### Definition of Done
