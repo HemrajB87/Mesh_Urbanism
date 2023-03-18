@@ -61,11 +61,12 @@ relationships in light grey. If the "-X" is not present then the colors and thic
 To change the mesh we have generator from the generator subproject we can execute the island sub project.
 Here are some ways to use island:
 
-'''
+```
 java -jar island/island.jar -i img/test.mesh -o img/island1.mesh -mode lagoon -shape circle
 java -jar island/island.jar -i img/test.mesh -o img/island1.mesh -mode lagoon -shape star
 java -jar island/island.jar -i img/test.mesh -o img/island1.mesh -mode lagoon -shape triangle
-'''
+
+```
 ## Backlog
 
 ### Definition of Done
