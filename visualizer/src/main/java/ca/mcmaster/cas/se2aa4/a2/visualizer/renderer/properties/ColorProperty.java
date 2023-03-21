@@ -16,6 +16,7 @@ public class ColorProperty implements PropertyAccess<Color> {
         int red = Integer.parseInt(raw[0]);
         int green = Integer.parseInt(raw[1]);
         int blue = Integer.parseInt(raw[2]);
-        return Optional.of(new Color(red, green, blue));
+        int elevation = Integer.parseInt(raw[3]);
+        return Optional.of(new Color(red, green, blue,elevation)); // add elevation
     }
 }

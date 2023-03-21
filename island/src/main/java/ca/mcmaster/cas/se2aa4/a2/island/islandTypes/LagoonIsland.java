@@ -1,8 +1,10 @@
 package ca.mcmaster.cas.se2aa4.a2.island.islandTypes;
 
 import ca.mcmaster.cas.se2aa4.a2.io.Structs;
+import ca.mcmaster.cas.se2aa4.a2.island.altitude.Altitude;
 import ca.mcmaster.cas.se2aa4.a2.island.properties.TypeProperty;
 import ca.mcmaster.cas.se2aa4.a2.island.shape.Shape;
+
 import ca.mcmaster.cas.se2aa4.a2.island.tiles.TileSpecification;
 
 import java.util.ArrayList;
@@ -12,15 +14,18 @@ public class LagoonIsland implements IslandGeneration{
 
     private final Shape innerShape;
     private final Shape outerShape;
+
+    private final String altitude;
     private final Structs.Mesh aMesh;
 
     private final List<Structs.Polygon> polygons;
     private final List<Structs.Vertex> vertices;
     private final List<Structs.Segment> segments;
 
-    public LagoonIsland(Shape innerShape, Shape outerShape, Structs.Mesh generatorMesh){
+    public LagoonIsland(Shape innerShape, Shape outerShape,String newAlt, Structs.Mesh generatorMesh){
         this.innerShape = innerShape;
         this.outerShape = outerShape;
+        this.altitude = newAlt;
         this.aMesh = generatorMesh;
         this.vertices = new ArrayList<>(aMesh.getVerticesList());
         this.segments = new ArrayList<>(aMesh.getSegmentsList());
@@ -42,6 +47,15 @@ public class LagoonIsland implements IslandGeneration{
 
         for(Structs.Polygon poly: polygons){
 
+            // setting elevation values
+            int elevation =0;
+            if(altitude.equals("high")){
+                elevation = (int) (Math.random() * (255 - 100)) + 100;
+            } else {
+                elevation = (int) (Math.random() * (100 - 1)) + 1;
+            }
+
+
             //properties to add to polygons to properly create their tile types
             String color,type;
 
@@ -49,19 +63,19 @@ public class LagoonIsland implements IslandGeneration{
 
             //creates a lagoon tile if it is inside the inner circle
             if (innerShape.inShape(centroid)) {
-                color = 0+","+150+","+255;
+                color = 0+","+150+","+255+","+255;
                 type = "lagoon";
             }
 
             //creates ocean tiles if it is outside the outer circle
             else if (!outerShape.inShape(centroid)) {
-                color = 0+","+0+","+255;
+                color = 0+","+0+","+255+","+255;
                 type = "ocean";
             }
 
             //creates land tiles if it is in between the circles
             else {
-                color = 246+","+215+","+176;
+                color = 246+","+215+","+176+","+elevation;
                 type = "land";
             }
 
@@ -81,6 +95,7 @@ public class LagoonIsland implements IslandGeneration{
     private Structs.Polygon createTile(Structs.Polygon poly, String color, String type) {
 
         String key = "rgb_color";
+        String key2 = "elevation";
         String key1 = "type";
 
         TileSpecification tileProperties = new TileSpecification();
@@ -118,9 +133,17 @@ public class LagoonIsland implements IslandGeneration{
                 }
             }
 
+            // setting elevation values
+            int elevation =0;
+            if(altitude.equals("high")){
+                elevation = (int) (Math.random() * (255 - 100)) + 100;
+            } else {
+                elevation = (int) (Math.random() * (100 - 1)) + 1;
+            }
+
             //changes land tile to beach tile if the beach requirements are met
             if(isBeach){
-                String color = 255+","+140+","+0;
+                String color = 255+","+140+","+0+","+ elevation;
                 String type = "beach";
                 newTile = createTile(currentPoly,color,type);
                 updatedTileList.add(newTile);

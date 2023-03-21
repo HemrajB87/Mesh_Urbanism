@@ -21,6 +21,7 @@ public class SpecificationFactory {
         try {
             Class klass = bindings.get(options.get(Configuration.KIND));
             return (Buildable) klass.getDeclaredConstructor(Map.class).newInstance(options);
+
         } catch (Exception e) {
             throw new IllegalArgumentException(e);
         }

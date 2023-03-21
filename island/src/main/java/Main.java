@@ -14,7 +14,7 @@ public class Main {
         MeshCenter islandCenter = new MeshCenter(aMesh);
         Point2D.Double centerPoint = islandCenter.FindCenter();
 
-        IslandSpecification islandSpecs = new IslandSpecification(config.mode(), config.shape(),aMesh, centerPoint);
+        IslandSpecification islandSpecs = new IslandSpecification(config.mode(), config.shape(), config.altitude(), aMesh, centerPoint);
 
         new MeshFactory().write(islandSpecs.islandGenerated(), config.output());
     }

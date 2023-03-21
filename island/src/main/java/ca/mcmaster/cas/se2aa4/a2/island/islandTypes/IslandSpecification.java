@@ -1,6 +1,7 @@
 package ca.mcmaster.cas.se2aa4.a2.island.islandTypes;
 
 import ca.mcmaster.cas.se2aa4.a2.io.Structs;
+import ca.mcmaster.cas.se2aa4.a2.island.altitude.Altitude;
 import ca.mcmaster.cas.se2aa4.a2.island.shape.Circle;
 import ca.mcmaster.cas.se2aa4.a2.island.shape.Shape;
 import ca.mcmaster.cas.se2aa4.a2.island.shape.Star;
@@ -11,12 +12,15 @@ import java.awt.geom.Point2D;
 public class IslandSpecification {
 
     private final String mode;
+
+    private final String altitude;
     private final String shape;
     private final Structs.Mesh aMesh;
     private final Point2D.Double centerPoint;
 
-    public IslandSpecification(String mode, String shape, Structs.Mesh passedMash, Point2D.Double centerPoint) {
+    public IslandSpecification(String mode, String shape, String altitude, Structs.Mesh passedMash, Point2D.Double centerPoint) {
         this.mode = mode;
+        this.altitude= altitude; // added altitude
         this.shape = shape;
         this.aMesh = passedMash;
         this.centerPoint = centerPoint;
@@ -55,8 +59,7 @@ public class IslandSpecification {
                 }
             }
 
-
-            LagoonIsland lagoon = new LagoonIsland(innerBound, outerBound, aMesh);
+            LagoonIsland lagoon = new LagoonIsland(innerBound, outerBound,altitude, aMesh);
             island = lagoon.createIsland();
 
         }
