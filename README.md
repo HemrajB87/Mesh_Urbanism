@@ -105,4 +105,7 @@ A feature is considered done if it is supported in both the generator and visual
 | 20 | Island has an inner and outer circle to differentiate between ocean and lagoon tiles | Addison | 03/15/2023 | 03/16/2023 | D |
 | 21 | Island generates beach tiles when a land tile is next to a lagoon or ocean tile | Addison | 03/16/2023 | 03/16/2023 | D |
 | 22 | User can pass in a -shape argument to change the shape of the island | Addison | 03/17/2023 | 03/18/2023 | D |
+| 23 | User can pass in a -lakes argument to change the # of lakes on the island | Alvin | 03/20/2023 | 03/22/2023 | D |
+| 24 | Island generates the correct number of lakes with random size of 1 or more lake tiles | Alvin | 03/21/2023 | 03/22/2023 | D |
+
 
