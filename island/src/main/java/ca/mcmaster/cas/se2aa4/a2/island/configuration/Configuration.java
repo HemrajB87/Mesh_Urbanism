@@ -9,6 +9,7 @@ public class Configuration {
     public static final String SHAPE = "shape";
 
     public static final String ALTITUDE = "altitude";
+    public static final String LAKES = "lakes";
 
 
     private CommandLine cli;
@@ -42,6 +43,11 @@ public class Configuration {
         return this.cli.getOptionValue(ALTITUDE);
     }
 
+    public String lakes() {
+        return this.cli.getOptionValue(LAKES);
+    }
+
+
     private Options options() {
         Options options = new Options();
         options.addOption(new Option(INPUT, true, "Input file (MESH)"));
@@ -49,6 +55,8 @@ public class Configuration {
         options.addOption(new Option(MODE, true, "Type of island to be created"));
         options.addOption(new Option(SHAPE, true, "Island's shape"));
         options.addOption(new Option(ALTITUDE, true, "Island's altitude"));
+        options.addOption(new Option(LAKES, true, "Island # of lakes"));
+
         return options;
     }
 
