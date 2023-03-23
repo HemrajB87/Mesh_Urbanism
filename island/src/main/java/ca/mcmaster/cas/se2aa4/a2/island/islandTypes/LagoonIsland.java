@@ -1,6 +1,7 @@
 package ca.mcmaster.cas.se2aa4.a2.island.islandTypes;
 
 import ca.mcmaster.cas.se2aa4.a2.io.Structs;
+import ca.mcmaster.cas.se2aa4.a2.island.altitude.Altitude;
 import ca.mcmaster.cas.se2aa4.a2.island.properties.TypeProperty;
 import ca.mcmaster.cas.se2aa4.a2.island.shape.Shape;
 import ca.mcmaster.cas.se2aa4.a2.island.configuration.tileCreater;
@@ -66,13 +67,9 @@ public class LagoonIsland implements IslandGeneration {
 
         for (Structs.Polygon poly : polygons) {
 
-            // setting elevation values
-            int elevation = 0;
-            if (altitude.equals("high")) {
-                elevation = (int) (Math.random() * (255 - 100)) + 100;
-            } else {
-                elevation = (int) (Math.random() * (100 - 1)) + 1;
-            }
+            // calling Altitude class for elevation values
+            int elevation =0;
+            elevation = new Altitude(altitude).setAltitude();
 
             //properties to add to polygons to properly create their tile types
             String color, type;
@@ -137,13 +134,9 @@ public class LagoonIsland implements IslandGeneration {
                 }
             }
 
-            // setting elevation values
-            int elevation = 0;
-            if (altitude.equals("high")) {
-                elevation = (int) (Math.random() * (255 - 100)) + 100;
-            } else {
-                elevation = (int) (Math.random() * (100 - 1)) + 1;
-            }
+            // calling Altitude class for elevation values
+            int elevation =0;
+            elevation = new Altitude(altitude).setAltitude();
 
             //changes land tile to beach tile if the beach requirements are met
             if (isBeach) {
@@ -151,7 +144,6 @@ public class LagoonIsland implements IslandGeneration {
                 String type = "beach";
                 newTile = createTile.createTile(currentPoly, color, type);
                 updatedTileList.add(newTile);
-
             } else {
                 updatedTileList.add(currentPoly);
             }
