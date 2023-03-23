@@ -46,6 +46,28 @@ public class IslandSpecification {
             System.out.println("type of island was not specified");
         }
 
+        else if (mode.equals("plain")) {
+            Shape boundary;
+            switch (shape) {
+                case "circle" -> {
+                    boundary = new Circle(centerPoint, centerPoint.getX() / 1.5);
+                }
+                case "triangle" -> {
+                    boundary = new Triangle(centerPoint, centerPoint.getX() / 1.25);
+                }
+                case "star" -> {
+                    boundary = new Star(centerPoint, centerPoint.getX() / 1.25);
+                }
+                default -> {
+                    boundary = new Circle(centerPoint, centerPoint.getX() / 1.25);
+                }
+            }
+
+            PlainIsland regular = new PlainIsland(boundary,altitude, aMesh);
+            island = regular.createIsland();
+
+        }
+
         else if(mode.equals("lagoon")){
 
             Shape innerBound;
