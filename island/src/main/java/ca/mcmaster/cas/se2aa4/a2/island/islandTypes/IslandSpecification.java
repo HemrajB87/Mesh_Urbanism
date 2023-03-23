@@ -70,7 +70,7 @@ public class IslandSpecification {
                 }
             }
 
-            LagoonIsland lagoon = new LagoonIsland(innerBound, outerBound,altitude, lakes, rivers, aquifers, soil, biomes, seed, aMesh);
+            LagoonIsland lagoon = new LagoonIsland(innerBound, outerBound,mode,altitude, lakes, rivers, aquifers, soil, biomes, seed, aMesh);
             island = lagoon.createIsland();
 
         }

@@ -17,7 +17,8 @@ public class LagoonIsland implements IslandGeneration {
     private final Shape innerShape;
     private final Shape outerShape;
 
-    private final String altitude;
+    private final String mode;
+    private  final String altitude;
     private final String lakes;
     private final String rivers;
     public final String aquifers;
@@ -33,9 +34,10 @@ public class LagoonIsland implements IslandGeneration {
     //Moved createTile function to its own class so other class can use it
     tileCreater createTile = new tileCreater();
 
-    public LagoonIsland(Shape innerShape, Shape outerShape, String newAlt, String lakes, String rivers, String aquifers, String soil, String biomes, String seed, Structs.Mesh generatorMesh) {
+    public LagoonIsland(Shape innerShape, Shape outerShape,String newMode, String newAlt, String lakes, String rivers, String aquifers, String soil, String biomes, String seed, Structs.Mesh generatorMesh) {
         this.innerShape = innerShape;
         this.outerShape = outerShape;
+        this.mode=newMode;
         this.altitude = newAlt;
         this.lakes = lakes;
         this.rivers = rivers;
@@ -48,6 +50,8 @@ public class LagoonIsland implements IslandGeneration {
         this.segments = new ArrayList<>(aMesh.getSegmentsList());
         this.polygons = new ArrayList<>(aMesh.getPolygonsList());
     }
+
+
 
     //overrides the method of creating an island in the IslandGeneration interface
     @Override
@@ -68,8 +72,7 @@ public class LagoonIsland implements IslandGeneration {
         for (Structs.Polygon poly : polygons) {
 
             // calling Altitude class for elevation values
-            int elevation =0;
-            elevation = new Altitude(altitude).setAltitude();
+            int elevation = new Altitude(altitude,mode).setAltitude();
 
             //properties to add to polygons to properly create their tile types
             String color, type;
@@ -135,8 +138,7 @@ public class LagoonIsland implements IslandGeneration {
             }
 
             // calling Altitude class for elevation values
-            int elevation =0;
-            elevation = new Altitude(altitude).setAltitude();
+            int elevation = new Altitude(altitude,mode).setAltitude();
 
             //changes land tile to beach tile if the beach requirements are met
             if (isBeach) {
