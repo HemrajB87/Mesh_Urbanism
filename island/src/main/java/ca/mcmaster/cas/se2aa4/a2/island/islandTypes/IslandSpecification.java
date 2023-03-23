@@ -17,14 +17,24 @@ public class IslandSpecification {
     private final Structs.Mesh aMesh;
     private final Point2D.Double centerPoint;
     private final String lakes;
+    private final String rivers;
+    public final String aquifers;
+    public final String soil;
+    public final String biomes;
+    public final String seed;
 
-    public IslandSpecification(String mode, String shape, String altitude, String lakes, Structs.Mesh passedMash, Point2D.Double centerPoint) {
+    public IslandSpecification(String mode, String shape, String altitude, String lakes, String rivers, String aquifers, String soil, String biomes, String seed, Structs.Mesh passedMash, Point2D.Double centerPoint) {
         this.mode = mode;
         this.altitude= altitude; // added altitude
         this.shape = shape;
         this.aMesh = passedMash;
         this.centerPoint = centerPoint;
         this.lakes = lakes;
+        this.rivers = rivers;
+        this.aquifers = aquifers;
+        this.soil = soil;
+        this.biomes = biomes;
+        this.seed = seed;
     }
 
     public Structs.Mesh islandGenerated(){
@@ -42,7 +52,7 @@ public class IslandSpecification {
             Shape outerBound;
             switch (shape) {
                 case "circle" -> {
-                    innerBound = new Circle(centerPoint, centerPoint.getX() / 3);
+                    innerBound = new Circle(centerPoint, centerPoint.getX() / 5);
                     outerBound = new Circle(centerPoint, centerPoint.getX() / 1.5);
                 }
                 case "triangle" -> {
@@ -60,7 +70,7 @@ public class IslandSpecification {
                 }
             }
 
-            LagoonIsland lagoon = new LagoonIsland(innerBound, outerBound,altitude, lakes, aMesh);
+            LagoonIsland lagoon = new LagoonIsland(innerBound, outerBound,altitude, lakes, rivers, aquifers, soil, biomes, seed, aMesh);
             island = lagoon.createIsland();
 
         }

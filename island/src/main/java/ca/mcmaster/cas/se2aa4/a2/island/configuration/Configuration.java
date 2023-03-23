@@ -10,6 +10,12 @@ public class Configuration {
 
     public static final String ALTITUDE = "altitude";
     public static final String LAKES = "lakes";
+    public static final String RIVERS = "rivers";
+    public static final String AQUIFERS = "aquifers";
+    public static final String SOIL = "soil";
+    public static final String BIOMES = "biomes";
+    public static final String SEED = "seed";
+
 
 
     private CommandLine cli;
@@ -46,6 +52,23 @@ public class Configuration {
     public String lakes() {
         return this.cli.getOptionValue(LAKES);
     }
+    public String rivers() {
+        return this.cli.getOptionValue(RIVERS);
+    }
+    public String aquifers() {
+        return this.cli.getOptionValue(AQUIFERS);
+    }
+    public String soil() {
+        return this.cli.getOptionValue(SOIL);
+    }
+    public String biomes() {
+        return this.cli.getOptionValue(BIOMES);
+    }
+    public String seed() {
+        return this.cli.getOptionValue(SEED);
+    }
+
+
 
 
     private Options options() {
@@ -56,6 +79,11 @@ public class Configuration {
         options.addOption(new Option(SHAPE, true, "Island's shape"));
         options.addOption(new Option(ALTITUDE, true, "Island's altitude"));
         options.addOption(new Option(LAKES, true, "Island # of lakes"));
+        options.addOption(new Option(RIVERS, true, "Island # of rivers"));
+        options.addOption(new Option(AQUIFERS, true, "Island # of aquifers"));
+        options.addOption(new Option(SOIL, true, "Island soil absorption type"));
+        options.addOption(new Option(BIOMES, true, "Island type of biome"));
+        options.addOption(new Option(SEED, true, "Island specific seed #"));
 
         return options;
     }

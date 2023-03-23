@@ -18,6 +18,11 @@ public class LagoonIsland implements IslandGeneration {
 
     private final String altitude;
     private final String lakes;
+    private final String rivers;
+    public final String aquifers;
+    public final String soil;
+    public final String biomes;
+    public final String seed;
     private final Structs.Mesh aMesh;
 
     private final List<Structs.Polygon> polygons;
@@ -27,11 +32,16 @@ public class LagoonIsland implements IslandGeneration {
     //Moved createTile function to its own class so other class can use it
     tileCreater createTile = new tileCreater();
 
-    public LagoonIsland(Shape innerShape, Shape outerShape, String newAlt, String lakes, Structs.Mesh generatorMesh) {
+    public LagoonIsland(Shape innerShape, Shape outerShape, String newAlt, String lakes, String rivers, String aquifers, String soil, String biomes, String seed, Structs.Mesh generatorMesh) {
         this.innerShape = innerShape;
         this.outerShape = outerShape;
         this.altitude = newAlt;
         this.lakes = lakes;
+        this.rivers = rivers;
+        this.aquifers = aquifers;
+        this.soil = soil;
+        this.biomes = biomes;
+        this.seed = seed;
         this.aMesh = generatorMesh;
         this.vertices = new ArrayList<>(aMesh.getVerticesList());
         this.segments = new ArrayList<>(aMesh.getSegmentsList());
