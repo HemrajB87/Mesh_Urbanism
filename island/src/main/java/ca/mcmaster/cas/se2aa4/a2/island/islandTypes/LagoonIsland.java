@@ -2,15 +2,14 @@ package ca.mcmaster.cas.se2aa4.a2.island.islandTypes;
 
 import ca.mcmaster.cas.se2aa4.a2.io.Structs;
 import ca.mcmaster.cas.se2aa4.a2.island.altitude.Altitude;
+import ca.mcmaster.cas.se2aa4.a2.island.aquifers.AquiferGeneration;
 import ca.mcmaster.cas.se2aa4.a2.island.properties.TypeProperty;
 import ca.mcmaster.cas.se2aa4.a2.island.shape.Shape;
 import ca.mcmaster.cas.se2aa4.a2.island.configuration.tileCreater;
 import ca.mcmaster.cas.se2aa4.a2.island.islandFeatures.Lakes;
-import ca.mcmaster.cas.se2aa4.a2.island.tiles.TileSpecification;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 
 public class LagoonIsland implements IslandGeneration {
 
@@ -63,6 +62,9 @@ public class LagoonIsland implements IslandGeneration {
         //lake obj
         Lakes createLakes = new Lakes();
 
+        //aquifer
+        //AquiferGeneration createAquifers = new AquiferGeneration();
+
         clone.addAllVertices(vertices);
         clone.addAllSegments(segments);
 
@@ -97,16 +99,26 @@ public class LagoonIsland implements IslandGeneration {
                 type = "land";
             }
 
+            //AquiferGeneration createAquifers = new AquiferGeneration();
+
             newTile = createTile.createTile(poly, color, type);
 
             //adds the newTile created into the cloned mesh
             tempPolygonList.add(newTile);
         }
+        AquiferGeneration createAquifers = new AquiferGeneration();
 
         List<Structs.Polygon> islandWithBeachTiles = addBeachTiles(tempPolygonList);
+
         List<Structs.Polygon> islandWithLakes = createLakes.addLakeTiles(islandWithBeachTiles, lakes);
 
-        clone.addAllPolygons(islandWithLakes);
+        List<Structs.Polygon> islandWithAquifers = createAquifers.addAquiferTiles(islandWithLakes, aquifers);
+
+        clone.addAllPolygons(islandWithAquifers);
+
+        for (Structs.Polygon p : islandWithAquifers){
+            System.out.println(p.getPropertiesList());
+        }
 
         return clone.build();
     }
@@ -138,11 +150,11 @@ public class LagoonIsland implements IslandGeneration {
             }
 
             // calling Altitude class for elevation values
-            int elevation = new Altitude(altitude,mode).setAltitude();
+            //int elevation = new Altitude(altitude,mode).setAltitude();
 
             //changes land tile to beach tile if the beach requirements are met
             if (isBeach) {
-                String color = 255 + "," + 140 + "," + 0 + "," + elevation;
+                String color = 255 + "," + 140 + "," + 0 + "," + 255;
                 String type = "beach";
                 newTile = createTile.createTile(currentPoly, color, type);
                 updatedTileList.add(newTile);
