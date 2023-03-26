@@ -4,6 +4,7 @@ import ca.mcmaster.cas.se2aa4.a2.io.Structs;
 import ca.mcmaster.cas.se2aa4.a2.island.altitude.Altitude;
 import ca.mcmaster.cas.se2aa4.a2.island.configuration.tileCreater;
 import ca.mcmaster.cas.se2aa4.a2.island.properties.TypeProperty;
+import ca.mcmaster.cas.se2aa4.a2.island.seed.FileSaver;
 import ca.mcmaster.cas.se2aa4.a2.island.shape.Circle;
 import ca.mcmaster.cas.se2aa4.a2.island.shape.MeshCenter;
 import ca.mcmaster.cas.se2aa4.a2.island.shape.Shape;
@@ -21,6 +22,7 @@ public class PlainIsland implements IslandGeneration {
 
     private final String altitude;
 
+    public final String seed;
     private  final String mode;
     private final Structs.Mesh aMesh;
 
@@ -31,11 +33,12 @@ public class PlainIsland implements IslandGeneration {
     tileCreater createTile = new tileCreater();
 
 
-    public PlainIsland(Shape landBoundary, String newMode, String newAlt, Structs.Mesh generatorMesh){
+    public PlainIsland(Shape landBoundary, String newMode, String newAlt, Structs.Mesh generatorMesh, String seed){
         this.landBoundary = landBoundary;
         this.mode=newMode;
         this.altitude = newAlt;
         this.aMesh = generatorMesh;
+        this.seed = seed;
         this.vertices = new ArrayList<>(aMesh.getVerticesList());
         this.segments = new ArrayList<>(aMesh.getSegmentsList());
         this.polygons = new ArrayList<>(aMesh.getPolygonsList());
@@ -77,13 +80,25 @@ public class PlainIsland implements IslandGeneration {
     }
 
 
-
+    public static boolean isNumeric(String str) {
+        try {
+            Double.parseDouble(str);
+            return true;
+        } catch(NumberFormatException e){
+            return false;
+        }
+    }
 
     @Override
     public Structs.Mesh createIsland(){
 
-        Structs.Mesh.Builder clone = Structs.Mesh.newBuilder();
+        if (isNumeric(seed)) {
+            FileSaver.setSeed(seed);
+        } else{
+            FileSaver.setSeed("None");
+        }
 
+        Structs.Mesh.Builder clone = Structs.Mesh.newBuilder();
 
         clone.addAllVertices(vertices);
         clone.addAllSegments(segments);
@@ -91,11 +106,7 @@ public class PlainIsland implements IslandGeneration {
         Structs.Polygon newTile;
         List<Structs.Polygon> tempPolygonList = new ArrayList<>();
 
-
-
-
         for(Structs.Polygon poly: polygons){
-
 
             // setting elevation values
             int elevation =new Altitude(altitude, mode).setAltitude();
@@ -104,7 +115,6 @@ public class PlainIsland implements IslandGeneration {
             String color,type;
 
             Structs.Vertex centroid = vertices.get(poly.getCentroidIdx());
-
 
             //creates land tiles if it is in the shape
             if (landBoundary.inShape(centroid)) {
@@ -125,16 +135,18 @@ public class PlainIsland implements IslandGeneration {
         }
 
         List<Structs.Polygon> island = addAltTiles(tempPolygonList);
-        if(altitude.equalsIgnoreCase("On")) {
-            int numIterations = 12; // Change this value to the number of times you want to call addAltTiles2 // hard code
-            int evl = 10;
-            for (int i = 0; i < numIterations; i++) {
-                evl += 15;
-                island = addAltTiles2(island, evl);
-            }
-        }
+//        if(altitude.equalsIgnoreCase("On")) {
+//            int numIterations = 12; // Change this value to the number of times you want to call addAltTiles2 // hard code
+//            int evl = 10;
+//            for (int i = 0; i < numIterations; i++) {
+//                evl += 15;
+//                island = addAltTiles2(island, evl);
+//            }
+//        }
         clone.addAllPolygons(island);
         return clone.build();
+
+
 //        List<Structs.Polygon> island = addAltTiles(tempPolygonList);
 //
 //        List<Structs.Polygon> island2 = addAltTiles2(island);
@@ -231,11 +243,11 @@ public class PlainIsland implements IslandGeneration {
             }
 
             // calling Altitude class for elevation values
-            //int elevation = new Altitude(altitude,mode).setAltitude();
+            int elevation = new Altitude(altitude,mode).setAltitude();
 
             //changes land tile to beach tile if the beach requirements are met
             if (isBeach) {
-                String color = 255 + "," + 140 + "," + 0 + "," + x;
+                String color = 255 + "," + 140 + "," + 0 + "," + elevation;
                 String type = "beach";
                 newTile = createTile.createTile(currentPoly, color, type);
                 updatedTileList.add(newTile);

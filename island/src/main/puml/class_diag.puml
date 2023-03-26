@@ -1,0 +1,67 @@
+@startuml
+hide empty members
+skinparam linetype polyline
+
+title "Island Subproject"
+
+class Main {}
+
+note right of Main: representing, interaction with islandTypes package
+
+interface IslandGeneration {
+    + createIsland(): Structs.Mesh
+
+}
+
+class PlainIsland {
+    + landBoundary: Shape
+    + newMode: String
+    + newAlt: String
+    + generatorMesh: Structs.Mesh
+    + seed: String
+    + createTile(): Structs.Polygon
+    + createIsland() : Structs.Mesh
+}
+
+class LagoonIsland {
+    + outerShape: Shape
+    + newMode: String
+    + newAlt: String
+    + altitude: String
+    + lakes: String
+    + rivers: String
+    + aquifers: String
+    + soil: String
+    + biomes: String
+    + seed: String
+    + generatorMesh: Structs.Mesh
+    + createTile(): Structs.Polygon
+    + addBeachTile(): Structs.Polygon
+    + createIsland() : Structs.Mesh
+}
+
+class IslandSpecification {
+    + mode: String
+    + shape: String
+    + altitude: String
+    + lakes: String
+    + rivers: String
+    + aquifers: String
+    + soil: String
+    + biomes: String
+    + seed: String
+    + passedMash: Structs.Mesh
+    + centerPoint: Point2D.Double
+}
+
+PlainIsland *--> "0..n\n{ordered}"  IslandSpecification
+LagoonIsland *--> "0..n\n{ordered}" IslandSpecification
+
+
+Main *--> "0..n\n{ordered}" IslandGeneration
+IslandGeneration *--> "0..n\n{ordered}" PlainIsland
+IslandGeneration *--> "0..n\n{ordered}" LagoonIsland
+
+
+
+@enduml

@@ -4,6 +4,7 @@ import ca.mcmaster.cas.se2aa4.a2.io.Structs;
 import ca.mcmaster.cas.se2aa4.a2.island.altitude.Altitude;
 import ca.mcmaster.cas.se2aa4.a2.island.aquifers.AquiferGeneration;
 import ca.mcmaster.cas.se2aa4.a2.island.properties.TypeProperty;
+import ca.mcmaster.cas.se2aa4.a2.island.seed.FileSaver;
 import ca.mcmaster.cas.se2aa4.a2.island.shape.Shape;
 import ca.mcmaster.cas.se2aa4.a2.island.configuration.tileCreater;
 import ca.mcmaster.cas.se2aa4.a2.island.islandFeatures.Lakes;
@@ -50,11 +51,26 @@ public class LagoonIsland implements IslandGeneration {
         this.polygons = new ArrayList<>(aMesh.getPolygonsList());
     }
 
-
+    public static boolean isNumeric(String str) {
+        try {
+            Double.parseDouble(str);
+            return true;
+        } catch(NumberFormatException e){
+            return false;
+        }
+    }
 
     //overrides the method of creating an island in the IslandGeneration interface
     @Override
     public Structs.Mesh createIsland() {
+
+
+
+        if (isNumeric(seed)) {
+            FileSaver.setSeed(seed);
+        }else{
+            FileSaver.setSeed("None");
+        }
 
         //creates a clone mesh of the one that is passed in
         Structs.Mesh.Builder clone = Structs.Mesh.newBuilder();
