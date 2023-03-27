@@ -118,6 +118,9 @@ A feature is considered done if it is supported in both the generator and visual
 |28| User can pass in a -aquifers argument to change the # of aquifers present in the island | Hemraj | 03/23/2023 | 03/24/2023 | D |
 |31| User can pass in a -soil argument to change the humidity of the land tiles present on the island  | Addison | 03/25/2023 | 03/26/2023 | D |
 |33| Implementing a way to store generated mesh for reusability  | Hemraj | 03/25/2023 | 03/26/2023 | D |
+|34| added river generation code  | Alvin | 03/25/2023 | 03/26/2023 | D |
+|35| Created basic property change for biome based on humidity  | Alvin | 03/25/2023 | 03/26/2023 | D |
+
 
 
 
