@@ -30,12 +30,12 @@ public class Altitude {
         int n = 12; // run 10 times
         // List<Structs.Polygon> tiles = temp;
         List<Structs.Polygon> tiles = null;
-        int evl = 15;
+        int evl = 12;
         Random rand = new Random();
         if (altitude.equals("volcano") && mode.equals("lagoon")) {
             tiles = addAltTiles(temp);
             for (int i = 0; i < n; i++) {
-                evl += 15;
+                evl += 10;
                 tiles = extendAltTiles(tiles,evl);
             }
         }
@@ -49,7 +49,7 @@ public class Altitude {
         if (altitude.equals("volcano") && mode.equals("plain")) {
             tiles = addAltTiles(temp);
             for (int i = 0; i < n; i++) {
-                evl += 15;
+                evl += 10;
                 tiles = extendAltTiles(tiles,evl);
             }
         }
@@ -94,7 +94,7 @@ public class Altitude {
                 String color = 25 + "," + 140 + "," + 100 + "," + eval;
                 String type = "boundary";
                 String elevation = String.valueOf(eval);
-                newTile = createTile.createTile(currentPoly, color, type, elevation);
+                newTile = createTile.createTile(currentPoly, color, type);
                 updatedTileList.add(newTile);
             } else {
                 updatedTileList.add(currentPoly);
@@ -137,7 +137,7 @@ public class Altitude {
                 String color = 25 + "," + 140 + "," + 100 + "," + evl;
                 String type = "boundary";
                 String elevation = String.valueOf(evl);
-                newTile = createTile.createTile(currentPoly, color, type, elevation);
+                newTile = createTile.createTile(currentPoly, color, type);
                 updatedTileList.add(newTile);
             } else {
                 updatedTileList.add(currentPoly);

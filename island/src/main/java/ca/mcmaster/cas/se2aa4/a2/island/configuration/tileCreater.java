@@ -4,7 +4,7 @@ import ca.mcmaster.cas.se2aa4.a2.io.Structs;
 import ca.mcmaster.cas.se2aa4.a2.island.tiles.TileSpecification;
 
 public class tileCreater {
-    public Structs.Polygon createTile(Structs.Polygon poly, String color, String type, String altitude) {
+    public Structs.Polygon createTile(Structs.Polygon poly, String color, String type) {
 
         String key = "rgb_color";
         String key1 = "type";

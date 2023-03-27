@@ -114,7 +114,7 @@ public class LagoonIsland implements IslandGeneration {
 
             //AquiferGeneration createAquifers = new AquiferGeneration();
 
-            newTile = createTile.createTile(poly, color, type, altitude);
+            newTile = createTile.createTile(poly, color, type);
 
             //adds the newTile created into the cloned mesh
             tempPolygonList.add(newTile);

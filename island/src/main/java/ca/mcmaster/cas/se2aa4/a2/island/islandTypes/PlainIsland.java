@@ -180,7 +180,7 @@ public class PlainIsland implements IslandGeneration {
             if (isBeach) {
                 String color = 255 + "," + 140 + "," + 0 + "," + 255;
                 String type = "beach";
-                newTile = createTile.createTile(currentPoly, color, type, altitude);
+                newTile = createTile.createTile(currentPoly, color, type);
                 updatedTileList.add(newTile);
             } else {
                 updatedTileList.add(currentPoly);
