@@ -64,8 +64,6 @@ public class LagoonIsland implements IslandGeneration {
     @Override
     public Structs.Mesh createIsland() {
 
-
-
         if (isNumeric(seed)) {
             FileSaver.setSeed(seed);
         }else{
@@ -90,7 +88,7 @@ public class LagoonIsland implements IslandGeneration {
         for (Structs.Polygon poly : polygons) {
 
             // calling Altitude class for elevation values
-            int elevation = new Altitude(altitude,mode).setAltitude();
+            //int elevation = new Altitude(altitude,mode).setAltitude();
 
             //properties to add to polygons to properly create their tile types
             String color, type;
@@ -100,7 +98,7 @@ public class LagoonIsland implements IslandGeneration {
             //creates a lagoon tile if it is inside the inner circle
             if (innerShape.inShape(centroid)) {
                 color = 0 + "," + 150 + "," + 255 + "," + 255;
-                type = "lagoon";
+                type = "ocean"; // i.e lagoon, kept ocean to help with altitude
             }
 
             //creates ocean tiles if it is outside the outer circle
@@ -111,7 +109,7 @@ public class LagoonIsland implements IslandGeneration {
 
             //creates land tiles if it is in between the circles
             else {
-                color = 246 + "," + 215 + "," + 176 + "," + elevation;
+                color = 246 + "," + 215 + "," + 176 + "," + 0;
                 type = "land";
             }
 
@@ -123,62 +121,24 @@ public class LagoonIsland implements IslandGeneration {
             tempPolygonList.add(newTile);
         }
         AquiferGeneration createAquifers = new AquiferGeneration();
+        Altitude createAltitude = new Altitude(altitude,mode);
 
-        List<Structs.Polygon> islandWithBeachTiles = addBeachTiles(tempPolygonList);
 
-        List<Structs.Polygon> islandWithLakes = createLakes.addLakeTiles(islandWithBeachTiles, lakes);
+
+        List<Structs.Polygon> islandWithLakes = createLakes.addLakeTiles(tempPolygonList, lakes);
 
         List<Structs.Polygon> islandWithAquifers = createAquifers.addAquiferTiles(islandWithLakes, aquifers);
 
-        clone.addAllPolygons(islandWithAquifers);
+        List<Structs.Polygon> islandWithAltitude = createAltitude.setAltitude(islandWithAquifers);
+
+        clone.addAllPolygons(islandWithAltitude);
 
         for (Structs.Polygon p : islandWithAquifers){
             System.out.println(p.getPropertiesList());
         }
-
         return clone.build();
     }
 
-    private List<Structs.Polygon> addBeachTiles(List<Structs.Polygon> temp) {
 
-        List<Structs.Polygon> updatedTileList = new ArrayList<>();
-        Structs.Polygon newTile;
-
-        for (Structs.Polygon currentPoly : temp) {
-
-            boolean isBeach = false;
-
-            List<Integer> neighborList = currentPoly.getNeighborIdxsList();
-
-            for (Integer i : neighborList) {
-
-                //extracts the tile type value of the current polygon we are looking at
-                String currentPolyTileType = new TypeProperty().extract(currentPoly.getPropertiesList());
-
-                //extracts the tile type value of one of the current neighbor to the polygon we are looking at
-                String neighborTileType = new TypeProperty().extract(temp.get(i).getPropertiesList());
-
-                //if the current polygon we are looking at has the tile type of "land" and the neighbor tile type is either "lagoon" or "ocean" we want it to be a beach tile
-                if (currentPolyTileType.equals("land") && (neighborTileType.equals("lagoon") || neighborTileType.equals("ocean"))) {
-                    isBeach = true;
-                    break;
-                }
-            }
-
-            // calling Altitude class for elevation values
-            //int elevation = new Altitude(altitude,mode).setAltitude();
-
-            //changes land tile to beach tile if the beach requirements are met
-            if (isBeach) {
-                String color = 255 + "," + 140 + "," + 0 + "," + 255;
-                String type = "beach";
-                newTile = createTile.createTile(currentPoly, color, type);
-                updatedTileList.add(newTile);
-            } else {
-                updatedTileList.add(currentPoly);
-            }
-        }
-        return updatedTileList;
-    }
 }
 

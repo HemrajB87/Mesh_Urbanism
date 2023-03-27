@@ -63,7 +63,7 @@ public class IslandSpecification {
                 }
             }
 
-            PlainIsland regular = new PlainIsland(boundary,mode,altitude, aMesh,seed);
+            PlainIsland regular = new PlainIsland(boundary,mode,altitude, lakes, rivers, aquifers, soil, biomes, seed, aMesh);
             island = regular.createIsland();
 
         }
