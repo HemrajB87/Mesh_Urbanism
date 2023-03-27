@@ -63,12 +63,39 @@ public class IslandSpecification {
                 }
             }
 
-            PlainIsland regular = new PlainIsland(boundary,altitude, lakes, rivers, aMesh);
+            PlainIsland regular = new PlainIsland(boundary,mode,altitude, aMesh,seed);
             island = regular.createIsland();
 
         }
 
         else if(mode.equals("lagoon")){
+
+            Shape innerBound;
+            Shape outerBound;
+            switch (shape) {
+                case "circle" -> {
+                    innerBound = new Circle(centerPoint, centerPoint.getX() / 5);
+                    outerBound = new Circle(centerPoint, centerPoint.getX() / 1.5);
+                }
+                case "triangle" -> {
+                    innerBound = new Triangle(centerPoint, centerPoint.getX() / 3);
+                    outerBound = new Triangle(centerPoint, centerPoint.getX() / 1.25);
+                }
+                case "star" -> {
+                    innerBound = new Star(centerPoint, centerPoint.getX() / 3);
+                    outerBound = new Star(centerPoint, centerPoint.getX() / 1.25);
+                }
+                default -> {
+                    System.out.println("Shape was not specified for lagoon island so a default circle island was given");
+                    innerBound = new Circle(centerPoint, centerPoint.getX() / 3);
+                    outerBound = new Circle(centerPoint, centerPoint.getX() / 1.25);
+                }
+            }
+
+            LagoonIsland lagoon = new LagoonIsland(innerBound, outerBound,mode,altitude, lakes, rivers, aquifers, soil, biomes, seed, aMesh);
+            island = lagoon.createIsland();
+
+        } else if (mode.equals("land")){
 
             Shape innerBound;
             Shape outerBound;

@@ -1,45 +1,107 @@
 package ca.mcmaster.cas.se2aa4.a2.island.islandTypes;
 
 import ca.mcmaster.cas.se2aa4.a2.io.Structs;
-import ca.mcmaster.cas.se2aa4.a2.island.islandFeatures.Lakes;
-import ca.mcmaster.cas.se2aa4.a2.island.islandFeatures.Rivers;
+import ca.mcmaster.cas.se2aa4.a2.island.altitude.Altitude;
+import ca.mcmaster.cas.se2aa4.a2.island.configuration.tileCreater;
+import ca.mcmaster.cas.se2aa4.a2.island.properties.TypeProperty;
+import ca.mcmaster.cas.se2aa4.a2.island.seed.FileSaver;
+import ca.mcmaster.cas.se2aa4.a2.island.shape.Circle;
+import ca.mcmaster.cas.se2aa4.a2.island.shape.MeshCenter;
 import ca.mcmaster.cas.se2aa4.a2.island.shape.Shape;
 import ca.mcmaster.cas.se2aa4.a2.island.tiles.TileSpecification;
 
+import java.awt.geom.Point2D;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class PlainIsland implements IslandGeneration {
 
     private final Shape landBoundary;
 
     private final String altitude;
-    private final Structs.Mesh aMesh;
-    private final String lakes;
-    private final String rivers;
 
+    public final String seed;
+    private  final String mode;
+    private final Structs.Mesh aMesh;
 
     private final List<Structs.Polygon> polygons;
     private final List<Structs.Vertex> vertices;
     private final List<Structs.Segment> segments;
 
-    public PlainIsland(Shape landBoundary,String newAlt, String lakes, String rivers, Structs.Mesh generatorMesh){
+    tileCreater createTile = new tileCreater();
+
+
+    public PlainIsland(Shape landBoundary, String newMode, String newAlt, Structs.Mesh generatorMesh, String seed){
         this.landBoundary = landBoundary;
+        this.mode=newMode;
         this.altitude = newAlt;
-        this.lakes =lakes;
-        this.rivers = rivers;
         this.aMesh = generatorMesh;
+        this.seed = seed;
         this.vertices = new ArrayList<>(aMesh.getVerticesList());
         this.segments = new ArrayList<>(aMesh.getSegmentsList());
         this.polygons = new ArrayList<>(aMesh.getPolygonsList());
     }
 
+    public List<Structs.Polygon> polygonsInBoundary(){
+        List<Structs.Polygon> listOfLandPolygons = new ArrayList<>();
+        for(Structs.Polygon p: polygons){
+            Structs.Vertex centroid = vertices.get(p.getCentroidIdx());
+            if(landBoundary.inShape(centroid)){
+                listOfLandPolygons.add(p);
+            }
+        }
+
+        return listOfLandPolygons;
+    }
+
+    public List<Structs.Polygon> polygonsOnBoundary(){
+        List<Structs.Polygon> listOfBoundryPolygons = new ArrayList<>();
+        for(Structs.Polygon p: polygons){
+            List<Integer> neighborList = p.getNeighborIdxsList();
+
+            for (Integer i : neighborList) {
+
+                //extracts the tile type value of the current polygon we are looking at
+                String currentPolyTileType = new TypeProperty().extract(p.getPropertiesList());
+
+                //extracts the tile type value of one of the current neighbor to the polygon we are looking at
+                String neighborTileType = new TypeProperty().extract(polygons.get(i).getPropertiesList());
+
+                //if the current polygon we are looking at has the tile type of "land" and the neighbor tile type is either "lagoon" or "ocean" we want it to be a beach tile
+                Structs.Vertex centroid = vertices.get(p.getCentroidIdx());
+                if(landBoundary.inShape(centroid) && currentPolyTileType.equals("land") && neighborTileType.equals("ocean") ){
+                    listOfBoundryPolygons.add(p);
+                }
+            }
+        }
+        return listOfBoundryPolygons;
+    }
+
+
+    public static boolean isNumeric(String str) {
+        try {
+            Double.parseDouble(str);
+            return true;
+        } catch(NumberFormatException e){
+            return false;
+        }
+    }
+
     @Override
     public Structs.Mesh createIsland(){
+
+        if (isNumeric(seed)) {
+            FileSaver.setSeed(seed);
+        } else{
+            FileSaver.setSeed("None");
+        }
 
         Structs.Mesh.Builder clone = Structs.Mesh.newBuilder();
 
         clone.addAllVertices(vertices);
+        clone.addAllSegments(segments);
 
         Structs.Polygon newTile;
         List<Structs.Polygon> tempPolygonList = new ArrayList<>();
@@ -47,12 +109,7 @@ public class PlainIsland implements IslandGeneration {
         for(Structs.Polygon poly: polygons){
 
             // setting elevation values
-            int elevation =0;
-            if(altitude.equals("high")){
-                elevation = (int) (Math.random() * (255 - 100)) + 100;
-            } else {
-                elevation = (int) (Math.random() * (100 - 1)) + 1;
-            }
+            int elevation =new Altitude(altitude, mode).setAltitude();
 
             //properties to add to polygons to properly create their tile types
             String color,type;
@@ -76,18 +133,30 @@ public class PlainIsland implements IslandGeneration {
             //adds the newTile created into the cloned mesh
             tempPolygonList.add(newTile);
         }
-        Lakes createLakes = new Lakes();
 
-        List<Structs.Polygon> islandWithLakes = createLakes.addLakeTiles(tempPolygonList, lakes);
-
-        Rivers createRiver = new Rivers(islandWithLakes);
-        List<Structs.Segment> islandWithRivers = createRiver.addRiverSeg( rivers );
-
-        clone.addAllPolygons(createRiver.getRiverPolygonList());
-        clone.addAllSegments(islandWithRivers);
-
+        List<Structs.Polygon> island = addAltTiles(tempPolygonList);
+//        if(altitude.equalsIgnoreCase("On")) {
+//            int numIterations = 12; // Change this value to the number of times you want to call addAltTiles2 // hard code
+//            int evl = 10;
+//            for (int i = 0; i < numIterations; i++) {
+//                evl += 15;
+//                island = addAltTiles2(island, evl);
+//            }
+//        }
+        clone.addAllPolygons(island);
         return clone.build();
+
+
+//        List<Structs.Polygon> island = addAltTiles(tempPolygonList);
+//
+//        List<Structs.Polygon> island2 = addAltTiles2(island);
+//        clone.addAllPolygons(island2);
+//
+//        //clone.addAllPolygons(island2);
+//
+//        return clone.build();
     }
+
 
     private Structs.Polygon createTile(Structs.Polygon poly, String color, String type) {
 
@@ -104,6 +173,90 @@ public class PlainIsland implements IslandGeneration {
         return tileProperties.tileProperty(key1, type, tileColor);
     }
 
+
+    private List<Structs.Polygon> addAltTiles(List<Structs.Polygon> temp) {
+
+        List<Structs.Polygon> updatedTileList = new ArrayList<>();
+        Structs.Polygon newTile;
+
+        for (Structs.Polygon currentPoly : temp) {
+
+            boolean isBeach = false;
+
+            List<Integer> neighborList = currentPoly.getNeighborIdxsList();
+
+            for (Integer i : neighborList) {
+
+                //extracts the tile type value of the current polygon we are looking at
+                String currentPolyTileType = new TypeProperty().extract(currentPoly.getPropertiesList());
+
+                //extracts the tile type value of one of the current neighbor to the polygon we are looking at
+                String neighborTileType = new TypeProperty().extract(temp.get(i).getPropertiesList());
+
+                //if the current polygon we are looking at has the tile type of "land" and the neighbor tile type is either "lagoon" or "ocean" we want it to be a beach tile
+                if (currentPolyTileType.equals("land") && neighborTileType.equals("ocean")) {
+                    isBeach = true;
+                    break;
+                }
+            }
+
+            // calling Altitude class for elevation values
+            //int elevation = new Altitude(altitude,mode).setAltitude();
+
+            //changes land tile to beach tile if the beach requirements are met
+            if (isBeach) {
+                String color = 255 + "," + 140 + "," + 0 + "," + 255;
+                String type = "beach";
+                newTile = createTile.createTile(currentPoly, color, type);
+                updatedTileList.add(newTile);
+            } else {
+                updatedTileList.add(currentPoly);
+            }
+        }
+        return updatedTileList;
+    }
+
+    private List<Structs.Polygon> addAltTiles2(List<Structs.Polygon> temp , int x) {
+
+        List<Structs.Polygon> updatedTileList = new ArrayList<>();
+        Structs.Polygon newTile;
+
+        for (Structs.Polygon currentPoly : temp) {
+
+            boolean isBeach = false;
+
+            List<Integer> neighborList = currentPoly.getNeighborIdxsList();
+
+            for (Integer i : neighborList) {
+
+                //extracts the tile type value of the current polygon we are looking at
+                String currentPolyTileType = new TypeProperty().extract(currentPoly.getPropertiesList());
+
+                //extracts the tile type value of one of the current neighbor to the polygon we are looking at
+                String neighborTileType = new TypeProperty().extract(temp.get(i).getPropertiesList());
+
+                //if the current polygon we are looking at has the tile type of "land" and the neighbor tile type is either "lagoon" or "ocean" we want it to be a beach tile
+                if (currentPolyTileType.equals("land") && (neighborTileType.equals("beach") )) {
+                    isBeach = true;
+                    break;
+                }
+            }
+
+            // calling Altitude class for elevation values
+            int elevation = new Altitude(altitude,mode).setAltitude();
+
+            //changes land tile to beach tile if the beach requirements are met
+            if (isBeach) {
+                String color = 255 + "," + 140 + "," + 0 + "," + elevation;
+                String type = "beach";
+                newTile = createTile.createTile(currentPoly, color, type);
+                updatedTileList.add(newTile);
+            } else {
+                updatedTileList.add(currentPoly);
+            }
+        }
+        return updatedTileList;
+    }
 
 
 }

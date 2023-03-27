@@ -34,7 +34,7 @@ Vertex *--> "0..n\n{ordered}"  Property
 Segment *--> "0..n\n{ordered}" Property 
 Polygon *--> "0..n\n{ordered}" Property 
 
-Mesh *--> "0..n\n{ordered}" Property 
+Mesh *--> "0..n\n{ordered}" Property
 Mesh *--> "0..n\n{ordered}" Polygon
 Mesh *--> "0..n\n{ordered}" Segment
 Mesh *--> "0..n\n{ordered}" Vertex

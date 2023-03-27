@@ -2,15 +2,15 @@ package ca.mcmaster.cas.se2aa4.a2.island.islandTypes;
 
 import ca.mcmaster.cas.se2aa4.a2.io.Structs;
 import ca.mcmaster.cas.se2aa4.a2.island.altitude.Altitude;
+import ca.mcmaster.cas.se2aa4.a2.island.aquifers.AquiferGeneration;
 import ca.mcmaster.cas.se2aa4.a2.island.properties.TypeProperty;
+import ca.mcmaster.cas.se2aa4.a2.island.seed.FileSaver;
 import ca.mcmaster.cas.se2aa4.a2.island.shape.Shape;
 import ca.mcmaster.cas.se2aa4.a2.island.configuration.tileCreater;
 import ca.mcmaster.cas.se2aa4.a2.island.islandFeatures.Lakes;
-import ca.mcmaster.cas.se2aa4.a2.island.tiles.TileSpecification;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 
 public class LagoonIsland implements IslandGeneration {
 
@@ -51,17 +51,35 @@ public class LagoonIsland implements IslandGeneration {
         this.polygons = new ArrayList<>(aMesh.getPolygonsList());
     }
 
-
+    public static boolean isNumeric(String str) {
+        try {
+            Double.parseDouble(str);
+            return true;
+        } catch(NumberFormatException e){
+            return false;
+        }
+    }
 
     //overrides the method of creating an island in the IslandGeneration interface
     @Override
     public Structs.Mesh createIsland() {
+
+
+
+        if (isNumeric(seed)) {
+            FileSaver.setSeed(seed);
+        }else{
+            FileSaver.setSeed("None");
+        }
 
         //creates a clone mesh of the one that is passed in
         Structs.Mesh.Builder clone = Structs.Mesh.newBuilder();
 
         //lake obj
         Lakes createLakes = new Lakes();
+
+        //aquifer
+        //AquiferGeneration createAquifers = new AquiferGeneration();
 
         clone.addAllVertices(vertices);
         clone.addAllSegments(segments);
@@ -97,17 +115,27 @@ public class LagoonIsland implements IslandGeneration {
                 type = "land";
             }
 
+            //AquiferGeneration createAquifers = new AquiferGeneration();
+
             newTile = createTile.createTile(poly, color, type);
 
             //adds the newTile created into the cloned mesh
             tempPolygonList.add(newTile);
         }
+        AquiferGeneration createAquifers = new AquiferGeneration();
 
         List<Structs.Polygon> islandWithBeachTiles = addBeachTiles(tempPolygonList);
+
         List<Structs.Polygon> islandWithLakes = createLakes.addLakeTiles(islandWithBeachTiles, lakes);
 
-        clone.addAllPolygons(islandWithLakes);
-//        clone.addAllSegments()
+        List<Structs.Polygon> islandWithAquifers = createAquifers.addAquiferTiles(islandWithLakes, aquifers);
+
+        clone.addAllPolygons(islandWithAquifers);
+
+        for (Structs.Polygon p : islandWithAquifers){
+            System.out.println(p.getPropertiesList());
+        }
+
         return clone.build();
     }
 
@@ -138,11 +166,11 @@ public class LagoonIsland implements IslandGeneration {
             }
 
             // calling Altitude class for elevation values
-            int elevation = new Altitude(altitude,mode).setAltitude();
+            //int elevation = new Altitude(altitude,mode).setAltitude();
 
             //changes land tile to beach tile if the beach requirements are met
             if (isBeach) {
-                String color = 255 + "," + 140 + "," + 0 + "," + elevation;
+                String color = 255 + "," + 140 + "," + 0 + "," + 255;
                 String type = "beach";
                 newTile = createTile.createTile(currentPoly, color, type);
                 updatedTileList.add(newTile);
