@@ -1,6 +1,8 @@
 package ca.mcmaster.cas.se2aa4.a2.island.islandTypes;
 
 import ca.mcmaster.cas.se2aa4.a2.io.Structs;
+import ca.mcmaster.cas.se2aa4.a2.island.islandFeatures.Lakes;
+import ca.mcmaster.cas.se2aa4.a2.island.islandFeatures.Rivers;
 import ca.mcmaster.cas.se2aa4.a2.island.shape.Shape;
 import ca.mcmaster.cas.se2aa4.a2.island.tiles.TileSpecification;
 
@@ -13,14 +15,19 @@ public class PlainIsland implements IslandGeneration {
 
     private final String altitude;
     private final Structs.Mesh aMesh;
+    private final String lakes;
+    private final String rivers;
+
 
     private final List<Structs.Polygon> polygons;
     private final List<Structs.Vertex> vertices;
     private final List<Structs.Segment> segments;
 
-    public PlainIsland(Shape landBoundary,String newAlt, Structs.Mesh generatorMesh){
+    public PlainIsland(Shape landBoundary,String newAlt, String lakes, String rivers, Structs.Mesh generatorMesh){
         this.landBoundary = landBoundary;
         this.altitude = newAlt;
+        this.lakes =lakes;
+        this.rivers = rivers;
         this.aMesh = generatorMesh;
         this.vertices = new ArrayList<>(aMesh.getVerticesList());
         this.segments = new ArrayList<>(aMesh.getSegmentsList());
@@ -33,7 +40,6 @@ public class PlainIsland implements IslandGeneration {
         Structs.Mesh.Builder clone = Structs.Mesh.newBuilder();
 
         clone.addAllVertices(vertices);
-        clone.addAllSegments(segments);
 
         Structs.Polygon newTile;
         List<Structs.Polygon> tempPolygonList = new ArrayList<>();
@@ -70,8 +76,15 @@ public class PlainIsland implements IslandGeneration {
             //adds the newTile created into the cloned mesh
             tempPolygonList.add(newTile);
         }
+        Lakes createLakes = new Lakes();
 
-        clone.addAllPolygons(tempPolygonList);
+        List<Structs.Polygon> islandWithLakes = createLakes.addLakeTiles(tempPolygonList, lakes);
+
+        Rivers createRiver = new Rivers(islandWithLakes);
+        List<Structs.Segment> islandWithRivers = createRiver.addRiverSeg( rivers );
+
+        clone.addAllPolygons(createRiver.getRiverPolygonList());
+        clone.addAllSegments(islandWithRivers);
 
         return clone.build();
     }

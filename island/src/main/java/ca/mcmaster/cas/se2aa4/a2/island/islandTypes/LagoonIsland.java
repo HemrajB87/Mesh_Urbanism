@@ -107,7 +107,7 @@ public class LagoonIsland implements IslandGeneration {
         List<Structs.Polygon> islandWithLakes = createLakes.addLakeTiles(islandWithBeachTiles, lakes);
 
         clone.addAllPolygons(islandWithLakes);
-
+//        clone.addAllSegments()
         return clone.build();
     }
 

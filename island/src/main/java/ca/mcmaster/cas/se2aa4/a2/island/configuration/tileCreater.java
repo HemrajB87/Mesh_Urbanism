@@ -7,7 +7,6 @@ public class tileCreater {
     public Structs.Polygon createTile(Structs.Polygon poly, String color, String type) {
 
         String key = "rgb_color";
-        String key2 = "elevation";
         String key1 = "type";
 
         TileSpecification tileProperties = new TileSpecification();
