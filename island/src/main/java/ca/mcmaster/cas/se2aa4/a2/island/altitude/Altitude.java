@@ -3,9 +3,7 @@ package ca.mcmaster.cas.se2aa4.a2.island.altitude;
 
 import ca.mcmaster.cas.se2aa4.a2.io.Structs;
 import ca.mcmaster.cas.se2aa4.a2.island.configuration.tileCreater;
-import ca.mcmaster.cas.se2aa4.a2.island.properties.ColourProperty;
 import ca.mcmaster.cas.se2aa4.a2.island.properties.TypeProperty;
-import ca.mcmaster.cas.se2aa4.a2.island.tiles.TileSpecification;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -95,7 +93,8 @@ public class Altitude {
                 }
                 String color = 25 + "," + 140 + "," + 100 + "," + eval;
                 String type = "boundary";
-                newTile = createTile.createTile(currentPoly, color, type);
+                String elevation = String.valueOf(eval);
+                newTile = createTile.createTile(currentPoly, color, type, elevation);
                 updatedTileList.add(newTile);
             } else {
                 updatedTileList.add(currentPoly);
@@ -137,7 +136,8 @@ public class Altitude {
             if (isBoundry) {
                 String color = 25 + "," + 140 + "," + 100 + "," + evl;
                 String type = "boundary";
-                newTile = createTile.createTile(currentPoly, color, type);
+                String elevation = String.valueOf(evl);
+                newTile = createTile.createTile(currentPoly, color, type, elevation);
                 updatedTileList.add(newTile);
             } else {
                 updatedTileList.add(currentPoly);

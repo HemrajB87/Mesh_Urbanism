@@ -30,7 +30,7 @@ public class Lakes {
 
             String color = 18 + "," + 221 + "," + 252 + "," + 255;
             String type = "lake";
-            newTile = createTile.createTile(currPoly, color, type);
+            newTile = createTile.createTile(currPoly, color, type, altitude);
             temp.add(newTile);
 
             extendLake(temp, currPoly, 3, 0.25);
@@ -52,7 +52,7 @@ public class Lakes {
                 if (Math.random() <= chance) {
                     String color = 18 + "," + 221 + "," + 252 + "," + 255;
                     String type = "lake";
-                    Structs.Polygon newTile = createTile.createTile(temp.get(z), color, type);
+                    Structs.Polygon newTile = createTile.createTile(temp.get(z), color, type, altitude);
                     temp.add(newTile);
                     extendLake(temp, temp.get(z), depth - 1, chance);
                 }

@@ -5,19 +5,13 @@ import ca.mcmaster.cas.se2aa4.a2.island.altitude.Altitude;
 import ca.mcmaster.cas.se2aa4.a2.island.aquifers.AquiferGeneration;
 import ca.mcmaster.cas.se2aa4.a2.island.configuration.tileCreater;
 import ca.mcmaster.cas.se2aa4.a2.island.islandFeatures.Lakes;
-import ca.mcmaster.cas.se2aa4.a2.island.properties.ColourProperty;
 import ca.mcmaster.cas.se2aa4.a2.island.properties.TypeProperty;
 import ca.mcmaster.cas.se2aa4.a2.island.seed.FileSaver;
-import ca.mcmaster.cas.se2aa4.a2.island.shape.Circle;
-import ca.mcmaster.cas.se2aa4.a2.island.shape.MeshCenter;
 import ca.mcmaster.cas.se2aa4.a2.island.shape.Shape;
 import ca.mcmaster.cas.se2aa4.a2.island.tiles.TileSpecification;
 
-import java.awt.geom.Point2D;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 public class PlainIsland implements IslandGeneration {
 
@@ -186,7 +180,7 @@ public class PlainIsland implements IslandGeneration {
             if (isBeach) {
                 String color = 255 + "," + 140 + "," + 0 + "," + 255;
                 String type = "beach";
-                newTile = createTile.createTile(currentPoly, color, type);
+                newTile = createTile.createTile(currentPoly, color, type, altitude);
                 updatedTileList.add(newTile);
             } else {
                 updatedTileList.add(currentPoly);

@@ -3,7 +3,6 @@ package ca.mcmaster.cas.se2aa4.a2.island.islandTypes;
 import ca.mcmaster.cas.se2aa4.a2.io.Structs;
 import ca.mcmaster.cas.se2aa4.a2.island.altitude.Altitude;
 import ca.mcmaster.cas.se2aa4.a2.island.aquifers.AquiferGeneration;
-import ca.mcmaster.cas.se2aa4.a2.island.properties.TypeProperty;
 import ca.mcmaster.cas.se2aa4.a2.island.seed.FileSaver;
 import ca.mcmaster.cas.se2aa4.a2.island.shape.Shape;
 import ca.mcmaster.cas.se2aa4.a2.island.configuration.tileCreater;
@@ -115,7 +114,7 @@ public class LagoonIsland implements IslandGeneration {
 
             //AquiferGeneration createAquifers = new AquiferGeneration();
 
-            newTile = createTile.createTile(poly, color, type);
+            newTile = createTile.createTile(poly, color, type, altitude);
 
             //adds the newTile created into the cloned mesh
             tempPolygonList.add(newTile);
