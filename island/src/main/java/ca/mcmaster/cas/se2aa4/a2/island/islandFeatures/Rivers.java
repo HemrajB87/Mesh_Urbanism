@@ -10,7 +10,7 @@ import java.util.*;
 public class Rivers {
 //    Go through each polygon that is not ocean or lake at it to curr usable poly
 
-//    if nerighbour poly list all lower elvation stop
+//    if nerighbour poly list all higher elvation stop
     private List<Structs.Polygon> polygons;
     private List<Structs.Polygon> polygonsToBeRemoved = new ArrayList<>();
 
