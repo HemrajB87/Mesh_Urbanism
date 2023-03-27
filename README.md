@@ -116,6 +116,7 @@ A feature is considered done if it is supported in both the generator and visual
 | 23 | User can pass in a -lakes argument to change the # of lakes on the island | Alvin | 03/20/2023 | 03/22/2023 | D |
 | 24 | Island generates the correct number of lakes with random size of 1 or more lake tiles | Alvin | 03/21/2023 | 03/22/2023 | D |
 |28| User can pass in a -aquifers argument to change the # of aquifers present in the island | Hemraj | 03/23/2023 | 03/24/2023 | D |
+|31| User can pass in a -soil argument to change the humidity of the land tiles present on the island  | Addison | 03/25/2023 | 03/26/2023 | D |
 |33| Implementing a way to store generated mesh for reusability  | Hemraj | 03/25/2023 | 03/26/2023 | D |
 
 
