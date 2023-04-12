@@ -87,11 +87,14 @@ A feature is considered done if it is supported in both the generator and visual
 | Id | Feature title | Who? | Start | End | Status |
 |:--:|---------------|------|-------|-----|--------|
 | 01 | Create a graph adt (Node,Edge,Graph) | Hemraj |  |  | D |
-| 02 | Create a pathfinding algorithm | Hemraj |  |  | D |
-| 03 | Implement a class to create cities on the mesh | Hemraj |  |  | D |
-| 04 | Implement a class to create roads between cities   | Hemraj |  |  | D |
-| 05 | Implement a class to convert vertices into nodes | Hemraj |  |  | D |
-| 06 | User can pass in a -city argument to change the # of cities | Hemraj |  |  | D |
+| 02 | Implement a Node class in adt | Hemraj |  |  | D |
+| 03 | Implement a Edge class in adt | Hemraj |  |  | D |
+| 04 | Implement a Graph class in adt | Hemraj |  |  | D |
+| 05 | Create a pathfinding algorithm | Hemraj |  |  | D |
+| 06 | Implement a class to create cities on the mesh | Hemraj |  |  | D |
+| 07 | Implement a class to convert vertices into nodes  | Hemraj |  |  | D |
+| 08 | Implement a class to create roads between cities  | Hemraj |  |  | D |
+| 09 | User can pass in a -city argument to change the # of cities | Hemraj |  |  | D |
 
 
 ### Island Generation Backlog
