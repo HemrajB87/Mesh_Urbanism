@@ -4,7 +4,6 @@
 
 ## How to run the product
 
-_This section needs to be edited to reflect how the user can interact with thefeature released in your project_
 
 ### Installation instructions
 
@@ -25,7 +24,7 @@ Here are some ways to use the generator:
 The user can find the meaning of all the parameters by executing the command: java -jar generator/generator.jar -help
 ```
 java -jar generator/generator.jar -k grid -h 1080 -w 1920 -p 1000 -s 20 -o img/grid.mesh
-java -jar generator/generator.jar -k grid -h 1080 -w 1920 -p 1000 -s 20 -o img/irregular.mesh
+java -jar generator/generator.jar -k irregular -h 1080 -w 1920 -p 1000 -s 20 -o img/irregular.mesh
 ```
 
 ### Visualizer
