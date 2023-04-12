@@ -1,7 +1,5 @@
-# Assignment A2: Mesh Generator
+# Assignment A4: Pathfinder
 
-  - Alvin Qian [qiana2@mcmaster.ca]
-  - Addison Chan [chana110@mcmaster.ca]
   - Hemraj Bhatt [bhatth14@mcmaster.ca]
 
 ## How to run the product
@@ -67,13 +65,14 @@ x == Place holder
 -lakes: Number of lakes present on island
 -aquifers: Number of aquifers present on island
 -seed: provides meshs generated prior 
+-city: Number of cities
 (ex: -seed "any word", will create a sepearte output file to save mesh gerantion. -seed "#", will provide an seed.svg of the inputted numbers corresponding output)
 
 Example command line:
 (No seed)
-java -jar island/island.jar -i img/irregular.mesh -o img/output.mesh -mode lagoon -shape circle -altitude low -lakes 3 -aquifers 2 -seed NO
+java -jar island/island.jar -i img/irregular.mesh -o img/output.mesh -mode lagoon -shape circle -altitude low -lakes 3 -aquifers 2 -seed NO -city 10
 (seed)
-java -jar island/island.jar -i img/irregular.mesh -o img/output.mesh -mode lagoon -shape circle -altitude low -lakes 3 -aquifers 2 -seed 1
+java -jar island/island.jar -i img/irregular.mesh -o img/output.mesh -mode lagoon -shape circle -altitude low -lakes 3 -aquifers 2 -seed 1 -city 10
 
 ```
 
@@ -83,28 +82,17 @@ java -jar island/island.jar -i img/irregular.mesh -o img/output.mesh -mode lagoo
 
 A feature is considered done if it is supported in both the generator and visualizer. In other words if we can generate and visualize what we generated.
 
-### Product Backlog
+### Product Backlog (A4)
 
 | Id | Feature title | Who? | Start | End | Status |
 |:--:|---------------|------|-------|-----|--------|
-| 01 | Visualizes 2x2 squares in a 10x10 canvas by drawing segments in between vertices  | Addison | 02/16/2023 | 02/17/2023 | D |
-| 02 | Create mesh of polygons   | Hemraj | 02/18/2023 | 02/20/2023 | D |
-| 03 | Create mesh of polygons that have their centroid vertex displayed | Hemraj | 02/19/2023 | 02/20/2023 | D |
-| 04 | Create mesh of polygons with centroids that make a reference to neighbouring polygons   | Hemraj/Addison | 02/20/23 | 02/22/23 | D |
-| 05 |  Adding a transparency property to the vertices, segments and polygons | Addison | 02/18/2023 | 02/19/2023 | D |
-| 06 |  Adding a thickness property to the vertices, segments and polygons | Addison | 02/19/2023 | 02/21/2023 | D |
-| 07 |  Rendering a mesh with determined properties  | Alvin | 02/21/2023 | 02/21/2023 | D |
-| 08 |  Render a "debug" mesh with black polygons, a red centroid, and light gray neighboring sides. | Alvin | 02/19/2023 | 02/22/2023 | D |
-| 09 | Create a minimal mesh of vertices, segments, polygons (no duplicates of anything when creating the mesh) | Addison | 02/20/2023 | 02/22/2023 | D |
-| 10 | Generating random vertices in DotGen class | Hemraj/Addison/Alvin | 02/23/2023 | 02/24/2023 | D |
-| 11 | Creating Voronoi diagrams using generated points | Addison | 02/23/2023 | 02/25/2023 | D |
-| 12 | Apply Lloyd relaxation, centroids | Hemraj/Addison | 02/25/2023 | 02/23/2023 | D |
-| 13 | Apply Lloyd relaxation, creating smooth points for diagrams  | Hemraj/Addison | 02/25/2023 | 02/25/2023 | D |
-| 14 | Apply Lloyd relaxation a random amount of times | Hemraj/Addison | 02/23/2023 | 02/25/2023 | D |
-| 15 | Crop mesh diagram to expected size | Addison | 02/23/2023 | 02/25/2023 | D |
-| 16 | Compute neighboring polygons using Delaunay’s triangulation | Hemraj | 02/25/2023 | 02/27/2023 | D |
-| 17 | Reordering segments using Convex Hull  | Alvin | 02/26/2023 | 02/27/2023 | D |
-| 18 | User controlled mesh generation using CLI | Alvin | 02/23/2023 | 02/25/2023 | D |
+| 01 | Create a graph adt (Node,Edge,Graph) | Hemraj |  |  | D |
+| 02 | Create a pathfinding algorithm | Hemraj |  |  | D |
+| 03 | Implement a class to create cities on the mesh | Hemraj |  |  | D |
+| 04 | Implement a class to create roads between cities   | Hemraj |  |  | D |
+| 05 | Implement a class to convert vertices into nodes | Hemraj |  |  | D |
+| 06 | User can pass in a -city argument to change the # of cities | Hemraj |  |  | D |
+
 
 ### Island Generation Backlog
 | Id | Feature title | Who? | Start | End | Status |
