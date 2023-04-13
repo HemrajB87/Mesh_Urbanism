@@ -7,52 +7,70 @@ import java.util.*;
 public class Path{
 
     // this algorithm is Dijkstra's algorithm, parts of code is taken from 2C03 class (disclaimer)
-    public List<Node> pathShortest(Node s, Node e){
+    public List<Node> pathfinder(Node start, Node end, List<Node> nodesList) {
+        Map<Node, Integer> distances = new HashMap<>();
+        Map<Node, Node> previous = new HashMap<>();
+        Set<Node> unvisited = new HashSet<>();
 
-        Map<Node, Integer> dist = new HashMap<>();
-        Map<Node, Node> priorDist = new HashMap<>();
+        for (Node node : nodesList) {
+            distances.put(node, Integer.MAX_VALUE);
+            unvisited.add(node);
+        }
 
-        PriorityQueue<Node> freshNodes = new PriorityQueue<>(Comparator.comparingDouble(dist::get));
+        distances.put(start, 0);
 
+        while (!unvisited.isEmpty()) {
+            Node currentNode = findMinDistanceNode(unvisited, distances);
 
-        Set<Node> oldNodes = new HashSet<>();
-
-
-        dist.put(s,0);
-        freshNodes.add(s);
-
-
-        while (!freshNodes.isEmpty()){
-
-            Node cNode = freshNodes.poll();
-            oldNodes.add(cNode);
-
-            if (cNode==e){
+            if (currentNode == null) {
                 break;
             }
 
-            for(Edge edge:cNode.getEdges()){
-                Node neighbor = edge.getStart();
-                if(!oldNodes.contains(neighbor)){
-                    int nDist = (int) (dist.get(cNode)+edge.getWeight());
+            unvisited.remove(currentNode);
 
-                    if(nDist< dist.getOrDefault(neighbor, Integer.MAX_VALUE)){
-                        dist.put(neighbor,nDist);
+            if (currentNode == end) {
+                break;
+            }
 
-                        priorDist.put(neighbor,cNode);
-
-                        freshNodes.add(neighbor);
+            for (Edge edge : currentNode.edges) {
+                Node neighbor = edge.end;
+                if (unvisited.contains(neighbor)) {
+                    int tentativeDistance = distances.get(currentNode) + 1;
+                    if (tentativeDistance < distances.get(neighbor)) {
+                        distances.put(neighbor, tentativeDistance);
+                        previous.put(neighbor, currentNode);
                     }
                 }
             }
+        }
 
+        if (previous.get(end) == null) {
+            return null; // No path found
         }
+
         List<Node> path = new ArrayList<>();
-        Node cNode = e;
-        while (cNode!=null){
-            path.add(0,cNode);
-            cNode = priorDist.get(cNode);
+        Node currentNode = end;
+        while (currentNode != null) {
+            path.add(currentNode);
+            currentNode = previous.get(currentNode);
         }
+        Collections.reverse(path);
         return path;
     }
+
+    private Node findMinDistanceNode(Set<Node> unvisited, Map<Node, Integer> distances) {
+        Node minNode = null;
+        int minValue = Integer.MAX_VALUE;
+
+        for (Node node : unvisited) {
+            int distance = distances.get(node);
+            if (distance < minValue) {
+                minValue = distance;
+                minNode = node;
+            }
+        }
+
+        return minNode;
+    }
 }
+
