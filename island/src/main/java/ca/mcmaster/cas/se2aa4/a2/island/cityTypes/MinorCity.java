@@ -1,6 +1,7 @@
 package ca.mcmaster.cas.se2aa4.a2.island.cityTypes;
 
 import ca.mcmaster.cas.se2aa4.a2.io.Structs;
+import ca.mcmaster.cas.se2aa4.a2.island.properties.TypeProperty;
 
 import java.util.*;
 
@@ -26,8 +27,10 @@ public class MinorCity {
 
     public List<Structs.Vertex> minorCityVertex() {
         for (Structs.Polygon p : polygons) {
+            String currentPolyTileType = new TypeProperty().extract(p.getPropertiesList());
+            if(currentPolyTileType.equals("land")){
                 allCityVertexs.add(vertexs.get(p.getCentroidIdx()));
-
+            }
         }
 
     Collections.shuffle(allCityVertexs);
