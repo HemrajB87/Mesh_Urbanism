@@ -90,31 +90,16 @@ A feature is considered done if it is supported in both the generator and visual
 
 | Id | Feature title | Who? | Start | End | Status |
 |:--:|---------------|------|-------|-----|--------|
-| 01 | Create a graph adt (Node,Edge,Graph) (pathfinder sub-project) | Hemraj |  |  | D |
-| 02 | Implement a Node class in adt (pathfinder sub-project) | Hemraj |  |  | D |
-| 03 | Implement a Edge class in adt (pathfinder sub-project) | Hemraj |  |  | D |
-| 04 | Implement a Graph class in adt (pathfinder sub-project) | Hemraj |  |  | D |
-| 05 | Create a pathfinding algorithm (pathfinder sub-project) | Hemraj |  |  | D |
-| 06 | Implement a class to create cities on the mesh (island sub-project) | Hemraj |  |  | D |
-| 07 | Implement a class to convert vertices into nodes (island sub-project)  | Hemraj |  |  | D |
-| 08 | Implement a class to create roads between cities (island sub-project)  | Hemraj |  |  | D |
-| 09 | User can pass in a -city argument to change the # of cities (island sub-project) | Hemraj |  |  | D |
+| 01 | Create a graph adt (Node,Edge,Graph) (pathfinder sub-project) | Hemraj | 2023/04/01 | 2023/04/04 | D |
+| 02 | Implement a Node class in adt (pathfinder sub-project) | Hemraj | 2023/04/01 | 2023/04/04 | D |
+| 03 | Implement a Edge class in adt (pathfinder sub-project) | Hemraj | 2023/04/01 | 2023/04/04 | D |
+| 04 | Implement a Graph class in adt (pathfinder sub-project) | Hemraj | 2023/04/05  | 2023/04/07  | D |
+| 05 | Create a pathfinding algorithm (pathfinder sub-project) | Hemraj | 2023/04/05 | 2023/04/07 | D |
+| 06 | Implement a class to create cities on the mesh (island sub-project) | Hemraj | 2023/04/07  | 2023/04/10 | D |
+| 07 | Implement a class to convert vertices into nodes (island sub-project)  | Hemraj | 2023/04/10 | 2023/04/12 | D |
+| 08 | Implement a class to create roads between cities (island sub-project)  | Hemraj | 2023/04/10 | 2023/04/12 | D |
+| 09 | User can pass in a -city argument to change the # of cities (island sub-project) | Hemraj | 2023/04/11 | 2023/04/12  | D |
 
-
-### Island Generation Backlog
-| Id | Feature title | Who? | Start | End | Status |
-|:--:|---------------|------|-------|-----|--------|
-| 19 | Generate a circle island in the middle of the canvas that has land tiles and ocean tiles  | Addison | 03/14/2023 | 03/15/2023 | D |
-| 20 | Island has an inner and outer circle to differentiate between ocean and lagoon tiles | Addison | 03/15/2023 | 03/16/2023 | D |
-| 21 | Island generates beach tiles when a land tile is next to a lagoon or ocean tile | Addison | 03/16/2023 | 03/16/2023 | D |
-| 22 | User can pass in a -shape argument to change the shape of the island | Addison | 03/17/2023 | 03/18/2023 | D |
-| 23 | User can pass in a -lakes argument to change the # of lakes on the island | Alvin | 03/20/2023 | 03/22/2023 | D |
-| 24 | Island generates the correct number of lakes with random size of 1 or more lake tiles | Alvin | 03/21/2023 | 03/22/2023 | D |
-|28| User can pass in a -aquifers argument to change the # of aquifers present in the island | Hemraj | 03/23/2023 | 03/24/2023 | D |
-|31| User can pass in a -soil argument to change the humidity of the land tiles present on the island  | Addison | 03/25/2023 | 03/26/2023 | D |
-|33| Implementing a way to store generated mesh for reusability  | Hemraj | 03/25/2023 | 03/26/2023 | D |
-|34| added river generation code  | Alvin | 03/25/2023 | 03/26/2023 | D |
-|35| Created basic property change for biome based on humidity  | Alvin | 03/25/2023 | 03/26/2023 | D |
 
 
 
