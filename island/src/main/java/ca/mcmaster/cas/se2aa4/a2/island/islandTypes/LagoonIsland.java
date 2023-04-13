@@ -3,6 +3,7 @@ package ca.mcmaster.cas.se2aa4.a2.island.islandTypes;
 import ca.mcmaster.cas.se2aa4.a2.io.Structs;
 import ca.mcmaster.cas.se2aa4.a2.island.altitude.Altitude;
 import ca.mcmaster.cas.se2aa4.a2.island.aquifers.AquiferGeneration;
+import ca.mcmaster.cas.se2aa4.a2.island.cityTypes.MajorCity;
 import ca.mcmaster.cas.se2aa4.a2.island.cityTypes.MinorCity;
 import ca.mcmaster.cas.se2aa4.a2.island.seed.FileSaver;
 import ca.mcmaster.cas.se2aa4.a2.island.shape.Shape;
@@ -10,6 +11,7 @@ import ca.mcmaster.cas.se2aa4.a2.island.configuration.tileCreater;
 import ca.mcmaster.cas.se2aa4.a2.island.islandFeatures.Lakes;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class LagoonIsland implements IslandGeneration {
@@ -138,6 +140,11 @@ public class LagoonIsland implements IslandGeneration {
         List<Structs.Vertex> addCities = newcities.minorCityVertex();
 
         clone.addAllVertices(addCities);
+
+        MajorCity majorcity = new MajorCity();
+        List<Structs.Vertex> addMajorCities = Collections.singletonList(majorcity.majorCities(vertices, islandWithAltitude));
+
+        clone.addAllVertices(addMajorCities);
 
         clone.addAllPolygons(islandWithAltitude);
 
