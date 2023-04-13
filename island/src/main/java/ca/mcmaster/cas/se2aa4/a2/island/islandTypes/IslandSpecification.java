@@ -22,8 +22,9 @@ public class IslandSpecification {
     public final String soil;
     public final String biomes;
     public final String seed;
+    private final String city;
 
-    public IslandSpecification(String mode, String shape, String altitude, String lakes, String rivers, String aquifers, String soil, String biomes, String seed, Structs.Mesh passedMash, Point2D.Double centerPoint) {
+    public IslandSpecification(String mode, String shape, String altitude, String lakes, String rivers, String aquifers, String soil, String biomes, String seed, String city, Structs.Mesh passedMash, Point2D.Double centerPoint) {
         this.mode = mode;
         this.altitude= altitude; // added altitude
         this.shape = shape;
@@ -35,6 +36,7 @@ public class IslandSpecification {
         this.soil = soil;
         this.biomes = biomes;
         this.seed = seed;
+        this.city =city;
     }
 
     public Structs.Mesh islandGenerated(){
@@ -63,7 +65,7 @@ public class IslandSpecification {
                 }
             }
 
-            PlainIsland regular = new PlainIsland(boundary,mode,altitude, lakes, rivers, aquifers, soil, biomes, seed, aMesh);
+            PlainIsland regular = new PlainIsland(boundary,mode,altitude, lakes, rivers, aquifers, soil, biomes, seed,city, aMesh);
             island = regular.createIsland();
 
         }
@@ -92,7 +94,7 @@ public class IslandSpecification {
                 }
             }
 
-            LagoonIsland lagoon = new LagoonIsland(innerBound, outerBound,mode,altitude, lakes, rivers, aquifers, soil, biomes, seed, aMesh);
+            LagoonIsland lagoon = new LagoonIsland(innerBound, outerBound,mode,altitude, lakes, rivers, aquifers, soil, biomes, seed, city, aMesh);
             island = lagoon.createIsland();
 
         } else if (mode.equals("land")){
@@ -119,7 +121,7 @@ public class IslandSpecification {
                 }
             }
 
-            LagoonIsland lagoon = new LagoonIsland(innerBound, outerBound,mode,altitude, lakes, rivers, aquifers, soil, biomes, seed, aMesh);
+            LagoonIsland lagoon = new LagoonIsland(innerBound, outerBound,mode,altitude, lakes, rivers, aquifers, soil, biomes, seed,city, aMesh);
             island = lagoon.createIsland();
 
         }

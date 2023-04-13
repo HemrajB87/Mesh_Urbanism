@@ -9,6 +9,7 @@ import java.awt.Graphics2D;
 import java.awt.Stroke;
 import java.awt.BasicStroke;
 import java.awt.Color;
+import java.awt.geom.Ellipse2D;
 import java.awt.geom.Path2D;
 import java.util.Iterator;
 import java.util.Optional;
@@ -21,6 +22,7 @@ public class GraphicRenderer implements Renderer {
         Stroke stroke = new BasicStroke(0.2f);
         canvas.setStroke(stroke);
         drawPolygons(aMesh,canvas);
+        drawCentroids(aMesh,canvas);
     }
 
     private void drawPolygons(Mesh aMesh, Graphics2D canvas) {
@@ -53,5 +55,24 @@ public class GraphicRenderer implements Renderer {
             canvas.setColor(old);
         }
     }
+
+    private void drawCentroids(Structs.Mesh aMesh, Graphics2D canvas) {
+        //canvas.setColor(Color.RED);
+        for(Structs.Vertex p: aMesh.getVerticesList()) {
+
+            Optional<Color> fill = new ColorProperty().extract(p.getPropertiesList());
+
+            if(fill.isPresent()) {
+                //Structs.Vertex centroid = aMesh.getVertices(p.getCentroidIdx());
+                Ellipse2D circle = new Ellipse2D.Float((float) p.getX()-10, (float) p.getY()-10,
+                        20, 20);
+                canvas.setColor(fill.get());
+                canvas.fill(circle);
+
+            }
+        }
+
+    }
+
 
 }

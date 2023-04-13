@@ -3,6 +3,8 @@ package ca.mcmaster.cas.se2aa4.a2.island.islandTypes;
 import ca.mcmaster.cas.se2aa4.a2.io.Structs;
 import ca.mcmaster.cas.se2aa4.a2.island.altitude.Altitude;
 import ca.mcmaster.cas.se2aa4.a2.island.aquifers.AquiferGeneration;
+
+import ca.mcmaster.cas.se2aa4.a2.island.cityTypes.MinorCity;
 import ca.mcmaster.cas.se2aa4.a2.island.configuration.tileCreater;
 import ca.mcmaster.cas.se2aa4.a2.island.islandFeatures.Lakes;
 import ca.mcmaster.cas.se2aa4.a2.island.properties.TypeProperty;
@@ -26,6 +28,7 @@ public class PlainIsland implements IslandGeneration {
     private final String soil;
     private final String biomes;
     private final String aquifers;
+    private final String city;
     private final Structs.Mesh aMesh;
 
     private final List<Structs.Polygon> polygons;
@@ -35,7 +38,7 @@ public class PlainIsland implements IslandGeneration {
     tileCreater createTile = new tileCreater();
 
 
-    public PlainIsland(Shape landBoundary, String newMode, String newAlt, String lakes, String rivers, String aquifers, String soil, String biomes, String seed, Structs.Mesh generatorMesh){
+    public PlainIsland(Shape landBoundary, String newMode, String newAlt, String lakes, String rivers, String aquifers, String soil, String biomes, String seed,String city, Structs.Mesh generatorMesh){
         this.landBoundary = landBoundary;
         this.mode=newMode;
         this.altitude = newAlt;
@@ -45,6 +48,7 @@ public class PlainIsland implements IslandGeneration {
         this.soil = soil;
         this.biomes = biomes;
         this.seed = seed;
+        this.city=city;
         this.aMesh = generatorMesh;
         this.vertices = new ArrayList<>(aMesh.getVerticesList());
         this.segments = new ArrayList<>(aMesh.getSegmentsList());
@@ -114,6 +118,7 @@ public class PlainIsland implements IslandGeneration {
         AquiferGeneration createAquifers = new AquiferGeneration();
         Altitude createAltitude = new Altitude(altitude,mode);
 
+        int cityValue = Integer.parseInt(city);
 
 
         List<Structs.Polygon> islandWithLakes = createLakes.addLakeTiles(tempPolygonList, lakes);
@@ -122,7 +127,12 @@ public class PlainIsland implements IslandGeneration {
 
         List<Structs.Polygon> islandWithAltitude = createAltitude.setAltitude(islandWithAquifers);
 
+        MinorCity newcities = new MinorCity(cityValue, tempPolygonList, vertices);
+        List<Structs.Vertex> addCities = newcities.minorCityVertex();
+
+        clone.addAllVertices(addCities);
         clone.addAllPolygons(islandWithAltitude);
+
 
         return clone.build();
 

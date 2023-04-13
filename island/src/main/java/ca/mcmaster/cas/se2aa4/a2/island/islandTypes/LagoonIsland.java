@@ -3,6 +3,7 @@ package ca.mcmaster.cas.se2aa4.a2.island.islandTypes;
 import ca.mcmaster.cas.se2aa4.a2.io.Structs;
 import ca.mcmaster.cas.se2aa4.a2.island.altitude.Altitude;
 import ca.mcmaster.cas.se2aa4.a2.island.aquifers.AquiferGeneration;
+import ca.mcmaster.cas.se2aa4.a2.island.cityTypes.MinorCity;
 import ca.mcmaster.cas.se2aa4.a2.island.seed.FileSaver;
 import ca.mcmaster.cas.se2aa4.a2.island.shape.Shape;
 import ca.mcmaster.cas.se2aa4.a2.island.configuration.tileCreater;
@@ -29,11 +30,12 @@ public class LagoonIsland implements IslandGeneration {
     private final List<Structs.Polygon> polygons;
     private final List<Structs.Vertex> vertices;
     private final List<Structs.Segment> segments;
+    private final String city;
 
     //Moved createTile function to its own class so other class can use it
     tileCreater createTile = new tileCreater();
 
-    public LagoonIsland(Shape innerShape, Shape outerShape,String newMode, String newAlt, String lakes, String rivers, String aquifers, String soil, String biomes, String seed, Structs.Mesh generatorMesh) {
+    public LagoonIsland(Shape innerShape, Shape outerShape,String newMode, String newAlt, String lakes, String rivers, String aquifers, String soil, String biomes, String seed,String city, Structs.Mesh generatorMesh) {
         this.innerShape = innerShape;
         this.outerShape = outerShape;
         this.mode=newMode;
@@ -44,6 +46,7 @@ public class LagoonIsland implements IslandGeneration {
         this.soil = soil;
         this.biomes = biomes;
         this.seed = seed;
+        this.city=city;
         this.aMesh = generatorMesh;
         this.vertices = new ArrayList<>(aMesh.getVerticesList());
         this.segments = new ArrayList<>(aMesh.getSegmentsList());
@@ -122,13 +125,19 @@ public class LagoonIsland implements IslandGeneration {
         AquiferGeneration createAquifers = new AquiferGeneration();
         Altitude createAltitude = new Altitude(altitude,mode);
 
-
+        int cityValue = Integer.parseInt(city);
 
         List<Structs.Polygon> islandWithLakes = createLakes.addLakeTiles(tempPolygonList, lakes);
 
         List<Structs.Polygon> islandWithAquifers = createAquifers.addAquiferTiles(islandWithLakes, aquifers);
 
         List<Structs.Polygon> islandWithAltitude = createAltitude.setAltitude(islandWithAquifers);
+
+
+        MinorCity newcities = new MinorCity(cityValue, tempPolygonList, vertices);
+        List<Structs.Vertex> addCities = newcities.minorCityVertex();
+
+        clone.addAllVertices(addCities);
 
         clone.addAllPolygons(islandWithAltitude);
 
