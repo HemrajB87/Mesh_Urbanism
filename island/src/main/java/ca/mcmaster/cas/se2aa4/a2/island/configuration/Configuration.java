@@ -16,7 +16,7 @@ public class Configuration {
     public static final String BIOMES = "biomes";
     public static final String SEED = "seed";
 
-    public static final String CITY = "city";
+    public static final String CITIES = "city";
 
 
 
@@ -70,7 +70,7 @@ public class Configuration {
         return this.cli.getOptionValue(SEED);
     }
     public String city() {
-        return this.cli.getOptionValue(CITY);
+        return this.cli.getOptionValue(CITIES);
     }
 
 
@@ -89,7 +89,7 @@ public class Configuration {
         options.addOption(new Option(SOIL, true, "Island soil absorption type"));
         options.addOption(new Option(BIOMES, true, "Island type of biome"));
         options.addOption(new Option(SEED, true, "Island specific seed #"));
-        options.addOption(new Option(CITY, true, "Island specific city #"));
+        options.addOption(new Option(CITIES, true, "Island specific city #"));
 
         return options;
     }
