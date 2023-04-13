@@ -18,7 +18,9 @@ mvn install
 
 After installation, you'll find an application named `generator.jar` in the `generator` directory, a file named `visualizer.jar` in the `visualizer` one, and a file named `pathfinder.jar` in the `pathfinder` one
 
-### Generator
+### Generator 
+
+##### create a img directory to store .mesh and .svg files
 
 To run the generator, go to the `generator` directory, and use `java -jar` to run the product. The product takes one single argument (so far), the name of the file where the generated mesh will be stored as binary.
 Here are some ways to use the generator:
