@@ -98,7 +98,6 @@ When you develop features and enrich the product, remember that you have first t
 | 08 | Implement a class to create roads between cities (island sub-project)  | Hemraj | 2023/04/10 | 2023/04/12 | D |
 | 09 | User can pass in a -city argument to change the # of cities (island sub-project) | Hemraj | 2023/04/11 | 2023/04/12  | D |
 
-| ... | ... | ... |
 
 
 
