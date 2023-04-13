@@ -78,7 +78,34 @@ When you develop features and enrich the product, remember that you have first t
 
 
 ```
+## Backlog
 
+ * Status: 
+   * Pending (P), Started (S), Blocked (B), Done (D)
+ * Definition of Done (DoD):
+   * A feature is done when its intended function is complete and performs accurately
+
+### Backlog 
+
+| MVP? | Id  | Feature  | Status  |  Started  | Delivered |
+| :-:  |:-:  |---       | :-:     | :-:       | :-:       |
+| x   | F01 | Simulation of 1 game with fixed 8 dice roll,  fixed points , no re-rolling |  D | 01/01/20 | 01/01/23  |
+| x   | F02 | Simulation of 1 game with random 8 dice roll,  fixed points , no re-rolling  |  D |  01/24/23 | 01/26/23  |
+| x   | F03 | Simulation of 1 games with random 8 dice roll, diamond/gold award points, no re-rolling |  D  | 01/24/23 | 01/26/23 |
+| x   | F04 | Simulation of 1 gamee with random 8 dice roll, diamond/gold points , randomly re-rolling dice except "SKULL" dice | D | 01/26/23 | 01/27/23 |
+| x   | F05 | Simulation of 42 games with random 8 dice roll, diamond/gold and combo's of faces award points , randomly re-rolling dice except "SKULL" dice | D |01/27/23|01/28/23| 
+| x   | F06 | Simulation of 42 games with random 8 dice roll, diamond/gold and combo's of faces award points , re-rolling specific dice except "SKULL" dice to maximize combo's | D |01/28/23|01/29/23|
+| x   | F07 | Simulation of 42 games with random 8 dice roll, diamond/gold and combo's of faces award points , re-rolling specific dice except "SKULL" dice to maximize combo's, adding 3 cards drawn each turn (NOP, SEA BATTLE, MONKEY BATTLE) | D|01/30/23|01/31/23|
+| x   | F08 | Simulation of 42 games with random 8 dice roll, diamond/gold and combo's of faces award points , re-rolling specific dice except "SKULL" dice to maximize combo's, adding 3 cards drawn each turn (NOP, SEA BATTLE, MONKEY BATTLE), cards have functions | D |02/01/23|02/03/23|
+
+
+
+
+
+
+
+
+| ... | ... | ... |
 ## Backlog
 
 ### Definition of Done
