@@ -31,7 +31,7 @@ java -jar generator/generator.jar -k irregular -h 1080 -w 1920 -p 1000 -s 20 -o 
 ### Island
 To change the mesh we have generator from the generator subproject we can execute the island sub project.
 Here are some ways to use island:
-# If this step not create a .mesh file, please fix IDE, run mvn clean install and mvn compile (tecnical debt) (could not figue out why code worked only certain times)
+#### If this step not create a .mesh file, please fix IDE, run mvn clean install and mvn compile (tecnical debt) (could not figue out why code worked only certain times)
 
 ```
 java -jar island/island.jar -i x -o x -mode x -shape x -altitude x -lakes x -aquifers x -seed x
