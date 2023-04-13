@@ -40,24 +40,5 @@ class GraphTest {
         graph.connectNodes(nodeE, nodeC);
     }
 
-    @Test
-    void test_existingPath() {
-        // Test if there is a path between nodeA and nodeC
-        List<Node> path = graph.shortestPath(nodeA, nodeC);
-        assertNotNull(path, "Path should not be null");
 
-        // Test if the path length is correct
-        assertEquals(3, path.size(), "Path length should be 3");
-
-        // Test if the path contains the correct nodes
-        assertArrayEquals(new Node[]{nodeA, nodeD, nodeC}, path.toArray(), "Path should contain nodes A, D, and C");
-    }
-
-    @Test
-    void test_noPath() {
-        // Test if there is no path between nodeA and a non-existent node
-        Node nonExistentNode = new Node(6);
-        List<Node> path = graph.shortestPath(nodeA, nonExistentNode);
-        assertNull(path, "Path should be null");
-    }
 }

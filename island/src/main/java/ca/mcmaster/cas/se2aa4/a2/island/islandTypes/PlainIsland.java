@@ -4,6 +4,7 @@ import ca.mcmaster.cas.se2aa4.a2.io.Structs;
 import ca.mcmaster.cas.se2aa4.a2.island.altitude.Altitude;
 import ca.mcmaster.cas.se2aa4.a2.island.aquifers.AquiferGeneration;
 
+import ca.mcmaster.cas.se2aa4.a2.island.cityTypes.MajorCity;
 import ca.mcmaster.cas.se2aa4.a2.island.cityTypes.MinorCity;
 import ca.mcmaster.cas.se2aa4.a2.island.configuration.tileCreater;
 import ca.mcmaster.cas.se2aa4.a2.island.islandFeatures.Lakes;
@@ -13,6 +14,7 @@ import ca.mcmaster.cas.se2aa4.a2.island.shape.Shape;
 import ca.mcmaster.cas.se2aa4.a2.island.tiles.TileSpecification;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class PlainIsland implements IslandGeneration {
@@ -131,6 +133,12 @@ public class PlainIsland implements IslandGeneration {
         List<Structs.Vertex> addCities = newcities.minorCityVertex();
 
         clone.addAllVertices(addCities);
+
+        MajorCity majorcity = new MajorCity();
+        List<Structs.Vertex> addMajorCities = Collections.singletonList(majorcity.majorCities(vertices, islandWithAltitude));
+
+        clone.addAllVertices(addMajorCities);
+
         clone.addAllPolygons(islandWithAltitude);
 
 
@@ -157,47 +165,7 @@ public class PlainIsland implements IslandGeneration {
     }
 
 
-    private List<Structs.Polygon> addAltTiles(List<Structs.Polygon> temp) {
 
-        List<Structs.Polygon> updatedTileList = new ArrayList<>();
-        Structs.Polygon newTile;
-
-        for (Structs.Polygon currentPoly : temp) {
-
-            boolean isBeach = false;
-
-            List<Integer> neighborList = currentPoly.getNeighborIdxsList();
-
-            for (Integer i : neighborList) {
-
-                //extracts the tile type value of the current polygon we are looking at
-                String currentPolyTileType = new TypeProperty().extract(currentPoly.getPropertiesList());
-
-                //extracts the tile type value of one of the current neighbor to the polygon we are looking at
-                String neighborTileType = new TypeProperty().extract(temp.get(i).getPropertiesList());
-
-                //if the current polygon we are looking at has the tile type of "land" and the neighbor tile type is either "lagoon" or "ocean" we want it to be a beach tile
-                if (currentPolyTileType.equals("land") && neighborTileType.equals("ocean")) {
-                    isBeach = true;
-                    break;
-                }
-            }
-
-            // calling Altitude class for elevation values
-            //int elevation = new Altitude(altitude,mode).setAltitude();
-
-            //changes land tile to beach tile if the beach requirements are met
-            if (isBeach) {
-                String color = 255 + "," + 140 + "," + 0 + "," + 255;
-                String type = "beach";
-                newTile = createTile.createTile(currentPoly, color, type);
-                updatedTileList.add(newTile);
-            } else {
-                updatedTileList.add(currentPoly);
-            }
-        }
-        return updatedTileList;
-    }
 
 
 }

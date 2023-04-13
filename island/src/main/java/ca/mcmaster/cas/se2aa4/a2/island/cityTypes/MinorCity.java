@@ -41,7 +41,7 @@ public class MinorCity {
 
         if(realcityVertexs.contains(v)){
             Structs.Vertex.Builder newV = Structs.Vertex.newBuilder(v);
-            Structs.Property p = Structs.Property.newBuilder().setKey("rgb_color").setValue("255,0,0,255").build();
+            Structs.Property p = Structs.Property.newBuilder().setKey("rgb_color").setValue("255,255,0,255").build();
             Structs.Property p1 = Structs.Property.newBuilder().setKey("thickness").setValue("20").build();
             Structs.Property p2 = Structs.Property.newBuilder().setKey("city").setKey("Minor").build();
             Structs.Vertex city = newV.addProperties(p).addProperties(p1).addProperties(p2).build();
