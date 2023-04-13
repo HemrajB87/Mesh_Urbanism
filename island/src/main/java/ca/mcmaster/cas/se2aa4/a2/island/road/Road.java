@@ -7,7 +7,7 @@ import java.util.List;
 
 public class Road {
 
-
+    // star network , incomplete
 
 
 
